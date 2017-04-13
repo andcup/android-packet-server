@@ -1,0 +1,24 @@
+allprojects {
+
+    ext {
+        webMVCVersion = "4.3.4.RELEASE"
+        springBootStarterDataJpaVersion = "1.1.4.RELEASE"
+        hibernateCoreVersion = "4.3.6.Final"
+        servletVersion = "1.2"
+        servletApiVersion = "2.5"
+    }
+    /**
+     * Spring 框架.
+     * */
+    ext.spring = [
+            webMVC : "org.springframework:spring-webmvc:${webMVCVersion}",
+            bootJpa: "org.springframework.boot:spring-boot-starter-data-jpa:${springBootStarterDataJpaVersion}"
+    ]
+
+    ext.libs = [
+            hibernate : "org.hibernate:hibernate-core:${hibernateCoreVersion}",
+            servlet   : "javax.servlet:jstl:${servletVersion}",
+            servletApi: "javax.servlet:servlet-api:${servletApiVersion}"
+    ]
+
+}

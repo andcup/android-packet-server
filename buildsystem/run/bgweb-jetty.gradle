@@ -1,0 +1,16 @@
+
+apply plugin: 'jetty'
+
+allprojects {
+
+    jettyRun{
+        contextPath = "/"
+        httpPort = 8812
+    }
+
+    jettyRunWar{
+        contextPath = "/"
+        httpPort = 8812
+    }
+
+}

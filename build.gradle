@@ -1,0 +1,35 @@
+group 'com.bigdoing.web.aps'
+version '1.0.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.5
+
+/**
+ * 仓库配置
+ * */
+apply from: rootProject.file('buildsystem/bgweb-repositories.gradle')
+
+/**
+ * 依赖库配置
+ * */
+apply from: rootProject.file('buildsystem/bgweb-dependencies.gradle')
+
+/**
+ * Jetty服务器配置
+ * */
+apply from: rootProject.file('buildsystem/run/bgweb-jetty.gradle')
+
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    def spring = rootProject.ext.spring
+    compile spring.webMVC
+    compile spring.bootJpa
+
+    def libs = rootProject.ext.libs
+    compile libs.servlet
+    compile libs.servletApi
+}

@@ -32,4 +32,7 @@ dependencies {
     def libs = rootProject.ext.libs
     compile libs.servlet
     compile libs.servletApi
+    compile libs.hibernate
+    compile libs.hibernateValidator
+    compile libs.json
 }

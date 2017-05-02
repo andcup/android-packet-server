@@ -4,8 +4,12 @@ allprojects {
         webMVCVersion = "4.3.4.RELEASE"
         springBootStarterDataJpaVersion = "1.1.4.RELEASE"
         hibernateCoreVersion = "4.3.6.Final"
+        hibernateValidatorVersion = "5.1.0.Alpha1"
         servletVersion = "1.2"
         servletApiVersion = "2.5"
+        mysqlVersion = "5.1.29"
+        dchpVersion = "1.4"
+        jsonVersion = "1.9.13"
     }
     /**
      * Spring 框架.
@@ -16,9 +20,15 @@ allprojects {
     ]
 
     ext.libs = [
-            hibernate : "org.hibernate:hibernate-core:${hibernateCoreVersion}",
-            servlet   : "javax.servlet:jstl:${servletVersion}",
-            servletApi: "javax.servlet:servlet-api:${servletApiVersion}"
+            hibernate         : "org.hibernate:hibernate-core:${hibernateCoreVersion}",
+            hibernateValidator: "org.hibernate:hibernate-validator:${hibernateValidatorVersion}",
+            servlet           : "javax.servlet:jstl:${servletVersion}",
+            servletApi        : "javax.servlet:servlet-api:${servletApiVersion}",
+            json              : "org.codehaus.jackson:jackson-core-asl:${jsonVersion}"
+    ]
+    ext.mysql = [
+            mysql: "mysql:mysql-connector-java:${mysqlVersion}",
+            dhcp : "commons-dbcp:commons-dbcp:${dchpVersion}"
     ]
 
 }

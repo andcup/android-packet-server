@@ -10,6 +10,8 @@ allprojects {
         mysqlVersion = "5.1.29"
         dchpVersion = "1.4"
         jsonVersion = "1.9.13"
+        jacksonVersion = "2.7.2"
+        rxVersion = "2.0.1"
     }
     /**
      * Spring 框架.
@@ -19,12 +21,20 @@ allprojects {
             bootJpa: "org.springframework.boot:spring-boot-starter-data-jpa:${springBootStarterDataJpaVersion}"
     ]
 
+    ext.log = [
+            slf4jApi      : 'org.slf4j:slf4j-api:1.7.14',
+            logbackCore   : 'ch.qos.logback:logback-core:1.1.3',
+            logbackClassic: 'ch.qos.logback:logback-classic:1.1.3',
+    ]
+
     ext.libs = [
             hibernate         : "org.hibernate:hibernate-core:${hibernateCoreVersion}",
             hibernateValidator: "org.hibernate:hibernate-validator:${hibernateValidatorVersion}",
             servlet           : "javax.servlet:jstl:${servletVersion}",
             servletApi        : "javax.servlet:servlet-api:${servletApiVersion}",
-            json              : "org.codehaus.jackson:jackson-core-asl:${jsonVersion}"
+            json              : "org.codehaus.jackson:jackson-core-asl:${jsonVersion}",
+            jacksonDatabind   : "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}",
+            rxJava            : "io.reactivex.rxjava2:rxjava:${rxVersion}",
     ]
     ext.mysql = [
             mysql: "mysql:mysql-connector-java:${mysqlVersion}",

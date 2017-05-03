@@ -34,5 +34,12 @@ dependencies {
     compile libs.servletApi
     compile libs.hibernate
     compile libs.hibernateValidator
-    compile libs.json
+    compile libs.jacksonDatabind
+    compile libs.rxJava
+
+    def log = rootProject.ext.log
+
+    compile log.slf4jApi
+    compile log.logbackCore
+    compile log.logbackClassic
 }

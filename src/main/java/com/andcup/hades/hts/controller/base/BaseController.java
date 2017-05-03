@@ -1,6 +1,12 @@
 package com.andcup.hades.hts.controller.base;
 
+import com.andcup.hades.hts.controller.cps.CpsController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by Amos
@@ -9,11 +15,26 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public abstract class BaseController {
 
+    /** 主题. */
     private static final String THEME = "/";
+
+    public BaseController(){
+        LoggerFactory.getLogger(this.getClass().getName());
+    }
 
     protected ModelAndView getTheme(String viewName){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(viewName);
         return modelAndView;
+    }
+
+    protected String getIp(){
+        try {
+            InetAddress addr = InetAddress.getLocalHost();
+            return addr.getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

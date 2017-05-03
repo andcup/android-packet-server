@@ -35,6 +35,38 @@ public class TaskEntity {
         this.taskStep = taskStep;
     }
 
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSourceFile(String sourceFile) {
+        this.sourceFile = sourceFile;
+    }
+
+    public void setChild(Child child) {
+        this.child = child;
+    }
+
+    public Child getChild() {
+        return child;
+    }
+
+    public String getSourceFile() {
+        return sourceFile;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public TaskStep getTaskStep() {
+        return taskStep;
+    }
+
     public static class Server{
         int    type;
         String username;

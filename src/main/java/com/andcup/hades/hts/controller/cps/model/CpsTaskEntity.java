@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.controller.cps.model;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
@@ -12,28 +12,28 @@ import java.util.List;
 public class CpsTaskEntity {
 
     @JsonProperty("originPackLocalPath")
-    String originPackLocalPath;
+    public String originPackLocalPath;
     @JsonProperty("channelPackRemoteDir")
-    String channelPackRemoteDir;
+    public String channelPackRemoteDir;
     @JsonProperty("attachData")
-    String attachData;
+    public String attachData;
     @JsonProperty("feedbackApiAddress")
-    String feedbackApiAddress;
+    public String feedbackApiAddress;
     @JsonProperty("channels")
-    List<Channel> channels;
+    public List<Channel> channels;
     @JsonProperty("packType")
-    String packType = "1";      //默认使用快速打包方式
+    public String packType = "1";      //默认使用快速打包方式
 
     public static class Channel {
         @JsonProperty("id")
-        int     id;
+        public int     id;
         @JsonProperty("priority")
-        int     priority;
+        public int     priority;
         @JsonProperty("gamePid")
-        int     gamePid;
+        public int     gamePid;
         @JsonProperty("sourceId")
-        int     sourceId;
+        public int     sourceId;
         @JsonProperty("other")
-        String  other;
+        public String  other;
     }
 }

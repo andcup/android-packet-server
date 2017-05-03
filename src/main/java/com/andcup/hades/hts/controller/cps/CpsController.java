@@ -4,9 +4,6 @@ import com.andcup.hades.hts.controller.base.BaseController;
 import com.andcup.hades.hts.controller.cps.model.CpsTaskEntity;
 import com.andcup.hades.hts.controller.cps.model.ResponseEntity;
 import com.andcup.hades.hts.utils.JsonConvert;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -32,20 +29,18 @@ public class CpsController extends BaseController {
     @RequestMapping(value = {"/pack"}, produces={"text/html;charset=UTF-8;","application/json;"}, method = RequestMethod.POST)
     public String start(@RequestBody CpsTaskEntity body){
 
-        /**检查参数.*/
         try{
+            /**检查参数.*/
             check(body);
+
+            /** 对象转换. */
+
+
+            return new ResponseEntity(ResponseEntity.SUCCESS, "commit task success.", getIp()).toString();
         }catch (Exception e){
             String paramError = StringUtils.isEmpty(e.getMessage()) ? "param error." : e.getMessage();
             return new ResponseEntity(ResponseEntity.ERR_PARAM, paramError, getIp()).toString();
         }
-
-        /**
-         *
-         * */
-
-
-        return JsonConvert.toString(body);
     }
 
     private void check(CpsTaskEntity entity) throws RuntimeException{

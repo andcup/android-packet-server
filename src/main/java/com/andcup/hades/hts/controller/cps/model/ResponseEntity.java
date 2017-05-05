@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.controller.cps.model;
 
-import com.andcup.hades.hts.utils.JsonConvert;
+import com.andcup.hades.hts.core.tools.JsonConvert;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**

@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.utils;
+package com.andcup.hades.hts.core.tools;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;

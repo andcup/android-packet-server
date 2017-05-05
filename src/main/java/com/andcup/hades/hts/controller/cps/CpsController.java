@@ -3,6 +3,7 @@ package com.andcup.hades.hts.controller.cps;
 import com.andcup.hades.hts.controller.base.BaseController;
 import com.andcup.hades.hts.controller.cps.model.CpsTaskEntity;
 import com.andcup.hades.hts.controller.cps.model.ResponseEntity;
+import com.andcup.hades.hts.core.MqBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,9 @@ public class CpsController extends BaseController {
         try{
             /**检查参数.*/
             check(body);
+
+            //产生消息.
+            MqBroker.getInstance().produce(new CpsMqFactory(body));
 
             return new ResponseEntity(ResponseEntity.SUCCESS, "commit task success.", getIp()).toString();
         }catch (Exception e){

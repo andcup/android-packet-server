@@ -12,13 +12,16 @@ allprojects {
         jsonVersion = "1.9.13"
         jacksonVersion = "2.7.2"
         rxVersion = "2.0.1"
+
+        springBootVersion = '1.5.3.RELEASE'
     }
     /**
      * Spring 框架.
      * */
     ext.spring = [
             webMVC : "org.springframework:spring-webmvc:${webMVCVersion}",
-            bootJpa: "org.springframework.boot:spring-boot-starter-data-jpa:${springBootStarterDataJpaVersion}"
+            bootJpa: "org.springframework.boot:spring-boot-starter-data-jpa:${springBootStarterDataJpaVersion}",
+            springBoot:'org.springframework.boot:spring-boot-starter-web'
     ]
 
     ext.log = [

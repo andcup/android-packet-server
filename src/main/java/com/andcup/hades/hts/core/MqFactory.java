@@ -9,9 +9,9 @@ import com.andcup.hades.hts.core.base.IMqFactory;
  */
 public abstract class MqFactory<T> implements IMqFactory<T> {
 
-    T t;
+    protected T body;
 
     public MqFactory(T t){
-        this.t = t;
+        this.body = t;
     }
 }

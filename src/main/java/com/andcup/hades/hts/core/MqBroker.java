@@ -62,6 +62,9 @@ public class MqBroker implements IMqBroker {
                     message.setCreateTime(System.currentTimeMillis());
                     message.setState(MqMessage.State.ING);
                     message.setMsg("name : " + message.getName() + " id : " + message.getId() + " is ready.");
+
+                    consumer.consume(message);
+                    runQueueManager.push(message);
                 }
             }
         });

@@ -57,6 +57,11 @@ public class MqBroker implements IMqBroker {
                 while (true){
                     MqMessage<? extends Message> message = newQueueManager.pop();
                     if( null == message){
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         continue;
                     }
                     message.setCreateTime(System.currentTimeMillis());

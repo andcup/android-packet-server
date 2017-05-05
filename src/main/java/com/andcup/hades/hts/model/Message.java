@@ -9,7 +9,7 @@ import org.hibernate.annotations.Entity;
  */
 
 @Entity
-public class TaskEntity {
+public class Message {
 
     /**任务ID. */
     String      groupId;
@@ -26,14 +26,6 @@ public class TaskEntity {
      * 母包路径.
      * */
     String      sourceFile;
-    /**
-     * 任务状态.
-     * */
-    TaskStep taskStep;
-
-    public void setTaskStep(TaskStep taskStep) {
-        this.taskStep = taskStep;
-    }
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
@@ -63,10 +55,6 @@ public class TaskEntity {
         return groupId;
     }
 
-    public TaskStep getTaskStep() {
-        return taskStep;
-    }
-
     public static class Server{
         int    type;
         String username;
@@ -77,12 +65,28 @@ public class TaskEntity {
 
     public static class Child{
         /**子包ID.*/
-        String childId;
+        String id;
         /**写入的数据.*/
         String rule;
         /**打包类型.*/
         int    type;
         /**优先级. */
         int    priority;
+
+        public int    getPriority() {
+            return priority;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getRule() {
+            return rule;
+        }
+
+        public int  getType() {
+            return type;
+        }
     }
 }

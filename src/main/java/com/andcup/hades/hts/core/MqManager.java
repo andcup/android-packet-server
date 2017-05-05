@@ -26,7 +26,7 @@ public class MqManager implements IMqManager {
     }
 
     public void push(IMqFactory mqFactory) {
-
+        queue.addAll(mqFactory.create());
     }
 
     public void push(MqFactory mqFactory) {
@@ -34,14 +34,19 @@ public class MqManager implements IMqManager {
     }
 
     public void push(List<MqMessage<? extends Message>> message) {
-
+        queue.addAll(message);
     }
 
     public void push(MqMessage<? extends Message> message) {
-
+        queue.add(message);
     }
 
     public MqMessage<? extends Message> pop() {
+        try {
+            return queue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

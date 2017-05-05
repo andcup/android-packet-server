@@ -4,6 +4,7 @@ import com.andcup.hades.hts.core.base.IMqBroker;
 import com.andcup.hades.hts.core.base.IMqFactory;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.MqMessage;
+import com.andcup.hades.hts.core.tools.JsonConvert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +71,8 @@ public class MqBroker implements IMqBroker {
 
                     consumer.consume(message);
                     runQueueManager.push(message);
+
+                    logger.info(JsonConvert.formatString(message));
                 }
             }
         });

@@ -4,6 +4,7 @@ import com.andcup.hades.hts.controller.cps.model.CpsTaskEntity;
 import com.andcup.hades.hts.core.MqFactory;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.MqMessage;
+import com.andcup.hades.hts.core.model.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class CpsMqFactory extends MqFactory<CpsTaskEntity> {
             msg.setId(String.valueOf(channel.gamePid));
             msg.setName(body.originPackLocalPath);
             msg.setState(MqMessage.State.ING);
+            msg.setTopic(Topic.CHECK_FILE_EXIST);
 
             Message data = new Message();
             data.id = String.valueOf(channel.id);
@@ -35,6 +37,8 @@ public class CpsMqFactory extends MqFactory<CpsTaskEntity> {
             data.priority = channel.priority;
             data.type = Integer.valueOf(body.packType);
             data.rule = String.format(getRule(data), channel.id, channel.sourceId, channel.other);
+            data.body = body.attachData;
+            data.feedback = body.feedbackApiAddress;
 
             msg.setData(data);
 

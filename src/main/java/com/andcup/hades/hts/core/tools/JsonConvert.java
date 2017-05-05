@@ -51,4 +51,14 @@ public class JsonConvert {
         }
         return null;
     }
+
+    public static <T> String formatString(T t){
+        try {
+            byte[] bytes = sObjectMapper.writeValueAsBytes(t);
+            return new String(bytes, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

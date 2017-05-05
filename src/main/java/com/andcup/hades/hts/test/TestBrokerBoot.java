@@ -22,7 +22,7 @@ public class TestBrokerBoot {
             MqBroker.getInstance().setConsumer(MqConsumer.Factory.getConsumer());
 
             HttpServerProvider provider = HttpServerProvider.provider();
-            HttpServer server = provider.createHttpServer(new InetSocketAddress(603), 1000);
+            HttpServer server = provider.createHttpServer(new InetSocketAddress(605), 1000);
 
             /**
              * 注册打包接口.

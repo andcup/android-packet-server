@@ -1,8 +1,8 @@
-package com.andcup.hades.hts.test;
+package com.andcup.hades.hts.boot;
 
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.MqConsumer;
-import com.andcup.hades.hts.test.mock.MockController;
+import com.andcup.hades.hts.boot.mock.MockController;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.spi.HttpServerProvider;
 

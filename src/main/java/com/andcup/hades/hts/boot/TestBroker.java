@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.test;
+package com.andcup.hades.hts.boot;
 
 /**
  * Created by Amos

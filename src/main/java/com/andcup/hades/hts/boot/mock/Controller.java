@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.test.mock;
+package com.andcup.hades.hts.boot.mock;
 
 import com.andcup.hades.hts.controller.cps.model.CpsTaskEntity;
 import com.andcup.hades.hts.controller.cps.model.ResponseEntity;

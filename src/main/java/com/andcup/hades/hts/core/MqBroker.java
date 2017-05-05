@@ -2,8 +2,8 @@ package com.andcup.hades.hts.core;
 
 import com.andcup.hades.hts.core.base.IMqBroker;
 import com.andcup.hades.hts.core.base.IMqFactory;
-import com.andcup.hades.hts.model.Message;
-import com.andcup.hades.hts.model.MqMessage;
+import com.andcup.hades.hts.core.model.Message;
+import com.andcup.hades.hts.core.model.MqMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,10 +21,11 @@ public class MqBroker implements IMqBroker {
     static final MqBroker S_TASK_BROKER     = new MqBroker();
 
     MqManager newQueueManager    = new MqManager();
-    MqManager runQueueManager    = new MqManager();
     MqManager finishQueueManager = new MqManager();
+    MqManager runQueueManager    = new MqManager();
 
     Executor  executor  = Executors.newCachedThreadPool();
+    MqConsumer consumer;
 
     private MqBroker(){
         logger.info(MqBroker.class.getName() + " created. ");
@@ -34,12 +35,16 @@ public class MqBroker implements IMqBroker {
         return S_TASK_BROKER;
     }
 
+    public void setConsumer(MqConsumer consumer) {
+        this.consumer = consumer;
+    }
+
     public void produce(IMqFactory factory) {
         newQueueManager.push(factory);
     }
 
     public void consumeComplete(MqMessage<Message> msg) {
-
+        finishQueueManager.push(msg);
     }
 
     public void start(){
@@ -49,7 +54,15 @@ public class MqBroker implements IMqBroker {
          * */
         executor.execute(new Runnable() {
             public void run() {
-
+                while (true){
+                    MqMessage<? extends Message> message = newQueueManager.pop();
+                    if( null == message){
+                        continue;
+                    }
+                    message.setCreateTime(System.currentTimeMillis());
+                    message.setState(MqMessage.State.ING);
+                    message.setMsg("name : " + message.getName() + " id : " + message.getId() + " is ready.");
+                }
             }
         });
 
@@ -68,11 +81,6 @@ public class MqBroker implements IMqBroker {
         executor.execute(new Runnable() {
             public void run() {
                 while (true){
-                    try {
-                        newQueueManager.getQueue().wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         });

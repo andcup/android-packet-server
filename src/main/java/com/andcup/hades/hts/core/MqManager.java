@@ -1,8 +1,9 @@
 package com.andcup.hades.hts.core;
 
+import com.andcup.hades.hts.core.base.IMqFactory;
 import com.andcup.hades.hts.core.base.IMqManager;
-import com.andcup.hades.hts.model.Message;
-import com.andcup.hades.hts.model.MqMessage;
+import com.andcup.hades.hts.core.model.Message;
+import com.andcup.hades.hts.core.model.MqMessage;
 
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -24,8 +25,12 @@ public class MqManager implements IMqManager {
         return queue;
     }
 
+    public void push(IMqFactory mqFactory) {
+
+    }
+
     public void push(MqFactory mqFactory) {
-        push(mqFactory.getMessageList());
+        push(mqFactory.create());
     }
 
     public void push(List<MqMessage<? extends Message>> message) {

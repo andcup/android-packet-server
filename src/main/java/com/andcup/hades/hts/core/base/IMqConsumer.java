@@ -1,7 +1,7 @@
 package com.andcup.hades.hts.core.base;
 
-import com.andcup.hades.hts.model.Message;
-import com.andcup.hades.hts.model.MqMessage;
+import com.andcup.hades.hts.core.model.Message;
+import com.andcup.hades.hts.core.model.MqMessage;
 
 /**
  * Created by Amos

@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.model;
+package com.andcup.hades.hts.core.model;
 
 /**
  * Created by Amos
@@ -35,14 +35,14 @@ public enum Topic {
          5. 编译：      6
          6. 反馈：      7
          */
-
     CHECK_FILE_EXIST(1),
     DOWNLOADING(2),
     COMPILING(3),
     EDIT(4),
     BUILDING(5),
     UPLOADING(6),
-    COMPLETE(7);
+    COMPLETE(7),
+    END(8);
 
     int code;
 

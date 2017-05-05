@@ -8,6 +8,6 @@ package com.andcup.hades.hts.test;
 public class TestBroker {
 
     public static void main(String[] args){
-        TestBrokerBoot.boot();
+        TestBrokerBoot.start();
     }
 }

@@ -16,7 +16,7 @@ import java.net.InetSocketAddress;
  */
 public class TestBrokerBoot {
 
-    public static void boot(){
+    public static void start(){
         try {
             MqBroker.getInstance().start();
             MqBroker.getInstance().setConsumer(MqConsumer.Factory.getConsumer());

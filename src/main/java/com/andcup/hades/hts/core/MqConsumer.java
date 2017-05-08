@@ -1,8 +1,10 @@
 package com.andcup.hades.hts.core;
 
+import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.base.IMqConsumer;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.MqMessage;
+import com.andcup.hades.hts.core.model.Topic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +32,13 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
     }
 
     public final void consume(MqMessage<Message> message){
+        /**
+         * 更新状态.
+         * */
+        message.setTopic(getConsumer().topic());
+        /**
+         * 添加到队列.
+         * */
         mqManager.push(message);
     }
 
@@ -40,6 +49,10 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
     public void abort(String groupId) {
         mqManager.remove(groupId);
         flowConsumer.abort(groupId);
+    }
+
+    private Consumer getConsumer(){
+        return getClass().getAnnotation(Consumer.class);
     }
 
     class ConsumerExecutorThread extends Thread{

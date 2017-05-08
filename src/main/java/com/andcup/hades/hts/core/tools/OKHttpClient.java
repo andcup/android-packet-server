@@ -2,6 +2,7 @@ package com.andcup.hades.hts.core.tools;
 
 
 import com.andcup.hades.hts.controller.cps.model.ResponseEntity;
+import com.fasterxml.jackson.databind.JavaType;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -26,7 +27,7 @@ public class OKHttpClient {
         client = new OkHttpClient();
     }
 
-    public <T> ResponseEntity<T> call(String bodyString, Class<ResponseEntity<T>> clazz){
+    public <T> ResponseEntity<T> call(String bodyString, JavaType clazz){
         RequestBody body = RequestBody.create(JSON, bodyString);
         Request request = new Request.Builder().url(host).post(body).build();
 

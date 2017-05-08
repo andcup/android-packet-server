@@ -1,13 +1,13 @@
-package com.andcup.hades.hts.boot;
+package com.andcup.hades.hts.boot.file;
 
 /**
  * Created by Amos
  * Date : 2017/5/5 16:23.
  * Description:
  */
-public class MockBrokerApplication {
+public class MockFileApplication {
 
     public static void main(String[] args){
-        MockBrokerBoot.start(args[0]);
+        MockFileBoot.start(args[0]);
     }
 }

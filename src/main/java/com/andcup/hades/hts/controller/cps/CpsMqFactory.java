@@ -1,5 +1,6 @@
 package com.andcup.hades.hts.controller.cps;
 
+import com.andcup.hades.hts.config.HadesRootConfig;
 import com.andcup.hades.hts.controller.cps.model.CpsTaskEntity;
 import com.andcup.hades.hts.core.MqFactory;
 import com.andcup.hades.hts.core.exception.ConsumeException;
@@ -7,6 +8,7 @@ import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.MqMessage;
 import com.andcup.hades.hts.core.model.Topic;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,20 +37,24 @@ public class CpsMqFactory extends MqFactory<CpsTaskEntity> {
         List<CpsTaskEntity.Channel> channels = body.channels;
         for (CpsTaskEntity.Channel channel : channels) {
             MqMessage msg = new MqMessage();
-            msg.setId(String.valueOf(channel.gamePid));
-            msg.setName(body.originPackLocalPath);
+            msg.setId(body.getId());
+            msg.setName(body.getName());
             msg.setState(MqMessage.State.ING);
             msg.setTopic(Topic.CHECK_FILE_EXIST);
 
             Message data = new Message();
             data.id = String.valueOf(channel.id);
-            data.sourcePath = body.originPackLocalPath;
+            data.sourcePath = body.originPackLocalPath + "_0.apk";
             data.channleDir = body.channelPackRemoteDir;
             data.priority = channel.priority;
             data.type = Integer.valueOf(body.packType);
             data.rule = String.format(getRule(data), channel.id, channel.sourceId, channel.other);
             data.body = body.attachData;
             data.feedback = body.feedbackApiAddress;
+            data.localDir = HadesRootConfig.sInstance.getApkTempDir() + body.getName() + "/";
+
+            new File(data.localDir).mkdir();
+
             msg.setData(data);
             list.add(msg);
         }

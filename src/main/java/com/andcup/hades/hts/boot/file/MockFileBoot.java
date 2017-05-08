@@ -1,9 +1,10 @@
-package com.andcup.hades.hts.boot;
+package com.andcup.hades.hts.boot.file;
 
+import com.andcup.hades.hts.boot.mock.FileInfoController;
+import com.andcup.hades.hts.boot.mock.MockController;
 import com.andcup.hades.hts.config.HadesRootConfig;
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.MqConsumer;
-import com.andcup.hades.hts.boot.mock.MockController;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.spi.HttpServerProvider;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import java.net.InetSocketAddress;
  * Date : 2017/5/5 20:34.
  * Description:
  */
-public class MockBrokerBoot {
+public class MockFileBoot {
 
     final static Logger logger              = LoggerFactory.getLogger(MqBroker.class);
 
@@ -27,14 +28,8 @@ public class MockBrokerBoot {
             /**
              * 配置文件初始化.
              * */
-            HadesRootConfig.init(path);
-
-            /**
-             * 核心代码初始化.
-             * */
-            MqBroker.getInstance().start();
-            MqBroker.getInstance().setConsumer(MqConsumer.Factory.getConsumer());
-            logger.info(" listen port : " + HadesRootConfig.sInstance.port);
+            HadesRootConfig.init( path );
+            logger.info(" start listen port : " + HadesRootConfig.sInstance.port);
             /**
              * 启动Mock服务器.
              * */
@@ -42,14 +37,12 @@ public class MockBrokerBoot {
             HttpServer server = provider.createHttpServer(new InetSocketAddress(HadesRootConfig.sInstance.port), 1000);
 
             /**
-             * 注册打包接口.
+             * 注册文件信息获取接口.
              * */
-            MockController mockController = new MockController();
-            server.createContext(mockController.api(), mockController);
+            FileInfoController fileInfoController = new FileInfoController();
+            server.createContext(fileInfoController.api(), fileInfoController);
             server.start();
-
             logger.info(" start server : " + HadesRootConfig.sInstance.port + " success. ");
-
             while (true){
                 Thread.sleep(60000);
             }

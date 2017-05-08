@@ -1,6 +1,5 @@
 package com.andcup.hades.hts.boot.mock;
 
-import com.andcup.hades.hts.controller.cps.model.CpsTaskEntity;
 import com.andcup.hades.hts.controller.cps.model.ResponseEntity;
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
@@ -18,7 +17,7 @@ import java.net.UnknownHostException;
 /**
  * Created by Administrator on 2016/7/25.
  */
-public abstract class Controller<T extends CpsTaskEntity> implements HttpHandler {
+public abstract class Controller<T> implements HttpHandler {
 
     final static Logger logger              = LoggerFactory.getLogger(MqBroker.class);
 

@@ -7,6 +7,7 @@ import com.andcup.hades.hts.core.model.FileInfo;
 import com.andcup.hades.hts.core.tools.FileUtils;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.OKHttpClient;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.File;
 /**
@@ -30,7 +31,9 @@ public abstract class MqFactory<T> implements IMqFactory<T> {
         FileInfo fileInfo = new FileInfo();
         fileInfo.sourcePath = getFilePath();
         //获取文件信息.
-        ResponseEntity<FileInfo> fileInfoEntity = new OKHttpClient(HadesRootConfig.sInstance.remote.file.url).call(JsonConvertTool.toString(fileInfo), ResponseEntity.class);
+        ResponseEntity<FileInfo> fileInfoEntity = new OKHttpClient(HadesRootConfig.sInstance.remote.file.url)
+                .call(JsonConvertTool.toString(fileInfo),
+                        JsonConvertTool.getCollectionType(ResponseEntity.class, FileInfo.class));
         //判断文件是否存在.
         if (fileInfoEntity.getCode() != ResponseEntity.SUCCESS) {
             return false;

@@ -17,8 +17,30 @@ public class HadesRootConfig {
     public HadesRootConfig(){
     }
 
-    public static void init(){
-        sInstance = JsonConvertTool.toJson(new File("config.json"), HadesRootConfig.class);
+    public static void init(String path){
+
+        /**
+         * 转换配置文件.
+         * */
+        sInstance = JsonConvertTool.toJson(new File(path), HadesRootConfig.class);
+        /**
+         * 创建临时文件夹.
+         * */
+        new File(sInstance.temp).mkdir();
+
+        /**
+         * 创建临时文件夹.
+         * */
+        new File(sInstance.temp + sInstance.port).mkdir();
+        /**
+         * 创建APK文件夹.
+         * */
+        new File(sInstance.getApkTempDir()).mkdir();
+
+        /**
+         * 创建log文件夹.
+         * */
+        new File(sInstance.getLogTempDir()).mkdir();
     }
 
     /**远程服务器信息配置.*/

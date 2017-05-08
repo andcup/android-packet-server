@@ -36,5 +36,8 @@ public class Message<T> {
     @JsonProperty("feedback")
     public String feedback;
 
+    /**当前消息产生的文件路径*/
+    @JsonProperty("localDir")
+    public String localDir;
 
 }

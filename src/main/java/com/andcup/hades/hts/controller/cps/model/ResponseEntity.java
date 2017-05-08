@@ -43,6 +43,11 @@ public class ResponseEntity<T> {
         this.server     = server;
     }
 
+    public ResponseEntity(int code, String message){
+        this.code       = code;
+        this.message    = message;
+    }
+
     public int getCode() {
         return code;
     }

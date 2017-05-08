@@ -40,4 +40,10 @@ public class CpsTaskEntity {
     public String getId(){
         return String.valueOf(originPackLocalPath.hashCode());
     }
+
+    public String getName(){
+        String name = originPackLocalPath;
+        String[] names = name.split("/");
+        return names[names.length - 1];
+    }
 }

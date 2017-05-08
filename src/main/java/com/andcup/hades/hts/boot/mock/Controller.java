@@ -1,5 +1,6 @@
 package com.andcup.hades.hts.boot.mock;
 
+import com.andcup.hades.hts.config.HadesRootConfig;
 import com.andcup.hades.hts.controller.cps.model.ResponseEntity;
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
@@ -79,7 +80,7 @@ public abstract class Controller<T> implements HttpHandler {
     protected String getIp(){
         try {
             InetAddress addr = InetAddress.getLocalHost();
-            return addr.getHostAddress();
+            return addr.getHostAddress() + ":" + HadesRootConfig.sInstance.port;
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

@@ -45,7 +45,7 @@ public class MqBroker implements IMqBroker {
 
     public void produce(IMqFactory factory) throws FileNotFoundException {
         if(!factory.checkFileIsExist()){
-            throw new FileNotFoundException();
+            throw new FileNotFoundException("file is not exist!");
         }
         if(!factory.checkFileIsLatest()){
             abort(factory.getGroupId());

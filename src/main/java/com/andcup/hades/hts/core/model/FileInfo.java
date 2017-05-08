@@ -15,7 +15,7 @@ public class FileInfo {
     /**
      * 母包路径. 相对于FTP根目录.
      */
-    @JsonProperty("originPackLocalPath")
+    @JsonProperty("sourcePath")
     public String  sourcePath;
     /**
      * 文件最后修改时间. 判断文件是否已经修改.

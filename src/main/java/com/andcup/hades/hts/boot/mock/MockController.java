@@ -30,7 +30,7 @@ public class MockController extends Controller<CpsTaskEntity> {
 
             return new ResponseEntity(ResponseEntity.SUCCESS, "commit task success.", getIp());
         }catch (Exception e){
-            String paramError = StringUtils.isEmpty(e.getMessage()) ? "param error." : e.getMessage();
+            String paramError = StringUtils.isEmpty(e.getMessage()) ? "commit task error." : e.getMessage();
             return new ResponseEntity(ResponseEntity.ERR_PARAM, paramError, getIp());
         }
     }

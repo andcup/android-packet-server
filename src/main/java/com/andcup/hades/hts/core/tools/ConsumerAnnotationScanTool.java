@@ -15,7 +15,7 @@ import java.util.List;
  * Date : 2017/5/5 18:18.
  * Description:
  */
-public class ConsumerTools {
+public class ConsumerAnnotationScanTool {
 
     public static List<Class> getClazzFromPackage( String packageName ) {
 

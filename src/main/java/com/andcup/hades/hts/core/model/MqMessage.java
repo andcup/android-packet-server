@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Description:
  */
 
-public class MqMessage<T> {
+public class MqMessage<T extends Message> {
 
     @JsonProperty("id")
     String      id;
     @JsonProperty("name")
     String      name;           // 消息名称
     @JsonProperty("data")
-    T           data;           // 消息数据, Map<String, String>对象系列化的JSON字符串
+    Message      data;           // 消息数据, Map<String, String>对象系列化的JSON字符串
     @JsonProperty("timeout")
     long        timeout;        // 任务执行超时时间;
     @JsonProperty("createTime")
@@ -28,6 +28,10 @@ public class MqMessage<T> {
     String      msg;            // 历史流转日志
     @JsonProperty("topic")
     Topic       topic;          // 消息主题
+
+    public boolean equals(MqMessage<Message> target) {
+        return getId() == target.getId() && target.data.id.equals(data.id);
+    }
 
     public void setTopic(Topic topic) {
         this.topic = topic;
@@ -65,7 +69,7 @@ public class MqMessage<T> {
         this.data = data;
     }
 
-    public T getData() {
+    public Message getData() {
         return data;
     }
 

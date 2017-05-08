@@ -4,7 +4,7 @@ import com.andcup.hades.hts.core.base.IMqBroker;
 import com.andcup.hades.hts.core.base.IMqFactory;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.MqMessage;
-import com.andcup.hades.hts.core.tools.JsonConvert;
+import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +56,7 @@ public class MqBroker implements IMqBroker {
         executor.execute(new Runnable() {
             public void run() {
                 while (true){
-                    MqMessage<? extends Message> message = newQueueManager.pop();
+                    MqMessage<Message> message = newQueueManager.pop();
                     if( null == message){
                         try {
                             Thread.sleep(100);
@@ -72,7 +72,7 @@ public class MqBroker implements IMqBroker {
                     consumer.consume(message);
                     runQueueManager.push(message);
 
-                    logger.info(JsonConvert.formatString(message));
+                    logger.info(JsonConvertTool.formatString(message));
                 }
             }
         });

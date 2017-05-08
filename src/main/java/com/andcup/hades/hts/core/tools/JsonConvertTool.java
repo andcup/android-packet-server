@@ -12,7 +12,7 @@ import java.nio.charset.Charset;
  * Date : 2017/5/3 14:54.
  * Description:
  */
-public class JsonConvert {
+public class JsonConvertTool {
 
     public static ObjectMapper sObjectMapper = new ObjectMapper().setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
 

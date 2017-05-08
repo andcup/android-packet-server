@@ -17,7 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class DownloadComsumer extends MqConsumer {
 
-    public void consume(MqMessage<? extends Message> message) {
+    public MqMessage.State executor(MqMessage<Message> message) {
+        return null;
+    }
+
+    public void abort(MqMessage<Message> message) {
 
     }
 }

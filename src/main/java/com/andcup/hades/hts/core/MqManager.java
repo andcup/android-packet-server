@@ -18,10 +18,10 @@ public class MqManager implements IMqManager {
     /**
      * 新收到任务队列.
      * */
-    final LinkedBlockingQueue<MqMessage<? extends Message>> queue = new LinkedBlockingQueue<MqMessage<? extends Message>>();
+    final LinkedBlockingQueue<MqMessage<Message>> queue = new LinkedBlockingQueue<MqMessage<Message>>();
 
 
-    public LinkedBlockingQueue<MqMessage<? extends Message>> getQueue() {
+    public LinkedBlockingQueue<MqMessage<Message>> getQueue() {
         return queue;
     }
 
@@ -33,15 +33,15 @@ public class MqManager implements IMqManager {
         push(mqFactory.create());
     }
 
-    public void push(List<MqMessage<? extends Message>> message) {
+    public void push(List<MqMessage<Message>> message) {
         queue.addAll(message);
     }
 
-    public void push(MqMessage<? extends Message> message) {
+    public void push(MqMessage<Message> message) {
         queue.add(message);
     }
 
-    public MqMessage<? extends Message> pop() {
+    public MqMessage<Message> pop() {
         try {
             return queue.take();
         } catch (InterruptedException e) {

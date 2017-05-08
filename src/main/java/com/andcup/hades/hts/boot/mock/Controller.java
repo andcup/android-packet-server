@@ -3,7 +3,7 @@ package com.andcup.hades.hts.boot.mock;
 import com.andcup.hades.hts.controller.cps.model.CpsTaskEntity;
 import com.andcup.hades.hts.controller.cps.model.ResponseEntity;
 import com.andcup.hades.hts.core.MqBroker;
-import com.andcup.hades.hts.core.tools.JsonConvert;
+import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.slf4j.Logger;
@@ -63,7 +63,7 @@ public abstract class Controller<T extends CpsTaskEntity> implements HttpHandler
                 }
             }
             logger.info(bodyData.toString());
-            return JsonConvert.toJson(bodyData.toString(), clazz);
+            return JsonConvertTool.toJson(bodyData.toString(), clazz);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {

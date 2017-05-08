@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.controller.cps.model;
 
-import com.andcup.hades.hts.core.tools.JsonConvert;
+import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -42,6 +42,6 @@ public class ResponseEntity {
 
     @Override
     public String toString() {
-        return JsonConvert.toString(this);
+        return JsonConvertTool.toString(this);
     }
 }

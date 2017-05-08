@@ -16,19 +16,19 @@ public interface IMqManager {
     /**
      *获取消息队列.
      * */
-    LinkedBlockingQueue<MqMessage<? extends Message>> getQueue();
+    LinkedBlockingQueue<MqMessage<Message>> getQueue();
 
 
     void push(IMqFactory mqFactory);
 
-    void push(List<MqMessage<? extends Message>> message);
+    void push(List<MqMessage<Message>> message);
     /**
      * 添加消息到消息队列
      * */
-    void push(MqMessage<? extends Message> message);
+    void push(MqMessage<Message> message);
 
     /**
      * 获取最新的消息并从队列中删除.
      * */
-    MqMessage<? extends Message> pop();
+    MqMessage<Message> pop();
 }

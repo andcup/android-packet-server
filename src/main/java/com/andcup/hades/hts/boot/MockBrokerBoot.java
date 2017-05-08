@@ -1,5 +1,6 @@
 package com.andcup.hades.hts.boot;
 
+import com.andcup.hades.hts.config.HadesRootConfig;
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.boot.mock.MockController;
@@ -14,15 +15,26 @@ import java.net.InetSocketAddress;
  * Date : 2017/5/5 20:34.
  * Description:
  */
-public class TestBrokerBoot {
+public class MockBrokerBoot {
 
     public static void start(){
         try {
+            /**
+             * 配置文件初始化.
+             * */
+            HadesRootConfig.init();
+
+            /**
+             * 核心代码初始化.
+             * */
             MqBroker.getInstance().start();
             MqBroker.getInstance().setConsumer(MqConsumer.Factory.getConsumer());
 
+            /**
+             * 启动Mock服务器.
+             * */
             HttpServerProvider provider = HttpServerProvider.provider();
-            HttpServer server = provider.createHttpServer(new InetSocketAddress(605), 1000);
+            HttpServer server = provider.createHttpServer(new InetSocketAddress(HadesRootConfig.sInstance.port), 1000);
 
             /**
              * 注册打包接口.

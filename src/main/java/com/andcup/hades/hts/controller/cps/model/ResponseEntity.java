@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Date : 2017/5/3 15:54.
  * Description:
  */
-public class ResponseEntity {
+public class ResponseEntity<T> {
 
     public static final int SUCCESS   = 0;
     public static final int ERR_PARAM = -1;
@@ -34,10 +34,21 @@ public class ResponseEntity {
     @JsonProperty("server")
     public String  server;
 
+    @JsonProperty("body")
+    T body;
+
     public ResponseEntity(int code, String message, String server){
         this.code       = code;
         this.message    = message;
         this.server     = server;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setBody(T body) {
+        this.body = body;
     }
 
     @Override

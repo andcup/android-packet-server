@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
+import java.io.*;
 import java.nio.charset.Charset;
 
 /**
@@ -13,6 +14,9 @@ import java.nio.charset.Charset;
  * Description:
  */
 public class JsonConvertTool {
+
+    static final String UTF8        = "utf-8";
+    static final int    BUFFER_SIZE = 8192;
 
     public static ObjectMapper sObjectMapper = new ObjectMapper().setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
 
@@ -60,5 +64,32 @@ public class JsonConvertTool {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static <T> T toJson(File file, Class<T> clazz){
+        try {
+            InputStream inputStream = new FileInputStream(file);
+            String pc = readToString(inputStream);
+            return toJson(pc, clazz);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String readToString(InputStream is) throws IOException {
+        byte[] data = readToByteArray(is);
+        return new String(data, UTF8);
+    }
+
+    private static byte[] readToByteArray(InputStream is) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[BUFFER_SIZE];
+
+        int len;
+        while((len = is.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, len);
+        }
+        return byteArrayOutputStream.toByteArray();
     }
 }

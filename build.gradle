@@ -42,4 +42,6 @@ dependencies {
     compile log.slf4jApi
     compile log.logbackCore
     compile log.logbackClassic
+
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
 }

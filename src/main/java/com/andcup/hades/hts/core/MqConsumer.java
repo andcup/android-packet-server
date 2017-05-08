@@ -43,7 +43,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
                     if( null != message){
                         //初始化MqMessage.
                         message.setState(MqMessage.State.ING);
-                        MqMessage.State state =  executor(message);
+                        MqMessage.State state =  execute(message);
                         message.setState(state);
                     }
                     Thread.sleep(100);

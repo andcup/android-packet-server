@@ -1,0 +1,21 @@
+{
+  "remote":{
+    "cdn":{
+      "username":"amos",
+      "password":12345678,
+      "url":"192.168.15.45",
+      "port":25
+    },
+    "ftp":{
+      "username":"amos",
+      "password":12345678,
+      "url":"192.168.15.45",
+      "port":25
+    },
+    "file":{
+      "url":"http://192.168.15.45:613/api/fileInfo"
+    }
+  },
+  "port":603,
+  "temp":"../temp/"
+}

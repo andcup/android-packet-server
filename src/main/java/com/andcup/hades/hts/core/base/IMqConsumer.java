@@ -38,7 +38,7 @@ public interface IMqConsumer {
         /**
          * 执行任务.
          * */
-        MqMessage.State executor(MqMessage<Message> message);
+        MqMessage.State execute(MqMessage<Message> message);
         /**
          * 中断任务.
          * */

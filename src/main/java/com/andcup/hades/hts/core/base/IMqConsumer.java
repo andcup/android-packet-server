@@ -15,7 +15,7 @@ import java.util.List;
  * Date : 2017/5/5 14:24.
  * Description:
  */
-public interface IMqConsumer {
+public interface IMqConsumer{
 
     interface Callback{
         /**
@@ -43,6 +43,11 @@ public interface IMqConsumer {
          * 中断任务.
          * */
         void abort(MqMessage<Message> message);
+
+        /**
+         * 中断任务.
+         * */
+        void abort(String groupId);
     }
 
     class Factory{

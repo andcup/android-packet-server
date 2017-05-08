@@ -35,7 +35,7 @@ public class ResponseEntity<T> {
     public String  server;
 
     @JsonProperty("body")
-    T body;
+    public T body;
 
     public ResponseEntity(int code, String message, String server){
         this.code       = code;

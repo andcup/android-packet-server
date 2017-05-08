@@ -41,6 +41,14 @@ public class MqManager implements IMqManager {
         queue.add(message);
     }
 
+    public List<MqMessage<Message>> remove(String groupId){
+        return null;
+    }
+
+    public MqMessage<Message> remove(MqMessage<Message> message){
+        return message;
+    }
+
     public MqMessage<Message> pop() {
         try {
             return queue.take();

@@ -36,4 +36,8 @@ public class CpsTaskEntity {
         @JsonProperty("other")
         public String  other;
     }
+
+    public String getId(){
+        return String.valueOf(originPackLocalPath.hashCode());
+    }
 }

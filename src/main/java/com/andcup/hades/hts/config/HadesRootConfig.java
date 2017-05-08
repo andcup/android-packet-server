@@ -29,7 +29,15 @@ public class HadesRootConfig {
     public int    port;
     /**临时存放路径配置.*/
     @JsonProperty("temp")
-    public String temp = "../temp/";
+    String temp = "../temp/";
+
+    public String getApkTempDir() {
+        return temp + port + "/apk/";
+    }
+
+    public String getLogTempDir() {
+        return temp + port + "/log/";
+    }
 
     public static class Remote{
         /** CDN 子包储存位置. */

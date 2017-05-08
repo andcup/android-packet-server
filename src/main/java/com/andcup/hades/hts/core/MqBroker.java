@@ -8,8 +8,11 @@ import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by Amos
@@ -25,7 +28,7 @@ public class MqBroker implements IMqBroker {
     MqManager finishQueueManager = new MqManager();
     MqManager runQueueManager    = new MqManager();
 
-    Executor  executor  = Executors.newCachedThreadPool();
+    Executor   executor  = Executors.newCachedThreadPool();
     MqConsumer consumer;
 
     private MqBroker(){
@@ -40,12 +43,23 @@ public class MqBroker implements IMqBroker {
         this.consumer = consumer;
     }
 
-    public void produce(IMqFactory factory) {
+    public void produce(IMqFactory factory) throws FileNotFoundException {
+        if(!factory.checkFileIsExist()){
+            throw new FileNotFoundException();
+        }
+        if(!factory.checkFileIsLatest()){
+            abort(factory.getGroupId());
+        }
         newQueueManager.push(factory);
     }
 
-    public void consumeComplete(MqMessage<Message> msg) {
+    public void complete(MqMessage<Message> msg) {
         finishQueueManager.push(msg);
+    }
+
+    public void abort(String groupId) {
+        newQueueManager.remove(groupId);
+        runQueueManager.remove(groupId);
     }
 
     public void start(){
@@ -57,22 +71,24 @@ public class MqBroker implements IMqBroker {
             public void run() {
                 while (true){
                     MqMessage<Message> message = newQueueManager.pop();
-                    if( null == message){
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        continue;
+                    if( null != message){
+                        /**设置任务状态.*/
+                        message.setCreateTime(System.currentTimeMillis());
+                        message.setState(MqMessage.State.ING);
+                        message.setMsg("name : " + message.getName() + " id : " + message.getId() + " is ready.");
+                        /**中断相同的任务.*/
+                        consumer.abort(message);
+                        /**开始处理任务.*/
+                        consumer.consume(message);
+                        /**加入到运行队列.*/
+                        runQueueManager.push(message);
+                        logger.info(JsonConvertTool.formatString(message));
                     }
-                    message.setCreateTime(System.currentTimeMillis());
-                    message.setState(MqMessage.State.ING);
-                    message.setMsg("name : " + message.getName() + " id : " + message.getId() + " is ready.");
-
-                    consumer.consume(message);
-                    runQueueManager.push(message);
-
-                    logger.info(JsonConvertTool.formatString(message));
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

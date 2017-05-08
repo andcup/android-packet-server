@@ -8,14 +8,17 @@ import com.andcup.hades.hts.core.model.FileInfo;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.MqMessage;
 import com.andcup.hades.hts.core.model.Topic;
+import com.andcup.hades.hts.core.tools.FileUtils;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.OKHttpClient;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+
 /**
  * Created by Amos
  * Date : 2017/5/5 17:31.
- * Description:
+ * Description: 获取远程服务器信息.
  */
 
 @Consumer(topic = Topic.CHECK_FILE_EXIST, bind = Topic.DOWNLOADING)
@@ -35,12 +38,21 @@ public class CheckFileIsExistComsumer extends MqConsumer {
         if (fileInfoEntity.getCode() != ResponseEntity.SUCCESS) {
             return MqMessage.State.FAILED;
         }
-
-        return null;
-    }
-
-    public void abort(MqMessage<Message> target) {
-
+        //文件信息存储位置.
+        String fileInfoPath = HadesRootConfig.sInstance.getApkTempDir() + message.getId() + ".json";
+        FileInfo localFileInfo = JsonConvertTool.toJson(new File(fileInfoPath), FileInfo.class);
+        if( null != localFileInfo ){
+            if(fileInfoEntity.body.lastEditTime != localFileInfo.lastEditTime){
+                //需要中断现有的打包任务.
+                abort(message.getId());
+            }else{
+                fileInfoEntity.body.hasCompile = localFileInfo.hasCompile;
+                fileInfoEntity.body.downloaded = localFileInfo.downloaded;
+            }
+        }
+        //保存配置文件.
+        FileUtils.store(fileInfoPath, fileInfoEntity.body);
+        return MqMessage.State.SUCCESS;
     }
 
 }

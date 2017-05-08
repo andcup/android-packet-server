@@ -3,6 +3,8 @@ package com.andcup.hades.hts.core.base;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.MqMessage;
 
+import java.io.FileNotFoundException;
+
 /**
  * Created by Amos
  * Date : 2017/5/5 11:44.
@@ -13,11 +15,15 @@ public interface IMqBroker {
     /**
      * 收到消息.
      * */
-    void  produce(IMqFactory factory);
+    void  produce(IMqFactory factory)  throws FileNotFoundException;
 
     /**
      * 消息消费完成.
      * */
-    void  consumeComplete(MqMessage<Message> msg);
+    void  complete(MqMessage<Message> msg);
 
+    /**
+     * 消息中断完成.
+     * */
+    void  abort(String abortId);
 }

@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
 
-    final static Logger logger              = LoggerFactory.getLogger(MqConsumer.class);
+    final static Logger logger = LoggerFactory.getLogger(MqConsumer.class);
 
-    IMqConsumer flowConsumer;
-    MqManager   mqManager = new MqManager();
+    MqConsumer flowConsumer;
+    MqManager  mqManager = new MqManager();
     ConsumerExecutorThread mqExecutorThread;
 
     public MqConsumer(){
@@ -24,13 +24,22 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
         mqExecutorThread.start();
     }
 
-    public IMqConsumer flow(IMqConsumer consumer) {
+    public IMqConsumer flow(MqConsumer consumer) {
         this.flowConsumer = consumer;
         return this;
     }
 
     public final void consume(MqMessage<Message> message){
         mqManager.push(message);
+    }
+
+    public void abort(MqMessage<Message> target) {
+        mqManager.remove(target);
+    }
+
+    public void abort(String groupId) {
+        mqManager.remove(groupId);
+        flowConsumer.abort(groupId);
     }
 
     class ConsumerExecutorThread extends Thread{

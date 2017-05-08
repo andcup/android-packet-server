@@ -2,10 +2,12 @@ package com.andcup.hades.hts.controller.cps;
 
 import com.andcup.hades.hts.controller.cps.model.CpsTaskEntity;
 import com.andcup.hades.hts.core.MqFactory;
+import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.MqMessage;
 import com.andcup.hades.hts.core.model.Topic;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,14 @@ public class CpsMqFactory extends MqFactory<CpsTaskEntity> {
 
     public CpsMqFactory(CpsTaskEntity entity) {
         super(entity);
+    }
+
+    public String getGroupId() {
+        return body.getId();
+    }
+
+    public boolean checkFileIsLatest() {
+        return false;
     }
 
     public List<MqMessage<Message>> create() {
@@ -39,12 +49,14 @@ public class CpsMqFactory extends MqFactory<CpsTaskEntity> {
             data.rule = String.format(getRule(data), channel.id, channel.sourceId, channel.other);
             data.body = body.attachData;
             data.feedback = body.feedbackApiAddress;
-
             msg.setData(data);
-
             list.add(msg);
         }
         return list;
+    }
+
+    protected String getFilePath() {
+        return body.originPackLocalPath;
     }
 
     private String getRule(Message message) {

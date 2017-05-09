@@ -18,7 +18,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
     final static Logger logger = LoggerFactory.getLogger(MqConsumer.class);
 
     MqConsumer flowConsumer;
-    MqManager  mqManager = new MqManager();
+    MqManager<MqMessage<Message>>  mqManager = new MqManager();
     ConsumerExecutorThread mqExecutorThread;
 
     public MqConsumer(){

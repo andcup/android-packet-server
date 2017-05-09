@@ -39,7 +39,7 @@ public class MockBrokerBoot {
              * 启动Mock服务器.
              * */
             HttpServerProvider provider = HttpServerProvider.provider();
-            HttpServer server = provider.createHttpServer(new InetSocketAddress(HadesRootConfig.sInstance.port), 1000);
+            HttpServer server = provider.createHttpServer(new InetSocketAddress(HadesRootConfig.sInstance.port), 5000);
 
             /**
              * 注册打包接口.

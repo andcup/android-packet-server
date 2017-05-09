@@ -24,9 +24,9 @@ public class MqBroker implements IMqBroker {
     final static Logger logger              = LoggerFactory.getLogger(MqBroker.class);
     static final MqBroker S_TASK_BROKER     = new MqBroker();
 
-    MqManager newQueueManager    = new MqManager();
-    MqManager finishQueueManager = new MqManager();
-    MqManager runQueueManager    = new MqManager();
+    MqManager<IMqFactory> mqFactoryManager    = new MqManager();
+    MqManager<MqMessage<Message>> finishQueueManager = new MqManager();
+    MqManager<MqMessage<Message>> runQueueManager    = new MqManager();
 
     Executor   executor  = Executors.newCachedThreadPool();
     MqConsumer consumer;
@@ -44,43 +44,38 @@ public class MqBroker implements IMqBroker {
     }
 
     public void produce(IMqFactory factory) throws FileNotFoundException {
-        if(!factory.checkFileIsExist()){
-            throw new FileNotFoundException("file is not exist!");
-        }
-        if(!factory.checkFileIsLatest()){
-            abort(factory.getGroupId());
-        }
-        newQueueManager.push(factory);
+        mqFactoryManager.push(factory);
     }
 
     public void complete(MqMessage<Message> msg) {
         finishQueueManager.push(msg);
     }
 
-    public void abort(String groupId) {
-        newQueueManager.remove(groupId);
-        runQueueManager.remove(groupId);
+    @Override
+    public void abort(String abortId) {
+
     }
 
     public void start(){
-
         /**
          * 将消息加入到执行队列中. 等待执行.
          * */
         executor.execute(new Runnable() {
             public void run() {
                 while (true){
-                    MqMessage<Message> message = newQueueManager.pop();
-                    if( null != message){
-                        /**设置任务状态.*/
-                        message.setCreateTime(System.currentTimeMillis());
-                        message.setState(MqMessage.State.ING);
-                        message.setMsg("name : " + message.getName() + " id : " + message.getId() + " is ready.");
-                        /**中断相同的任务.*/
-                        consumer.abort(message);
-                        /**开始处理任务.*/
-                        consumer.consume(message);
-                        /**加入到运行队列.*/
+                    IMqFactory factory = mqFactoryManager.pop();
+                    if( null != factory){
+                        //判断文件是否存在.
+                        if(factory.checkFileIsExist()){
+
+                        }
+                        //判断文件是否是最新.
+                        if(factory.checkFileIsLatest()){
+                            //中断打包任务.
+                            abort(factory.getGroupId());
+                        }
+                        List<MqMessage<Message>> message = factory.create();
+                        //添加到打包任务.
                         runQueueManager.push(message);
                         logger.info(JsonConvertTool.formatString(message));
                     }
@@ -94,21 +89,11 @@ public class MqBroker implements IMqBroker {
         });
 
         /**
-         * 处理已完成的消息.
+         * 处理消息队列消息.
          * */
         executor.execute(new Runnable() {
             public void run() {
 
-            }
-        });
-
-        /**
-         * 超时消息处理.
-         * */
-        executor.execute(new Runnable() {
-            public void run() {
-                while (true){
-                }
             }
         });
     }

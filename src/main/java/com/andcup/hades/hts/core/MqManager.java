@@ -13,43 +13,27 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Date : 2017/5/5 14:42.
  * Description:
  */
-public class MqManager implements IMqManager {
+public class MqManager<T> implements IMqManager<T> {
 
     /**
      * 新收到任务队列.
      * */
-    final LinkedBlockingQueue<MqMessage<Message>> queue = new LinkedBlockingQueue<MqMessage<Message>>();
+    final LinkedBlockingQueue<T> queue = new LinkedBlockingQueue<T>();
 
 
-    public LinkedBlockingQueue<MqMessage<Message>> getQueue() {
+    public LinkedBlockingQueue<T> getQueue() {
         return queue;
     }
 
-    public void push(IMqFactory mqFactory) {
-        queue.addAll(mqFactory.create());
-    }
-
-    public void push(MqFactory mqFactory) {
-        push(mqFactory.create());
-    }
-
-    public void push(List<MqMessage<Message>> message) {
+    public void push(List<T> message) {
         queue.addAll(message);
     }
 
-    public void push(MqMessage<Message> message) {
+    public void push(T message) {
         queue.add(message);
     }
 
-    public List<MqMessage<Message>> remove(String groupId){
-        return null;
-    }
-
-    public MqMessage<Message> remove(MqMessage<Message> message){
-        return message;
-    }
-
-    public MqMessage<Message> pop() {
+    public T pop() {
         try {
             return queue.take();
         } catch (InterruptedException e) {

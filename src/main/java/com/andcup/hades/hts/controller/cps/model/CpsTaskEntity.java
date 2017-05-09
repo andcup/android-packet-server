@@ -26,13 +26,13 @@ public class CpsTaskEntity {
 
     public static class Channel {
         @JsonProperty("id")
-        public int     id;
+        public String     id;
         @JsonProperty("priority")
         public int     priority;
         @JsonProperty("gamePid")
-        public int     gamePid;
+        public String     gamePid;
         @JsonProperty("sourceId")
-        public int     sourceId;
+        public String     sourceId;
         @JsonProperty("other")
         public String  other;
     }

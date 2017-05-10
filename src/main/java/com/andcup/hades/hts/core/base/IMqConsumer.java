@@ -53,24 +53,31 @@ public interface IMqConsumer{
     class Factory{
 
         static String packageName = "com.andcup.hades.hts.core.services";
-        public static MqConsumer getConsumer(){
-            List<MqConsumer> consumerList = build(ConsumerAnnotationScanTool.getClazzFromPackage(packageName));
-            MqConsumer start = findByTopic(consumerList, Topic.CHECK_FILE_EXIST);
 
-            for(MqConsumer consumer : consumerList){
+        static List<MqConsumer> sConsumerList;
+
+        public static synchronized MqConsumer getConsumer(){
+
+            if( null != sConsumerList){
+                return getConsumerByTopic(Topic.DOWNLOADING);
+            }
+            sConsumerList = build(ConsumerAnnotationScanTool.getClazzFromPackage(packageName));
+            MqConsumer start = getConsumerByTopic(Topic.DOWNLOADING);
+
+            for(MqConsumer consumer : sConsumerList){
                 Consumer annotation = consumer.getClass().getAnnotation(Consumer.class);
                 Topic topic = annotation.topic();
                 Topic bind  = annotation.bind();
                 if(topic != bind){
-                    MqConsumer next = findByTopic(consumerList, bind);
+                    MqConsumer next = getConsumerByTopic(bind);
                     consumer.flow(next);
                 }
             }
             return start;
         }
 
-        private static MqConsumer findByTopic(List<MqConsumer> list, Topic target){
-            for(MqConsumer consumer : list){
+        public static MqConsumer getConsumerByTopic(Topic target){
+            for(MqConsumer consumer : sConsumerList){
                 Consumer annotation = consumer.getClass().getAnnotation(Consumer.class);
                 Topic topic = annotation.topic();
                 if(topic == target){

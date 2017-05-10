@@ -43,11 +43,11 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
     }
 
     public void abort(MqMessage<Message> target) {
-        mqManager.remove(target);
+        //mqManager.remove(target);
     }
 
     public void abort(String groupId) {
-        mqManager.remove(groupId);
+        //mqManager.remove(groupId);
         flowConsumer.abort(groupId);
     }
 

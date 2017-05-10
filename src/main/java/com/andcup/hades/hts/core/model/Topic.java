@@ -35,7 +35,6 @@ public enum Topic {
          5. 编译：      6
          6. 反馈：      7
          */
-    CHECK_FILE_EXIST(1),
     DOWNLOADING(2),
     COMPILING(3),
     EDIT(4),

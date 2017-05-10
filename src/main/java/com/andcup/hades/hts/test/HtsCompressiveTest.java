@@ -14,12 +14,17 @@ import org.slf4j.LoggerFactory;
  * Description:
  */
 public class HtsCompressiveTest {
+
     final static org.slf4j.Logger logger              = LoggerFactory.getLogger(MqBroker.class);
+
+    final static int repeatCount = 200;
+
     public static void main(String[] args ){
         test2();
         test3();
         test4();
         test5();
+        test6();
 
         while (true){
             try {
@@ -32,7 +37,7 @@ public class HtsCompressiveTest {
 
     private static void test(){
         logger.info(HtsCompressiveTest.class.getName(), "--------------- test start. ----------------- \n");
-        for(int i = 0; i< 20000; i++){
+        for(int i = 0; i< repeatCount; i++){
             HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/test/19196PT/xinshenqu/xinshenqu");
             HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/test/GEDOU/GEDOUDAOHUN");
             HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/19196PINGTAI/HUAQIANGU");
@@ -41,17 +46,24 @@ public class HtsCompressiveTest {
         logger.info(HtsCompressiveTest.class.getName(), "--------------- test end. ----------------- \n ");
     }
 
+    private static void test6(){
+        new Thread(){
+            @Override
+            public void run() {
+                for(int i = 1; i< repeatCount; i++){
+                    HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/123/TIANJIANGXIONGSH111I");
+                    logger.info( "---------------" + testCount++ + " ----------------- \n ");
+                }
+            }
+        }.start();
+    }
+
     private static void test5(){
         new Thread(){
             @Override
             public void run() {
-                for(int i = 0; i< 1000; i++){
+                for(int i = 1; i< repeatCount; i++){
                     HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/123/TIANJIANGXIONGSHI");
-//                    try {
-//                        Thread.sleep(i%3 == 0? 1000:100);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
                     logger.info( "---------------" + testCount++ + " ----------------- \n ");
                 }
             }
@@ -62,7 +74,7 @@ public class HtsCompressiveTest {
         new Thread(){
             @Override
             public void run() {
-                for(int i = 0; i< 1000; i++){
+                for(int i = 1; i< repeatCount; i++){
                     HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/19196PINGTAI/HUAQIANGU");
                     logger.info( "---------------" + testCount++ + " ----------------- \n ");
                 }
@@ -77,13 +89,8 @@ public class HtsCompressiveTest {
         new Thread(){
             @Override
             public void run() {
-                for(int i = 0; i< 1000; i++){
+                for(int i = 1; i< repeatCount; i++){
                     HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/test/GEDOU/GEDOUDAOHUN");
-//                    try {
-//                        Thread.sleep(i%3 == 0? 1000:100);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
                     logger.info( "---------------" + testCount++ + " ----------------- \n ");
                 }
                 logger.info( "--------------- test end. ----------------- \n ");
@@ -96,13 +103,8 @@ public class HtsCompressiveTest {
             @Override
             public void run() {
                 super.run();
-                for(int i = 0; i< 1000; i++){
+                for(int i = 1; i< repeatCount; i++){
                     HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/test/19196PT/xinshenqu/xinshenqu");
-//                    try {
-//                        Thread.sleep(i%3 == 0? 1000:100);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
                     logger.info( "---------------" + testCount++ + " ----------------- \n ");
                 }
 

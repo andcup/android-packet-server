@@ -40,7 +40,7 @@ public class CpsMqFactory extends MqFactory<CpsTaskEntity> {
             msg.setId(body.getId());
             msg.setName(body.getName());
             msg.setState(MqMessage.State.ING);
-            msg.setTopic(Topic.CHECK_FILE_EXIST);
+            msg.setTopic(Topic.DOWNLOADING);
 
             Message data = new Message();
             data.id = String.valueOf(channel.id);

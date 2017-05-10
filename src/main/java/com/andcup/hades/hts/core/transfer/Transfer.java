@@ -16,6 +16,8 @@ public abstract class Transfer {
         this.server = server;
     }
 
+    public abstract void abort();
+
     public abstract void dlFromRemote(String src, String dst) throws ConsumeException;
 
     public abstract void upToRemote(String src, String dst) throws ConsumeException;

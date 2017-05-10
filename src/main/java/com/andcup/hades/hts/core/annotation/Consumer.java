@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Inherited
 public @interface Consumer {
 
-    Topic topic() default Topic.CHECK_FILE_EXIST;
+    Topic topic() default Topic.DOWNLOADING;
 
-    Topic bind() default Topic.CHECK_FILE_EXIST;
+    Topic bind() default Topic.DOWNLOADING;
 }

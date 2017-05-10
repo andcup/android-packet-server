@@ -1,27 +1,11 @@
-apply plugin: 'java'
 
-sourceCompatibility = 1.7
-
-version '1.0.0-SNAPSHOT'
-
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'Gradle Jar File Example',
-                'Implementation-Version': version,
-                'Main-Class': 'com.andcup.hades.hts.boot.file.MockFileApplication'
+jar {
+    from{
+        (configurations.runtime).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
     }
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with Jar
+    manifest {
+        attributes("Main-Class": "com.andcup.hades.hts.boot.file.MockFileApplication" )
+    }
 }
-//
-//task buildBrokerServerJar(type: Jar) {
-//    manifest {
-//        attributes 'Implementation-Title': 'Gradle Jar File Example',
-//                'Implementation-Version': version,
-//                'Main-Class': 'com.andcup.hades.hts.boot.MockBrokerApplication'
-//    }
-//    baseName = project.name + '-all'
-//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-//    with Jar
-//}

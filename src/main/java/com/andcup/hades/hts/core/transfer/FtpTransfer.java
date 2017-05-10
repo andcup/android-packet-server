@@ -27,6 +27,11 @@ public class FtpTransfer extends Transfer {
         client = new FTPClient();
     }
 
+    @Override
+    public void abort() {
+        logout();
+    }
+
     public void dlFromRemote(String src, String dst) throws ConsumeException{
         try {
             String fileName = changeFileWorkDir(src);
@@ -194,26 +199,24 @@ public class FtpTransfer extends Transfer {
     }
 
     private void logout(){
-        if( null != client && client.isConnected()){
+        try {
+            client.disconnect(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FTPIllegalReplyException e) {
+            e.printStackTrace();
+        } catch (FTPException e) {
+            e.printStackTrace();
+        }finally {
             try {
-                client.disconnect(true);
+                client.abortCurrentDataTransfer(true);
+                client.abortCurrentConnectionAttempt();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (FTPIllegalReplyException e) {
                 e.printStackTrace();
-            } catch (FTPException e) {
-                e.printStackTrace();
-            }finally {
-                try {
-                    client.abortCurrentDataTransfer(true);
-                    client.abortCurrentConnectionAttempt();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (FTPIllegalReplyException e) {
-                    e.printStackTrace();
-                }
-                client = null;
             }
+            client = null;
         }
     }
 }

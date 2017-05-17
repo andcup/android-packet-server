@@ -16,7 +16,7 @@ import java.util.Map;
  * Date : 2017/5/15 14:42.
  * Description:
  */
-public class HadesAnnotationLoader {
+class HadesAnnotationLoader {
 
     public Map<String, RequestInvoker> loadMethod(String packageName)  {
 

@@ -16,7 +16,7 @@ import java.util.Map;
  * Date : 2017/5/10 18:37.
  * Description:
  */
-public class HadesHttpMappingHandler implements HttpHandler {
+class HadesHttpMappingHandler implements HttpHandler {
 
     final static Logger sLogger = LoggerFactory.getLogger(HadesHttpMappingHandler.class);
 

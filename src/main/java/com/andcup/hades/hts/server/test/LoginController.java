@@ -17,12 +17,12 @@ public class LoginController  {
 
     final static Logger sLogger = LoggerFactory.getLogger(LoginController.class);
 
-    @Request(value = "/login",  method = Request.Method.GET)
+    @Request(value = "/login",  method = Request.Method.POST)
     public void login(@Var("username") String username, @Var("password") String password){
         sLogger.info("username = " + username + " password = " + password);
     }
 
-    @Request(value = "/logout", method = Request.Method.GET)
+    @Request(value = "/logout", method = Request.Method.POST)
     public void logout(@Var("username") String username, @Var("password") String password){
         sLogger.info("username = " + username + " password = " + password);
     }

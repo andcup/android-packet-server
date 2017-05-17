@@ -12,7 +12,7 @@ public class HadesServerTest {
         HadesHttpServer server = new HadesHttpServer();
 
         server.bind(8818)
-                .setController("com.andcup.hades.hts.boot.core.test")
+                .setController("com.andcup.hades.hts.server.test")
                 .start();
 
         while (true){

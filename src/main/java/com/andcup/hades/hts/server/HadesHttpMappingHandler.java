@@ -1,6 +1,8 @@
 package com.andcup.hades.hts.server;
 
 import com.andcup.hades.hts.server.bind.Request;
+import com.andcup.hades.hts.server.utils.IOUtils;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.slf4j.Logger;
@@ -19,6 +21,9 @@ import java.util.Map;
 class HadesHttpMappingHandler implements HttpHandler {
 
     final static Logger sLogger = LoggerFactory.getLogger(HadesHttpMappingHandler.class);
+
+    final String CONTENT_TYPE_JSON = "application/json";
+    final String CONTENT_TYPE_FORM_URL_ENCODED = "application/x-www-form-urlencoded";
 
     Map<String, RequestInvoker> methodMap;
 
@@ -43,20 +48,26 @@ class HadesHttpMappingHandler implements HttpHandler {
     private HadesHttpResponse invoke(HttpExchange httpExchange) throws UnsupportedEncodingException, InvocationTargetException, IllegalAccessException {
         String path = httpExchange.getRequestURI().getPath();
         sLogger.info(path);
+
         //找到对应的method.
         RequestInvoker invoker = methodMap.get(path);
+
         Map<String, String>  params = RequestParamsParser.parseUrlParams(httpExchange);
         if(invoker.request.method() == Request.Method.GET){
             try {
-                invoker.method.invoke(invoker.clazz.newInstance(), RequestParamAdapter.REQUEST.adapter(invoker, params).toArray());
+                invoker.method.invoke(invoker.clazz.newInstance(), RequestParamAdapter.PARAM.adapter(invoker, params).toArray());
             } catch (InstantiationException e) {
                 e.printStackTrace();
             }
         }else if(invoker.request.method() == Request.Method.POST){
+            Headers headers = httpExchange.getRequestHeaders();
+            if(headers.get("Content-type").contains(CONTENT_TYPE_JSON)){
 
+            }else if(headers.get("Content-type").contains(CONTENT_TYPE_FORM_URL_ENCODED)){
+
+            }
+            sLogger.info(IOUtils.convertStreamToString(httpExchange.getRequestBody()));
         }
         return null;
     }
-
-
 }

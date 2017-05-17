@@ -16,7 +16,7 @@ interface RequestParamAdapter {
 
     List<Object> adapter(RequestInvoker invoker, Map<String, String> values);
 
-    RequestParamAdapter REQUEST = new RequestParamAdapter() {
+    RequestParamAdapter PARAM = new RequestParamAdapter() {
         public List<Object> adapter(RequestInvoker invoker, Map<String, String> values){
             List<Object> listValue = new ArrayList<Object>();
             Parameter[] parameters = invoker.method.getParameters();

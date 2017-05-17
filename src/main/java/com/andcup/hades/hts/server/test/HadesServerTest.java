@@ -1,6 +1,6 @@
-package com.andcup.hades.hts.boot.core.test;
+package com.andcup.hades.hts.server.test;
 
-import com.andcup.hades.hts.boot.core.HadesHttpServer;
+import com.andcup.hades.hts.server.HadesHttpServer;
 
 /**
  * Created by Amos

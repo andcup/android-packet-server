@@ -1,16 +1,14 @@
-package com.andcup.hades.hts.boot.core;
+package com.andcup.hades.hts.server;
 
-import com.andcup.hades.hts.boot.core.bind.Request;
+import com.andcup.hades.hts.server.bind.Request;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.HttpURLConnection;
 import java.util.Map;
 
 /**
@@ -30,7 +28,7 @@ public class HadesHttpMappingHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        HadesInvokeResult result = new HadesInvokeResult();
+        HadesHttpResponse result = new HadesHttpResponse();
         try {
             result = invoke(httpExchange);
         } catch (InvocationTargetException e) {
@@ -38,42 +36,25 @@ public class HadesHttpMappingHandler implements HttpHandler {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } finally {
-            switch (result.code){
-                case 200:
-                    break;
-                case 404:
-                    break;
-            }
-            onResponse(httpExchange, "ok");
+            new HadesInvokeResponse().response(httpExchange, result);
         }
     }
 
-    private void onResponse(HttpExchange httpExchange, String responseBuffer){
-        try {
-            byte[] data = responseBuffer.getBytes();
-            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, data.length);
-            OutputStream os = httpExchange.getResponseBody();
-            os.write(data);
-            os.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private HadesInvokeResult invoke(HttpExchange httpExchange) throws UnsupportedEncodingException, InvocationTargetException, IllegalAccessException {
+    private HadesHttpResponse invoke(HttpExchange httpExchange) throws UnsupportedEncodingException, InvocationTargetException, IllegalAccessException {
         String path = httpExchange.getRequestURI().getPath();
         sLogger.info(path);
         //找到对应的method.
         RequestInvoker invoker = methodMap.get(path);
+        Map<String, String>  params = RequestParamsParser.parseUrlParams(httpExchange);
         if(invoker.request.method() == Request.Method.GET){
-            Map<String, String>  params = RequestParamsParser.parseRequestGetParams(httpExchange);
             try {
-                invoker.method.invoke(invoker.clazz.newInstance(), RequestParamAdapter.adapter(invoker, params).toArray());
+                invoker.method.invoke(invoker.clazz.newInstance(), RequestParamAdapter.REQUEST.adapter(invoker, params).toArray());
             } catch (InstantiationException e) {
                 e.printStackTrace();
             }
+        }else if(invoker.request.method() == Request.Method.POST){
+
         }
-        //invoker.method.invoke(JsonConvertTool.toJson())
         return null;
     }
 

@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.boot.core.bind;
+package com.andcup.hades.hts.server.bind;
 
 import java.lang.annotation.*;
 

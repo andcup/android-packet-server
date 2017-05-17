@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.boot.core.utils;
+package com.andcup.hades.hts.server.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

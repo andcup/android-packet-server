@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.boot.core;
+package com.andcup.hades.hts.server;
 
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.spi.HttpServerProvider;

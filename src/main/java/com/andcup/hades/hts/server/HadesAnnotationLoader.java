@@ -1,7 +1,7 @@
-package com.andcup.hades.hts.boot.core;
+package com.andcup.hades.hts.server;
 
-import com.andcup.hades.hts.boot.core.bind.Controller;
-import com.andcup.hades.hts.boot.core.bind.Request;
+import com.andcup.hades.hts.server.bind.Controller;
+import com.andcup.hades.hts.server.bind.Request;
 
 import java.io.File;
 import java.lang.reflect.Method;

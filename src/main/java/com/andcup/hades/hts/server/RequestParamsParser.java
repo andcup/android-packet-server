@@ -1,6 +1,6 @@
-package com.andcup.hades.hts.boot.core;
-
-import com.andcup.hades.hts.boot.core.utils.IOUtils;
+package com.andcup.hades.hts.server;
+import com.andcup.hades.hts.server.utils.IOUtils;
+import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.UnsupportedEncodingException;
@@ -16,7 +16,10 @@ import java.util.Map;
  */
 class RequestParamsParser {
 
-    public static Map<String, String> parseRequestGetParams(HttpExchange httpExchange) throws UnsupportedEncodingException {
+    /**
+     * 解析URL参数.
+     * */
+    public static Map<String, String> parseUrlParams(HttpExchange httpExchange) throws UnsupportedEncodingException {
         Map<String, String> map = new HashMap<String, String>();
         URI requestedUri = httpExchange.getRequestURI();
         String queryGet  = requestedUri.getRawQuery();
@@ -35,12 +38,24 @@ class RequestParamsParser {
         return map;
     }
 
-    public static String parseRequestPostParams(HttpExchange httpExchange) throws UnsupportedEncodingException {
-        Map<String, Object> map = new HashMap<String, Object>();
-        URI requestedUri = httpExchange.getRequestURI();
-        return IOUtils.convertStreamToString(httpExchange.getRequestBody());
+    /**
+     * 解析头部信息.
+     * */
+    public static Map<String, String> parseHeader(HttpExchange httpExchange) throws UnsupportedEncodingException {
+        return null;
     }
 
+    /**
+     * 解析body.
+     * */
+    public static <T> T parseBody(HttpExchange httpExchange, Class<T> clazz) throws UnsupportedEncodingException {
+        String value = IOUtils.convertStreamToString(httpExchange.getRequestBody());
+        return JsonConvertTool.toJson(value, clazz);
+    }
+
+    /**
+     * 判断字符串是否为空.
+     * */
     public static boolean isEmpty(String str) {
         return str == null || str.length() == 0;
     }

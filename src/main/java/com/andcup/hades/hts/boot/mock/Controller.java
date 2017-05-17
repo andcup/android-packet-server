@@ -1,7 +1,7 @@
 package com.andcup.hades.hts.boot.mock;
 
-import com.andcup.hades.hts.config.HadesRootConfig;
-import com.andcup.hades.hts.controller.cps.model.ResponseEntity;
+import com.andcup.hades.hts.HadesRootConfig;
+import com.andcup.hades.hts.web.controller.cps.model.ResponseEntity;
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.sun.net.httpserver.HttpExchange;

@@ -1,4 +1,4 @@
-package com.andcup.hades.hts;
+package com.andcup.hades.hts.web;
 
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.MqConsumer;

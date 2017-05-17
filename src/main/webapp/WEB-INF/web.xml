@@ -15,7 +15,7 @@
     <!-- look for Java-based Spring configuration class in the com.my.java.solutions.config package.  -->
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>com.andcup.hades.hts.config</param-value>
+      <param-value>com.andcup.hades.hts.web.config</param-value>
     </init-param>
   </servlet>
 
@@ -38,7 +38,5 @@
     <servlet-name>hades-task-server</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-
-
 
 </web-app>

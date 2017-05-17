@@ -1,7 +1,6 @@
 package com.andcup.hades.hts.test;
 
-import com.andcup.hades.hts.controller.cps.model.CpsTaskEntity;
-import com.andcup.hades.hts.controller.cps.model.ResponseEntity;
+import com.andcup.hades.hts.web.controller.cps.model.CpsTaskEntity;
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.OKHttpClient;
@@ -17,14 +16,14 @@ public class HtsCompressiveTest {
 
     final static org.slf4j.Logger logger              = LoggerFactory.getLogger(MqBroker.class);
 
-    final static int repeatCount = 200;
+    final static int repeatCount = 2;
 
     public static void main(String[] args ){
         test2();
-        test3();
-        test4();
-        test5();
-        test6();
+//        test3();
+//        test4();
+//        test5();
+//        test6();
 
         while (true){
             try {

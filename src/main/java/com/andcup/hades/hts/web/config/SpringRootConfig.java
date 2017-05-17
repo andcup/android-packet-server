@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.config;
+package com.andcup.hades.hts.web.config;
 
 import org.springframework.context.annotation.Configuration;
 

@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.boot.mock;
 
-import com.andcup.hades.hts.controller.cps.model.ResponseEntity;
+import com.andcup.hades.hts.web.controller.cps.model.ResponseEntity;
 import com.andcup.hades.hts.core.model.FileInfo;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import org.springframework.web.bind.annotation.RequestMapping;

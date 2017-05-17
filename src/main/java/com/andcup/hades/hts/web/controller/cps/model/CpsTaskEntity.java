@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.controller.cps.model;
+package com.andcup.hades.hts.web.controller.cps.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

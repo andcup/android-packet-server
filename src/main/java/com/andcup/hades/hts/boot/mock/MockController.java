@@ -1,15 +1,11 @@
 package com.andcup.hades.hts.boot.mock;
 
-import com.andcup.hades.hts.controller.cps.CpsMqFactory;
-import com.andcup.hades.hts.controller.cps.model.CpsTaskEntity;
-import com.andcup.hades.hts.controller.cps.model.ResponseEntity;
+import com.andcup.hades.hts.web.controller.cps.CpsMqFactory;
+import com.andcup.hades.hts.web.controller.cps.model.CpsTaskEntity;
+import com.andcup.hades.hts.web.controller.cps.model.ResponseEntity;
 import com.andcup.hades.hts.core.MqBroker;
-import com.andcup.hades.hts.core.model.Message;
-import com.andcup.hades.hts.core.model.MqMessage;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 /**
  * Created by Amos

@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.transfer;
 
-import com.andcup.hades.hts.config.HadesRootConfig;
+import com.andcup.hades.hts.HadesRootConfig;
 import com.andcup.hades.hts.core.exception.ConsumeException;
 
 /**

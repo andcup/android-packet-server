@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.services;
 
-import com.andcup.hades.hts.config.HadesRootConfig;
+import com.andcup.hades.hts.HadesRootConfig;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.model.Message;

@@ -1,6 +1,6 @@
-package com.andcup.hades.hts.controller;
+package com.andcup.hades.hts.web.controller;
 
-import com.andcup.hades.hts.controller.base.BaseController;
+import com.andcup.hades.hts.web.controller.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

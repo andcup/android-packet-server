@@ -1,8 +1,8 @@
-package com.andcup.hades.hts.controller.cps;
+package com.andcup.hades.hts.web.controller.cps;
 
-import com.andcup.hades.hts.controller.base.BaseController;
-import com.andcup.hades.hts.controller.cps.model.CpsTaskEntity;
-import com.andcup.hades.hts.controller.cps.model.ResponseEntity;
+import com.andcup.hades.hts.web.controller.base.BaseController;
+import com.andcup.hades.hts.web.controller.cps.model.CpsTaskEntity;
+import com.andcup.hades.hts.web.controller.cps.model.ResponseEntity;
 import com.andcup.hades.hts.core.MqBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.boot;
 
-import com.andcup.hades.hts.config.HadesRootConfig;
+import com.andcup.hades.hts.HadesRootConfig;
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.boot.mock.MockController;

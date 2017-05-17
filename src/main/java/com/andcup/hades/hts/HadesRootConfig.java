@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.config;
+package com.andcup.hades.hts;
 
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.fasterxml.jackson.annotation.JsonProperty;

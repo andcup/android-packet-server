@@ -1,7 +1,5 @@
-package com.andcup.hades.hts.controller.base;
+package com.andcup.hades.hts.web.controller.base;
 
-import com.andcup.hades.hts.controller.cps.CpsController;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 

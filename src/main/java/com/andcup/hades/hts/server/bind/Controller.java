@@ -7,5 +7,5 @@ import java.lang.annotation.*;
 @Inherited
 public @interface Controller {
 
-	String name() default "";
+	String value() default "";
 }

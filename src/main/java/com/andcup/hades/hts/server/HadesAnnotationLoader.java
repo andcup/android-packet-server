@@ -40,7 +40,7 @@ class HadesAnnotationLoader {
                     for(Method method : methods){
                         if(method.isAnnotationPresent(Request.class)){
                             invoker.request = method.getAnnotation(Request.class);
-                            invoker.path = invoker.controller.name() + invoker.request.value();
+                            invoker.path = invoker.controller.value() + invoker.request.value();
                             invoker.method = method;
 
                             if(!invoker.method.getReturnType().isAssignableFrom(HadesHttpResponse.class)){

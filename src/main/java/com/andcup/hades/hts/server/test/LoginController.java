@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * Description:
  */
 
-@Controller(name = "/api/user")
+@Controller("/api/user")
 public class LoginController  {
 
     final static Logger sLogger = LoggerFactory.getLogger(LoginController.class);

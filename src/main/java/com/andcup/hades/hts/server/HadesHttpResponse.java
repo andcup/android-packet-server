@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class HadesHttpResponse {
 
     @JsonProperty("code")
-    public int code;
+    public int code = 404;
 
     @JsonProperty("message")
-    public String message;
+    public String message = "404 NOT FOUND!";
 }

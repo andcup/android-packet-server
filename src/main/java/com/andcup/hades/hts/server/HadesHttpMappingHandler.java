@@ -1,7 +1,6 @@
 package com.andcup.hades.hts.server;
 
 import com.andcup.hades.hts.server.bind.Request;
-import com.andcup.hades.hts.server.utils.IOUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -9,8 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,6 +25,7 @@ class HadesHttpMappingHandler implements HttpHandler {
 
     final String CONTENT_TYPE_JSON = "application/json";
     final String CONTENT_TYPE_FORM_URL_ENCODED = "application/x-www-form-urlencoded";
+    final String CONTENT_TYPE = "Content-type";
 
     Map<String, RequestInvoker> methodMap;
 
@@ -41,38 +43,38 @@ class HadesHttpMappingHandler implements HttpHandler {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } finally {
-            new HadesInvokeResponse().response(httpExchange, result);
+            /**
+             * HTTP应答.
+             * */
+            try {
+                byte[] data = result.message.getBytes();
+                httpExchange.sendResponseHeaders(result.code, data.length);
+                OutputStream os = httpExchange.getResponseBody();
+                os.write(data);
+                os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private HadesHttpResponse invoke(HttpExchange httpExchange) throws UnsupportedEncodingException, InvocationTargetException, IllegalAccessException {
         String path = httpExchange.getRequestURI().getPath();
         sLogger.info(path);
+        Headers headers = httpExchange.getRequestHeaders();
         //找到对应的method.
         RequestInvoker invoker = methodMap.get(path);
-        if(invoker.request.method() == Request.Method.GET){
-            try {
-                invoker.method.invoke(invoker.clazz.newInstance(), RequestParamAdapter.PARAM.adapter(invoker, httpExchange).toArray());
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            }
-        }else if(invoker.request.method() == Request.Method.POST){
-            Headers headers = httpExchange.getRequestHeaders();
-            if(headers.get("Content-type").contains(CONTENT_TYPE_JSON)){
-                try {
-                    invoker.method.invoke(invoker.clazz.newInstance(), RequestParamAdapter.BODY_APP_JSON.adapter(invoker, httpExchange).toArray());
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                }
-            }else if(headers.get("Content-type").contains(CONTENT_TYPE_FORM_URL_ENCODED)){
-                try {
-                    invoker.method.invoke(invoker.clazz.newInstance(), RequestParamAdapter.XWWW.adapter(invoker, httpExchange).toArray());
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                }
-            }else{
-            }
+        List<Object> values = RequestParamAdapter.PARAM.adapter(invoker, httpExchange);
+        if(invoker.request.method() == Request.Method.POST && headers.get(CONTENT_TYPE).contains(CONTENT_TYPE_JSON)){
+            values = RequestParamAdapter.BODY_APP_JSON.adapter(invoker, httpExchange);
+        }else if(invoker.request.method() == Request.Method.POST && headers.get(CONTENT_TYPE).contains(CONTENT_TYPE_FORM_URL_ENCODED)){
+            values = RequestParamAdapter.XWWW.adapter(invoker, httpExchange);
         }
-        return null;
+        try {
+            return (HadesHttpResponse) invoker.method.invoke(invoker.clazz.newInstance(), values.toArray());
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        return new HadesHttpResponse();
     }
 }

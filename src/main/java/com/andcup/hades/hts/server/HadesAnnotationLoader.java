@@ -2,6 +2,8 @@ package com.andcup.hades.hts.server;
 
 import com.andcup.hades.hts.server.bind.Controller;
 import com.andcup.hades.hts.server.bind.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -17,6 +19,8 @@ import java.util.Map;
  * Description:
  */
 class HadesAnnotationLoader {
+
+    final static Logger sLogger = LoggerFactory.getLogger(HadesAnnotationLoader.class);
 
     public Map<String, RequestInvoker> loadMethod(String packageName)  {
 
@@ -38,6 +42,11 @@ class HadesAnnotationLoader {
                             invoker.request = method.getAnnotation(Request.class);
                             invoker.path = invoker.controller.name() + invoker.request.value();
                             invoker.method = method;
+
+                            if(!invoker.method.getReturnType().isAssignableFrom(HadesHttpResponse.class)){
+                                sLogger.error(" Request method : " + invoker.path + " return type must be HadesInvokeResponse");
+                                continue;
+                            }
                             /**
                              * 添加Controller到列表中.
                              * */

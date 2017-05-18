@@ -30,11 +30,6 @@ public class IOUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         return sb.toString();

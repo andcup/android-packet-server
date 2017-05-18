@@ -20,12 +20,31 @@ class RequestParamsParser {
      * 解析URL参数.
      * */
     public static Map<String, String> parseUrlParams(HttpExchange httpExchange) throws UnsupportedEncodingException {
-        Map<String, String> map = new HashMap<String, String>();
         URI requestedUri = httpExchange.getRequestURI();
         String queryGet  = requestedUri.getRawQuery();
+        return parseEqualFormatString(queryGet);
+    }
+
+    /**
+     *
+     * */
+    public static <T> T parseApplicationJson(HttpExchange httpExchange, Class<T> clazz) throws UnsupportedEncodingException {
+        return null;
+    }
+
+    /**
+     * 解析body.
+     * */
+    public static Map<String, String> parseXWWWFormUrlEncoded(HttpExchange httpExchange) throws UnsupportedEncodingException {
+        String value = IOUtils.convertStreamToString(httpExchange.getRequestBody());
+        return parseEqualFormatString(value);
+    }
+
+    private static Map<String, String> parseEqualFormatString(String value) throws UnsupportedEncodingException {
+        Map<String, String> map = new HashMap<String, String>();
         String query = "";
-        if (!isEmpty(queryGet)) {
-            query = queryGet;
+        if (!isEmpty(value)) {
+            query = value;
         }
         if (isEmpty(query)) {
             return map;
@@ -36,21 +55,6 @@ class RequestParamsParser {
             map.put(temp[0], URLDecoder.decode(temp[1], "utf-8"));
         }
         return map;
-    }
-
-    /**
-     * 解析头部信息.
-     * */
-    public static Map<String, String> parseHeader(HttpExchange httpExchange) throws UnsupportedEncodingException {
-        return null;
-    }
-
-    /**
-     * 解析body.
-     * */
-    public static <T> T parseBody(HttpExchange httpExchange, Class<T> clazz) throws UnsupportedEncodingException {
-        String value = IOUtils.convertStreamToString(httpExchange.getRequestBody());
-        return JsonConvertTool.toJson(value, clazz);
     }
 
     /**

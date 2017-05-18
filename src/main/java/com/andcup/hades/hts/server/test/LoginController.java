@@ -1,8 +1,11 @@
 package com.andcup.hades.hts.server.test;
 
+import com.andcup.hades.hts.core.tools.JsonConvertTool;
+import com.andcup.hades.hts.server.bind.Body;
 import com.andcup.hades.hts.server.bind.Controller;
 import com.andcup.hades.hts.server.bind.Request;
 import com.andcup.hades.hts.server.bind.Var;
+import com.andcup.hades.hts.web.controller.cps.model.CpsTaskEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,11 +26,7 @@ public class LoginController  {
     }
 
     @Request(value = "/logout", method = Request.Method.POST)
-    public void logout(@Var("username") String username, @Var("password") String password){
-        sLogger.info("username = " + username + " password = " + password);
-    }
-
-    public static class Logout{
-
+    public void logout(@Body CpsTaskEntity user){
+        sLogger.info(JsonConvertTool.toString(user));
     }
 }

@@ -28,7 +28,7 @@ public class HadesHttpServer {
         return this;
     }
 
-    public HadesHttpServer setController(String packageName){
+    public HadesHttpServer scan(String packageName){
         this.packageName = packageName;
         return this;
     }

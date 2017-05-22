@@ -1,6 +1,5 @@
 package com.andcup.hades.hts.test;
 
-import com.andcup.hades.hts.web.controller.cps.model.CpsTaskEntity;
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.OKHttpClient;
@@ -112,12 +111,12 @@ public class HtsCompressiveTest {
     }
 
     private static void HtsCompressiveTest(String id, String other, String game){
-        CpsTaskEntity task = JsonConvertTool.toJson(DATA, CpsTaskEntity.class);
-        task.channels.get(0).id = id;
-        task.channels.get(0).other = other;
-        task.originPackLocalPath = game;
-        OKHttpClient okHttpClient = new OKHttpClient("http://localhost:607/api/pack");
-        okHttpClient.call(JsonConvertTool.toString(task));
+//        CpsTaskEntity task = JsonConvertTool.toJson(DATA, CpsTaskEntity.class);
+//        task.channels.get(0).id = id;
+//        task.channels.get(0).other = other;
+//        task.originPackLocalPath = game;
+//        OKHttpClient okHttpClient = new OKHttpClient("http://localhost:607/api/pack");
+//        okHttpClient.call(JsonConvertTool.toString(task));
     }
 
     public static String DATA = "{\n" +

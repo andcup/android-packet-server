@@ -31,6 +31,11 @@ public interface IMqConsumer{
     /**
      * 消费消息.
      * */
+    void consume(List<Message<Task>> messages);
+
+    /**
+     * 消费消息.
+     * */
     void consume(Message<Task> message);
 
     interface Executor{

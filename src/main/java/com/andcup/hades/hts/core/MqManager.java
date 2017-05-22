@@ -30,6 +30,10 @@ public class MqManager<T> implements IMqManager<T> {
         queue.add(message);
     }
 
+    public T peek(){
+        return queue.peek();
+    }
+
     public T pop() {
         try {
             return queue.take();

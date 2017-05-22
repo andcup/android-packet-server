@@ -8,7 +8,6 @@ import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.Topic;
 import com.andcup.hades.hts.core.transfer.FtpTransfer;
 import com.andcup.hades.hts.core.transfer.Transfer;
-import org.springframework.stereotype.Service;
 
 /**
  * Created by Amos
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
  */
 
 @Consumer(topic = Topic.DOWNLOADING, bind = Topic.DOWNLOADING)
-@Service
 public class DownloadComsumer extends MqConsumer {
 
     Message<Task> message;

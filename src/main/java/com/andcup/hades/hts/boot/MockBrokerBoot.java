@@ -33,18 +33,6 @@ public class MockBrokerBoot {
             new HadesHttpServer().bind(HadesRootConfig.sInstance.port)
                     .scan("com.andcup.hades.hts.boot.mock")
                     .start();
-//            /**
-//             * 启动Mock服务器.
-//             * */
-//            HttpServerProvider provider = HttpServerProvider.provider();
-//            HttpServer server = provider.createHttpServer(new InetSocketAddress(HadesRootConfig.sInstance.port), 5000);
-//
-//            /**
-//             * 注册打包接口.
-//             * */
-//            MockOldController mockController = new MockOldController();
-//            server.createContext(mockController.api(), mockController);
-//            server.start();
 
             logger.info(" start server : " + HadesRootConfig.sInstance.port + " success. ");
 

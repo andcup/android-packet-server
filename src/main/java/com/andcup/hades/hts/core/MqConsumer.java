@@ -7,6 +7,8 @@ import com.andcup.hades.hts.core.model.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
  * Created by Amos
  * Date : 2017/5/5 14:43.
@@ -28,6 +30,14 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
     public IMqConsumer flow(MqConsumer consumer) {
         this.flowConsumer = consumer;
         return this;
+    }
+
+    @Override
+    public void consume(List<Message<Task>> messages) {
+        for(Message<Task> message : messages){
+            message.setTopic(getConsumer().topic());
+        }
+        mqManager.push(messages);
     }
 
     public final void consume(Message<Task> message){
@@ -63,9 +73,12 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
                     Message<Task> message = mqManager.pop();
                     if( null != message){
                         //初始化MqMessage.
+                        String log ="task name : " + message.getName() + " task id : " + message.getId() + " step :" + getConsumer().topic().getName();
+                        logger.info(" start " + log);
                         message.setState(Message.State.ING);
                         Message.State state =  execute(message);
                         message.setState(state);
+                        logger.info(" end " + log + " state : " + state);
                     }
                     Thread.sleep(100);
                 }

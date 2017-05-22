@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class HadesHttpResponse {
 
+    public static final int HTTP_OK =  200;
+
     @JsonProperty("code")
     public int code = 404;
 

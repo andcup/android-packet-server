@@ -35,17 +35,24 @@ public enum Topic {
          5. 编译：      6
          6. 反馈：      7
          */
-    DOWNLOADING(2),
-    COMPILING(3),
-    EDIT(4),
-    BUILDING(5),
-    UPLOADING(6),
-    COMPLETE(7),
-    END(8);
+    DOWNLOADING(1, "下载..."),
+    COMPRESS(2, "压缩..."),
+    DECOMPILING(3, "反编译..."),
+    EDIT(4, "编辑..."),
+    SIGN(5, "签名..."),
+    COMPILING(6, "编译..."),
+    UPLOADING(7, "上传..."),
+    COMPLETE(8, "完成...");
 
     int code;
+    String name;
 
-    Topic(int code) {
+    Topic(int code, String name) {
         this.code = code;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

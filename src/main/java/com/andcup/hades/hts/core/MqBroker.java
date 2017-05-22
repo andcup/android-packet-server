@@ -66,8 +66,12 @@ public class MqBroker implements IMqBroker {
                     if( null != factory){
                         //判断文件是否存在.
                         List<Message<Task>> message = factory.create();
-                        //添加到打包任务.
+                        /**添加到打包任务.*/
                         runQueueManager.push(message);
+                        /**
+                         * 开始消费.
+                         * */
+                        consumer.consume(message);
                         logger.info(JsonConvertTool.formatString(message));
                     }
                     try {

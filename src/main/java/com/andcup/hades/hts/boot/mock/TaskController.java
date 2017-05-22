@@ -10,8 +10,7 @@ import com.andcup.hades.hts.server.RequestController;
 import com.andcup.hades.hts.server.bind.Body;
 import com.andcup.hades.hts.server.bind.Controller;
 import com.andcup.hades.hts.server.bind.Request;
-import com.andcup.hades.hts.web.controller.cps.CpsMqFactory;
-import com.andcup.hades.hts.web.controller.cps.model.ResponseEntity;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
@@ -25,12 +24,12 @@ import java.util.List;
 @Controller("/api/task")
 public class TaskController extends RequestController {
 
-    final static org.slf4j.Logger logger = LoggerFactory.getLogger(MqConsumer.class);
+    final static Logger logger = LoggerFactory.getLogger(MqConsumer.class);
 
     @Request(value = "/start", method = Request.Method.POST)
     public HadesHttpResponse start(@Body(Task.class) List<Task> taskList){
         logger.info(JsonConvertTool.toString(taskList));
         MqBroker.getInstance().produce(new MockMqFactory(taskList));
-        return new HadesHttpResponse(ResponseEntity.SUCCESS, "commit task success.");
+        return new HadesHttpResponse(HadesHttpResponse.HTTP_OK, "commit task success.");
     }
 }

@@ -18,12 +18,14 @@ import java.net.UnknownHostException;
 /**
  * Created by Administrator on 2016/7/25.
  */
-public abstract class Controller<T> implements HttpHandler {
+
+@Deprecated
+public abstract class OldController<T> implements HttpHandler {
 
     final static Logger logger              = LoggerFactory.getLogger(MqBroker.class);
 
     public final void handle(HttpExchange httpExchange) throws IOException {
-        synchronized (Controller.this){
+        synchronized (OldController.this){
             ResponseEntity response = onHandle(parse(httpExchange, getModel()));
             onResponse(httpExchange, response);
         }

@@ -3,8 +3,8 @@ package com.andcup.hades.hts.core.services;
 import com.andcup.hades.hts.HadesRootConfig;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
+import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
-import com.andcup.hades.hts.core.model.MqMessage;
 import com.andcup.hades.hts.core.model.Topic;
 import com.andcup.hades.hts.core.transfer.FtpTransfer;
 import com.andcup.hades.hts.core.transfer.Transfer;
@@ -20,18 +20,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class DownloadComsumer extends MqConsumer {
 
-    MqMessage<Message> message;
+    Message<Task> message;
     Transfer transfer;
 
-    public MqMessage.State execute(MqMessage<Message> message) {
+    public Message.State execute(Message<Task> message) {
         this.message = message;
         transfer = new FtpTransfer(HadesRootConfig.sInstance.remote.ftp);
         transfer.dlFromRemote(message.getData().sourcePath, message.getData().localDir + message.getName());
         transfer = null;
-        return MqMessage.State.SUCCESS;
+        return Message.State.SUCCESS;
     }
 
-    public void abort(MqMessage<Message> message) {
+    public void abort(Message<Task> message) {
         if( null != transfer){
             transfer.abort();
         }

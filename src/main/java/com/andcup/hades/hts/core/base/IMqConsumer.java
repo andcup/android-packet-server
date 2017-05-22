@@ -2,8 +2,8 @@ package com.andcup.hades.hts.core.base;
 
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
+import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
-import com.andcup.hades.hts.core.model.MqMessage;
 import com.andcup.hades.hts.core.model.Topic;
 import com.andcup.hades.hts.core.tools.ConsumerAnnotationScanTool;
 
@@ -21,28 +21,28 @@ public interface IMqConsumer{
         /**
          * 消费成功.
          * */
-        void onSuccess(MqMessage<Message> message);
+        void onSuccess(Message<Task> message);
         /**
          * 消费失败.
          * */
-        void onFailed(MqMessage<Message> message);
+        void onFailed(Message<Task> message);
     }
 
     /**
      * 消费消息.
      * */
-    void consume(MqMessage<Message> message);
+    void consume(Message<Task> message);
 
     interface Executor{
 
         /**
          * 执行任务.
          * */
-        MqMessage.State execute(MqMessage<Message> message);
+        Message.State execute(Message<Task> message);
         /**
          * 中断任务.
          * */
-        void abort(MqMessage<Message> message);
+        void abort(Message<Task> message);
 
         /**
          * 中断任务.

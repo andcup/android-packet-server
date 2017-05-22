@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Description:
  */
 
-
+@Deprecated
 @RequestMapping(name = "/api/pack")
-public class MockController extends Controller<CpsTaskEntity> {
+public class MockOldController extends OldController<CpsTaskEntity> {
 
     protected ResponseEntity onHandle(CpsTaskEntity body) {
         try{

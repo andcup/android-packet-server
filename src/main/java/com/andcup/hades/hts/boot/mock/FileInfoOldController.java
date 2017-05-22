@@ -13,9 +13,9 @@ import java.io.File;
  * Description:
  */
 
-
+@Deprecated
 @RequestMapping(name = "/api/fileInfo")
-public class FileInfoController extends Controller<FileInfo> {
+public class FileInfoOldController extends OldController<FileInfo> {
 
     private void check(FileInfo entity) throws RuntimeException{
         if(entity.sourcePath.length() <= 0){

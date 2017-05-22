@@ -1,10 +1,11 @@
 package com.andcup.hades.hts.web.controller.cps;
 
 import com.andcup.hades.hts.HadesRootConfig;
+import com.andcup.hades.hts.core.model.Channel;
 import com.andcup.hades.hts.web.controller.cps.model.CpsTaskEntity;
 import com.andcup.hades.hts.core.MqFactory;
+import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
-import com.andcup.hades.hts.core.model.MqMessage;
 import com.andcup.hades.hts.core.model.Topic;
 
 import java.io.File;
@@ -30,24 +31,23 @@ public class CpsMqFactory extends MqFactory<CpsTaskEntity> {
         return false;
     }
 
-    public List<MqMessage<Message>> create() {
-        List<MqMessage<Message>> list = new ArrayList<MqMessage<Message>>();
+    public List<Message<Task>> create() {
+        List<Message<Task>> list = new ArrayList<Message<Task>>();
         List<CpsTaskEntity.Channel> channels = body.channels;
         for (CpsTaskEntity.Channel channel : channels) {
-            MqMessage msg = new MqMessage();
+            Message msg = new Message();
             msg.setId(body.getId());
             msg.setName(body.getName());
-            msg.setState(MqMessage.State.ING);
+            msg.setState(Message.State.ING);
             msg.setTopic(Topic.DOWNLOADING);
 
-            Message data = new Message();
+            Task data = new Task();
             data.id = String.valueOf(channel.id);
             data.sourcePath = body.originPackLocalPath + "_0.apk";
-            data.channleDir = body.channelPackRemoteDir;
+            data.channelDir = body.channelPackRemoteDir;
             data.priority = channel.priority;
             data.type = Integer.valueOf(body.packType);
-            data.rule = String.format(getRule(data), channel.id, channel.sourceId, channel.other);
-            data.body = body.attachData;
+            data.channel = new Channel(channel.id, channel.sourceId, channel.other);
             data.feedback = body.feedbackApiAddress;
             data.localDir = HadesRootConfig.sInstance.getApkTempDir() + body.getName() + "/";
 
@@ -62,20 +62,4 @@ public class CpsMqFactory extends MqFactory<CpsTaskEntity> {
     protected String getFilePath() {
         return body.originPackLocalPath;
     }
-
-    private String getRule(Message message) {
-        return message.type == Message.TYPE_QUICK ? RULE_QUICK : RULE_COMPILE;
-    }
-
-    String RULE_QUICK = "yl_introduction_%s_sourceid_%s_other_%s";
-
-    String RULE_COMPILE = "<meta-data\n" +
-            "            android:name=\"introduction\"\n" +
-            "            android:value=\"%s\" />\n" +
-            "        <meta-data\n" +
-            "            android:name=\"sourceid\"\n" +
-            "            android:value=\"%s\" />\n" +
-            "        <meta-data\n" +
-            "            android:name=\"other\"\n" +
-            "            android:value=\"%s\" />";
 }

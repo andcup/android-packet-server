@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.boot.file;
 
-import com.andcup.hades.hts.boot.mock.FileInfoController;
+import com.andcup.hades.hts.boot.mock.FileInfoOldController;
 import com.andcup.hades.hts.HadesRootConfig;
 import com.andcup.hades.hts.core.MqBroker;
 import com.sun.net.httpserver.HttpServer;
@@ -37,7 +37,7 @@ public class MockFileBoot {
             /**
              * 注册文件信息获取接口.
              * */
-            FileInfoController fileInfoController = new FileInfoController();
+            FileInfoOldController fileInfoController = new FileInfoOldController();
             server.createContext(fileInfoController.api(), fileInfoController);
             server.start();
             logger.info(" start server : " + HadesRootConfig.sInstance.port + " success. ");

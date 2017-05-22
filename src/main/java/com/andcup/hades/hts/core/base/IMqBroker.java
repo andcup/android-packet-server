@@ -1,7 +1,7 @@
 package com.andcup.hades.hts.core.base;
 
+import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
-import com.andcup.hades.hts.core.model.MqMessage;
 
 import java.io.FileNotFoundException;
 
@@ -20,7 +20,7 @@ public interface IMqBroker {
     /**
      * 消息消费完成.
      * */
-    void  complete(MqMessage<Message> msg);
+    void  complete(Message<Task> msg);
 
     /**
      * 消息中断完成.

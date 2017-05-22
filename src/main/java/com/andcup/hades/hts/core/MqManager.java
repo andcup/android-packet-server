@@ -1,9 +1,6 @@
 package com.andcup.hades.hts.core;
 
-import com.andcup.hades.hts.core.base.IMqFactory;
 import com.andcup.hades.hts.core.base.IMqManager;
-import com.andcup.hades.hts.core.model.Message;
-import com.andcup.hades.hts.core.model.MqMessage;
 
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;

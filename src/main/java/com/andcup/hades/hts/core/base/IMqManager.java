@@ -1,8 +1,5 @@
 package com.andcup.hades.hts.core.base;
 
-import com.andcup.hades.hts.core.model.Message;
-import com.andcup.hades.hts.core.model.MqMessage;
-
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 

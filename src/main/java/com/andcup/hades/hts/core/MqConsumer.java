@@ -2,9 +2,8 @@ package com.andcup.hades.hts.core;
 
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.base.IMqConsumer;
+import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
-import com.andcup.hades.hts.core.model.MqMessage;
-import com.andcup.hades.hts.core.model.Topic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +17,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
     final static Logger logger = LoggerFactory.getLogger(MqConsumer.class);
 
     MqConsumer flowConsumer;
-    MqManager<MqMessage<Message>>  mqManager = new MqManager();
+    MqManager<Message<Task>>  mqManager = new MqManager();
     ConsumerExecutorThread mqExecutorThread;
 
     public MqConsumer(){
@@ -31,7 +30,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
         return this;
     }
 
-    public final void consume(MqMessage<Message> message){
+    public final void consume(Message<Task> message){
         /**
          * 更新状态.
          * */
@@ -42,7 +41,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
         mqManager.push(message);
     }
 
-    public void abort(MqMessage<Message> target) {
+    public void abort(Message<Task> target) {
         //mqManager.remove(target);
     }
 
@@ -61,11 +60,11 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
         public void run() {
             try{
                 while (true){
-                    MqMessage<Message> message = mqManager.pop();
+                    Message<Task> message = mqManager.pop();
                     if( null != message){
                         //初始化MqMessage.
-                        message.setState(MqMessage.State.ING);
-                        MqMessage.State state =  execute(message);
+                        message.setState(Message.State.ING);
+                        Message.State state =  execute(message);
                         message.setState(state);
                     }
                     Thread.sleep(100);

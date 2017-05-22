@@ -4,11 +4,13 @@ import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.server.bind.Body;
 import com.andcup.hades.hts.server.bind.Var;
 import com.andcup.hades.hts.server.utils.IOUtils;
+import com.fasterxml.jackson.databind.JavaType;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 

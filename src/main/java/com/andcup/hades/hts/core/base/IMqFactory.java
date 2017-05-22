@@ -1,9 +1,8 @@
 package com.andcup.hades.hts.core.base;
 
+import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
-import com.andcup.hades.hts.core.model.MqMessage;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -28,6 +27,6 @@ public interface IMqFactory<T> {
     /**
      * 构建消息.
      * */
-    List<MqMessage<Message>> create();
+    List<Message<Task>> create();
 
 }

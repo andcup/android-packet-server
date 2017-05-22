@@ -1,5 +1,6 @@
 package com.andcup.hades.hts.server;
 
+import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.server.bind.Request;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -47,8 +48,8 @@ class HadesHttpMappingHandler implements HttpHandler {
              * HTTP应答.
              * */
             try {
-                byte[] data = result.message.getBytes();
-                httpExchange.sendResponseHeaders(result.code, data.length);
+                byte[] data = JsonConvertTool.toString(result).getBytes();
+                httpExchange.sendResponseHeaders(200, data.length);
                 OutputStream os = httpExchange.getResponseBody();
                 os.write(data);
                 os.close();
@@ -64,11 +65,17 @@ class HadesHttpMappingHandler implements HttpHandler {
         Headers headers = httpExchange.getRequestHeaders();
         //找到对应的method.
         RequestInvoker invoker = methodMap.get(path);
-        List<Object> values = RequestParamAdapter.PARAM.adapter(invoker, httpExchange);
-        if(invoker.request.method() == Request.Method.POST && headers.get(CONTENT_TYPE).contains(CONTENT_TYPE_JSON)){
-            values = RequestParamAdapter.BODY_APP_JSON.adapter(invoker, httpExchange);
-        }else if(invoker.request.method() == Request.Method.POST && headers.get(CONTENT_TYPE).contains(CONTENT_TYPE_FORM_URL_ENCODED)){
-            values = RequestParamAdapter.XWWW.adapter(invoker, httpExchange);
+        List<Object> values;
+        try {
+            values = RequestParamAdapter.PARAM.adapter(invoker, httpExchange);
+            if(invoker.request.method() == Request.Method.POST && headers.get(CONTENT_TYPE).contains(CONTENT_TYPE_JSON)){
+                values = RequestParamAdapter.BODY_APP_JSON.adapter(invoker, httpExchange);
+            }else if(invoker.request.method() == Request.Method.POST && headers.get(CONTENT_TYPE).contains(CONTENT_TYPE_FORM_URL_ENCODED)){
+                values = RequestParamAdapter.XWWW.adapter(invoker, httpExchange);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new HadesHttpResponse(-1, e.getMessage());
         }
         try {
             return (HadesHttpResponse) invoker.method.invoke(invoker.clazz.newInstance(), values.toArray());

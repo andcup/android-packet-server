@@ -28,13 +28,8 @@ public class JsonConvertTool {
         return sObjectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
 
-    public static <T> T toJson(String value, JavaType type){
-        try {
-            return sObjectMapper.readValue(value, type);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static <T> T toJson(String value, JavaType type) throws IOException {
+        return sObjectMapper.readValue(value, type);
     }
 
 

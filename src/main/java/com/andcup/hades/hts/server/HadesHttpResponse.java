@@ -15,7 +15,12 @@ public class HadesHttpResponse {
     @JsonProperty("message")
     public String message = "404 NOT FOUND!";
 
-    public HadesHttpResponse(int code){
+    public HadesHttpResponse(){
+
+    }
+
+    public HadesHttpResponse(int code, String message){
         this.code = code;
+        this.message = message;
     }
 }

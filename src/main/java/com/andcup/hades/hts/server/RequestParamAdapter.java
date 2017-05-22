@@ -7,6 +7,7 @@ import com.andcup.hades.hts.server.utils.IOUtils;
 import com.fasterxml.jackson.databind.JavaType;
 import com.sun.net.httpserver.HttpExchange;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
@@ -21,16 +22,19 @@ import java.util.Map;
  */
 interface RequestParamAdapter {
 
-    List<Object> adapter(RequestInvoker invoker, HttpExchange httpExchange);
+    List<Object> adapter(RequestInvoker invoker, HttpExchange httpExchange) throws Exception;
 
     RequestParamAdapter PARAM = new RequestParamAdapter() {
-        public List<Object> adapter(RequestInvoker invoker, HttpExchange httpExchange){
+        public List<Object> adapter(RequestInvoker invoker, HttpExchange httpExchange) throws Exception{
             List<Object> listValue = new ArrayList<Object>();
             try {
                 Map<String, String>  params = RequestParamsParser.parseUrlParams(httpExchange);
                 Parameter[] parameters = invoker.method.getParameters();
                 for(int i=0; i< parameters.length; i++){
                     Var var = parameters[i].getAnnotation(Var.class);
+                    if( null == var){
+                        continue;
+                    }
                     ParamFiller.fill(listValue, parameters[i].getType(), params.get(var.value()));
                 }
             } catch (UnsupportedEncodingException e) {
@@ -41,26 +45,40 @@ interface RequestParamAdapter {
     };
 
     RequestParamAdapter BODY_APP_JSON = new RequestParamAdapter() {
-        public List<Object> adapter(RequestInvoker invoker, HttpExchange httpExchange){
+        public List<Object> adapter(RequestInvoker invoker, HttpExchange httpExchange) throws Exception {
             List<Object> listValue = new ArrayList<Object>();
             Parameter[] parameters = invoker.method.getParameters();
             for(int i=0; i< parameters.length; i++){
-                Object object = JsonConvertTool.toJson(IOUtils.convertStreamToString(httpExchange.getRequestBody()), parameters[i].getType());
-                listValue.add(object);
+                Object object;
+                Class clazz = parameters[i].getType();
+                if(clazz.isAssignableFrom(ArrayList.class) ||
+                        parameters[i].getClass().isAssignableFrom(List.class)){
+                    Body body = parameters[i].getAnnotation(Body.class);
+                    JavaType type = JsonConvertTool.getCollectionType(ArrayList.class, body.value());
+                    object = JsonConvertTool.toJson(IOUtils.convertStreamToString(httpExchange.getRequestBody()), type);
+                }else{
+                    object = JsonConvertTool.toJson(IOUtils.convertStreamToString(httpExchange.getRequestBody()), clazz);
+                }
+                if( null != object){
+                    listValue.add(object);
+                }
+
             }
             return listValue;
         }
     };
 
     RequestParamAdapter XWWW = new RequestParamAdapter() {
-        public List<Object> adapter(RequestInvoker invoker, HttpExchange httpExchange){
+        public List<Object> adapter(RequestInvoker invoker, HttpExchange httpExchange) throws Exception{
             List<Object> listValue = new ArrayList<Object>();
             try {
                 Map<String, String>  params = RequestParamsParser.parseXWWWFormUrlEncoded(httpExchange);
                 Parameter[] parameters = invoker.method.getParameters();
                 for(int i=0; i< parameters.length; i++){
                     Var var = parameters[i].getAnnotation(Var.class);
-                    ParamFiller.fill(listValue, parameters[i].getType(), params.get(var.value()));
+                    if( null != var){
+                        ParamFiller.fill(listValue, parameters[i].getType(), params.get(var.value()));
+                    }
                 }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();

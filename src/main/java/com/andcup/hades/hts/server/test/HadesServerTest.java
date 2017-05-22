@@ -12,7 +12,7 @@ public class HadesServerTest {
         HadesHttpServer server = new HadesHttpServer();
 
         server.bind(8818)
-                .scan("com.andcup.hades.hts.server.test")
+                .scan("com.andcup.hades.hts.boot.mock")
                 .start();
 
         while (true){

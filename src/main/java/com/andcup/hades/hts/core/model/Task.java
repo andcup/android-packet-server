@@ -8,10 +8,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Description:
  */
 
-public class Task<T extends Channel> {
+public class Task {
 
     public static final int TYPE_QUICK = 1;
     public static final int TYPE_COMPILE = 0;
+
+    public Task(){}
 
     /**
      * 同一个母包GroupId 一致. ID.
@@ -21,13 +23,24 @@ public class Task<T extends Channel> {
     /**
      * 任务ID.
      */
-    @JsonProperty("id")
+    @JsonProperty("channelId")
     public String id;
+
+    /**
+     * 任务名称.
+     */
+    @JsonProperty("name")
+    public String name;
     /**
      * 母包路径.
      */
     @JsonProperty("sourcePath")
     public String sourcePath;
+    /**
+     * 母包MD5
+     * */
+    @JsonProperty("md5")
+    public String md5;
     /**
      * 子包存储路径.
      */
@@ -36,8 +49,13 @@ public class Task<T extends Channel> {
     /**
      * 写入的数据.
      */
-    @JsonProperty("channel")
-    public T channel;
+    @JsonProperty("other")
+    public String other;
+    /**
+     * 来源ID.
+     */
+    @JsonProperty("sourceId")
+    public String sourceId;
     /**
      * 打包类型.
      */
@@ -59,8 +77,8 @@ public class Task<T extends Channel> {
     @JsonProperty("localDir")
     public String localDir;
 
-    public String getChannelData() {
-        return String.format(type == Task.TYPE_QUICK ? RULE_QUICK : RULE_COMPILE, channel.id, channel.sourceId, channel.other);
+    public String getRule() {
+        return String.format(type == Task.TYPE_QUICK ? RULE_QUICK : RULE_COMPILE, id, sourceId, other);
     }
 
     String RULE_QUICK = "yl_introduction_%s_sourceid_%s_other_%s";

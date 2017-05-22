@@ -42,7 +42,7 @@ public class MqBroker implements IMqBroker {
         this.consumer = consumer;
     }
 
-    public void produce(IMqFactory factory) throws FileNotFoundException {
+    public void produce(IMqFactory factory){
         mqFactoryManager.push(factory);
     }
 
@@ -65,14 +65,6 @@ public class MqBroker implements IMqBroker {
                     IMqFactory factory = mqFactoryManager.pop();
                     if( null != factory){
                         //判断文件是否存在.
-                        if(factory.checkFileIsExist()){
-
-                        }
-                        //判断文件是否是最新.
-                        if(factory.checkFileIsLatest()){
-                            //中断打包任务.
-                            abort(factory.getGroupId());
-                        }
                         List<Message<Task>> message = factory.create();
                         //添加到打包任务.
                         runQueueManager.push(message);

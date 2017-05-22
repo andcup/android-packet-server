@@ -11,19 +11,6 @@ import java.util.List;
  * Description:
  */
 public interface IMqFactory<T> {
-
-    String getGroupId();
-
-    /**
-     * 检测文件吃否存在.
-     * */
-    boolean checkFileIsExist();
-
-    /**
-     * 检测文件吃否存在.
-     * */
-    boolean checkFileIsLatest();
-
     /**
      * 构建消息.
      * */

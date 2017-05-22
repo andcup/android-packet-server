@@ -18,7 +18,7 @@ apply from: rootProject.file('buildsystem/hts-dependencies.gradle')
 /**
  * Jetty服务器配置
  * */
-apply from: rootProject.file('buildsystem/run/hts-jetty.gradle')
+//apply from: rootProject.file('buildsystem/run/hts-jetty.gradle')
 
 /**
  * 简易服务器配置
@@ -29,15 +29,15 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    def spring = rootProject.ext.spring
-    compile spring.webMVC
-    compile spring.bootJpa
+//    def spring = rootProject.ext.spring
+//    compile spring.webMVC
+//    compile spring.bootJpa
 
     def libs = rootProject.ext.libs
-    compile libs.servlet
-    compile libs.servletApi
-    compile libs.hibernate
-    compile libs.hibernateValidator
+//    compile libs.servlet
+//    compile libs.servletApi
+//    compile libs.hibernate
+//    compile libs.hibernateValidator
     compile libs.jacksonDatabind
     compile libs.rxJava
 

@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MockBrokerBoot {
 
-    final static Logger logger              = LoggerFactory.getLogger(MqBroker.class);
+    final static Logger logger  = LoggerFactory.getLogger(MqBroker.class);
 
     public static void start(String path){
         try {
@@ -28,11 +28,12 @@ public class MockBrokerBoot {
              * */
             MqBroker.getInstance().start();
             MqBroker.getInstance().setConsumer(MqConsumer.Factory.getConsumer());
-            logger.info(" listen port : " + HadesRootConfig.sInstance.port);
 
-            new HadesHttpServer().bind(HadesRootConfig.sInstance.port)
-                    .scan("com.andcup.hades.hts.boot.mock")
-                    .start();
+            logger.info(" listen port : " + HadesRootConfig.sInstance.port);
+            /**
+             * 启动服务器.
+             * */
+            new HadesHttpServer().bind(HadesRootConfig.sInstance.port).scan("com.andcup.hades.hts.boot.mock").start();
 
             logger.info(" start server : " + HadesRootConfig.sInstance.port + " success. ");
 

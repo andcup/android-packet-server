@@ -79,6 +79,12 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
                         Message.State state =  execute(message);
                         message.setState(state);
                         logger.info(" end " + log + " state : " + state);
+                        /**
+                         * 下一个消费者
+                         * */
+                        if( null != flowConsumer && flowConsumer != MqConsumer.this){
+                            flowConsumer.consume(message);
+                        }
                     }
                     Thread.sleep(100);
                 }

@@ -1,5 +1,7 @@
 package com.andcup.hades.hts.core.model;
 
+import com.andcup.hades.hts.HadesRootConfig;
+import com.andcup.hades.hts.core.tools.MakeDirTool;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -71,19 +73,49 @@ public class Task {
      */
     @JsonProperty("feedback")
     public String feedback;
-    /**
-     * 当前消息产生的文件路径
-     */
-    @JsonProperty("localDir")
-    public String localDir;
 
-    public String getRule() {
-        return String.format(type == Task.TYPE_QUICK ? RULE_QUICK : RULE_COMPILE, id, sourceId, other);
+    public static class Helper{
+        /**
+         * 每个APK包的工作路径.
+         * */
+        private static String getWorkDir(Task task){
+            String dir = HadesRootConfig.sInstance.getApkTempDir() + task.name + "_" + task.md5;
+            MakeDirTool.mkdir(dir);
+            return  dir;
+        }
+
+        /**
+         * 每个APK包的下载路径.
+         * */
+        public static String getApkPath(Task task){
+            return getWorkDir(task) + "/" + task.name + ".apk";
+        }
+
+        /**
+         * 存储的manifest.xml
+         * */
+        public static String getAndroidManifest(Task task){
+            return getWorkDir(task) + "/" + "AndroidManifest.xml";
+        }
+
+        /**
+         * 下载存储文件.
+         * */
+        public static String getDownloadConfig(Task task){
+            return getWorkDir(task) + "/" + task.name + ".json";
+        }
+
+        /**
+         * 获取写入的文件.
+         * */
+        public static String getRule(Task task) {
+            return String.format(task.type == Task.TYPE_QUICK ? RULE_QUICK : RULE_COMPILE, task.id, task.sourceId, task.other);
+        }
     }
 
-    String RULE_QUICK = "yl_introduction_%s_sourceid_%s_other_%s";
+    static String RULE_QUICK = "yl_introduction_%s_sourceid_%s_other_%s";
 
-    String RULE_COMPILE = "<meta-data\n" +
+    static String RULE_COMPILE = "<meta-data\n" +
             "            android:name=\"introduction\"\n" +
             "            android:value=\"%s\" />\n" +
             "        <meta-data\n" +

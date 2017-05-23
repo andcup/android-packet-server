@@ -38,11 +38,10 @@ public enum Topic {
     DOWNLOADING(1, "下载..."),
     COMPRESS(2, "压缩..."),
     DECOMPILING(3, "反编译..."),
-    EDIT(4, "编辑..."),
+    COMPILING(4, "编译..."),
     SIGN(5, "签名..."),
-    COMPILING(6, "编译..."),
-    UPLOADING(7, "上传..."),
-    COMPLETE(8, "完成...");
+    UPLOADING(6, "上传..."),
+    COMPLETE(7, "完成...");
 
     int code;
     String name;

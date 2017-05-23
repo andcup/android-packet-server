@@ -1,6 +1,7 @@
 package com.andcup.hades.hts;
 
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
+import com.andcup.hades.hts.core.tools.MakeDirTool;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.File;
@@ -23,24 +24,12 @@ public class HadesRootConfig {
          * 转换配置文件.
          * */
         sInstance = JsonConvertTool.toJson(new File(path), HadesRootConfig.class);
-        /**
-         * 创建临时文件夹.
-         * */
-        new File(sInstance.temp).mkdir();
 
         /**
-         * 创建临时文件夹.
+         * 创建文件夹.
          * */
-        new File(sInstance.temp + sInstance.port).mkdir();
-        /**
-         * 创建APK文件夹.
-         * */
-        new File(sInstance.getApkTempDir()).mkdir();
-
-        /**
-         * 创建log文件夹.
-         * */
-        new File(sInstance.getLogTempDir()).mkdir();
+        MakeDirTool.mkdir(sInstance.getApkTempDir());
+        MakeDirTool.mkdir(sInstance.getLogTempDir());
     }
 
     /**远程服务器信息配置.*/
@@ -54,7 +43,7 @@ public class HadesRootConfig {
     String temp = "../temp/";
 
     public String getApkTempDir() {
-        return temp + port + "/apk/";
+        return temp + "/apk/" + port + "/";
     }
 
     public String getLogTempDir() {

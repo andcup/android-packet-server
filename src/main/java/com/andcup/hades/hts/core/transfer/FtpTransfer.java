@@ -17,11 +17,6 @@ public class FtpTransfer extends Transfer {
 
     FTPClient client;
 
-    long length ;
-    long tran;
-    long progress;
-
-
     public FtpTransfer(HadesRootConfig.Server server) {
         super(server);
         client = new FTPClient();
@@ -33,23 +28,16 @@ public class FtpTransfer extends Transfer {
     }
 
     public void dlFromRemote(String src, String dst) throws ConsumeException{
+        if( null == client || !client.isAuthenticated()){
+            login();
+        }
         try {
-            String fileName = changeFileWorkDir(src);
-            FTPFile[] fs = client.list();
-            for(FTPFile ff:fs){
-                if(ff.getName().equals(fileName)){
-                    File remoteFile = new File(dst);
-                    client.download(ff.getName(), remoteFile);
-                    break;
-                }
-            }
+            long size = client.fileSize(src);
+            client.download(src, new File(dst), new SimpleDataTransferListener("download ", server.url, src, dst, size));
         } catch (IOException e) {
             e.printStackTrace();
             throw new ConsumeException(e.getMessage());
         } catch (FTPAbortedException e) {
-            e.printStackTrace();
-            throw new ConsumeException(e.getMessage());
-        } catch (FTPListParseException e) {
             e.printStackTrace();
             throw new ConsumeException(e.getMessage());
         } catch (FTPException e) {
@@ -67,34 +55,14 @@ public class FtpTransfer extends Transfer {
     }
 
     public void upToRemote(String src, String dst) throws ConsumeException{
-        if( null == client){
+        if( null == client || !client.isAuthenticated()){
             login();
         }
 
         try {
             File file   = new File(src);
-            length = file.length();
-            client.upload(file, new FTPDataTransferListener() {
-                public void started() {
-                }
-
-                public void transferred(int i) {
-                    tran += i;
-                    int progress = (int) (tran * 100 / length);
-                    if( FtpTransfer.this.progress != progress){
-                        FtpTransfer.this.progress = progress;
-                    }
-                }
-
-                public void completed() {
-                }
-
-                public void aborted() {
-                }
-
-                public void failed() {
-                }
-            });
+            mkdir(dst);
+            client.upload(file, new SimpleDataTransferListener("upload ", server.url, src, dst, file.length()));
         } catch (IOException e) {
             e.printStackTrace();
             throw new ConsumeException("IOException=>" + e.getMessage());
@@ -110,6 +78,8 @@ public class FtpTransfer extends Transfer {
         } catch (FTPAbortedException e) {
             e.printStackTrace();
             throw new ConsumeException("FTPAbortedException=>" + e.getMessage());
+        } finally {
+            logout();
         }
     }
 

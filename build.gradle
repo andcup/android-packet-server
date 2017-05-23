@@ -28,6 +28,7 @@ apply from: rootProject.file('buildsystem/hts-dependencies.gradle')
 dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile "junit:junit:4.11"
 
 //    def spring = rootProject.ext.spring
 //    compile spring.webMVC

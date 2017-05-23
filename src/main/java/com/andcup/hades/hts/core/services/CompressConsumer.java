@@ -2,10 +2,14 @@ package com.andcup.hades.hts.core.services;
 
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
+import com.andcup.hades.hts.core.compress.ICompress;
 import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Amos
@@ -13,10 +17,30 @@ import com.andcup.hades.hts.core.model.Topic;
  * Description:
  */
 
-@Consumer(topic = Topic.COMPRESS, bind = Topic.DECOMPILING)
+@Consumer(topic = Topic.COMPRESS, bind = Topic.DECOMPILING, level = Consumer.Level.LEVEL_0)
 public class CompressConsumer extends MqConsumer {
     @Override
-    public Message.State execute(Message<Task> message) throws ConsumeException {
-        return Message.State.SUCCESS;
+    public Message.State doInBackground(Message<Task> message) throws ConsumeException {
+
+        if(message.getLastState() == Message.State.SUCCESS){
+            Task task = message.getData();
+            if(task.type == Task.TYPE_QUICK){
+                /**
+                 * 开始压缩.
+                 * */
+                File file = new File(Task.Helper.getRulePath(task));
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    throw new ConsumeException(e.getMessage());
+                }
+                return ICompress.ZT.pack(Task.Helper.getApkPath(task),
+                                  Task.Helper.getChannelPath(task),
+                                    file) ?
+                        Message.State.SUCCESS : Message.State.FAILED;
+            }
+        }
+
+        return message.getLastState();
     }
 }

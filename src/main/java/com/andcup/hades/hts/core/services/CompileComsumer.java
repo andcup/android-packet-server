@@ -13,10 +13,10 @@ import com.andcup.hades.hts.core.model.Topic;
  * Description:
  */
 
-@Consumer(topic = Topic.COMPILING, bind = Topic.SIGN)
+@Consumer(topic = Topic.COMPILING, bind = Topic.SIGN, level = Consumer.Level.LEVEL_1)
 public class CompileComsumer extends MqConsumer{
     @Override
-    public Message.State execute(Message<Task> message) throws ConsumeException {
+    public Message.State doInBackground(Message<Task> message) throws ConsumeException {
         return Message.State.SUCCESS;
     }
 }

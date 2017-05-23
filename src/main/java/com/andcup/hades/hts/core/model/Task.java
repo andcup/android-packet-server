@@ -4,6 +4,8 @@ import com.andcup.hades.hts.HadesRootConfig;
 import com.andcup.hades.hts.core.tools.MakeDirTool;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.File;
+
 /**
  * Created by Amos
  * Date : 2017/4/28 10:39.
@@ -12,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Task {
 
-    public static final int TYPE_QUICK = 1;
+    public static final int TYPE_QUICK   = 1;
     public static final int TYPE_COMPILE = 0;
 
     public Task(){}
@@ -46,8 +48,8 @@ public class Task {
     /**
      * 子包存储路径.
      */
-    @JsonProperty("channelDir")
-    public String channelDir;
+    @JsonProperty("channelPath")
+    public String channelPath;
     /**
      * 写入的数据.
      */
@@ -92,6 +94,17 @@ public class Task {
         }
 
         /**
+         * 获取渠道包路径.
+         * */
+        public static String getChannelPath(Task task){
+            return getWorkDir(task) + "/" + new File(task.channelPath).getName();
+        }
+
+        public static String getRulePath(Task task){
+            return getWorkDir(task) + "/" + getRule(task);
+        }
+
+        /**
          * 存储的manifest.xml
          * */
         public static String getAndroidManifest(Task task){
@@ -108,7 +121,7 @@ public class Task {
         /**
          * 获取写入的文件.
          * */
-        public static String getRule(Task task) {
+        private static String getRule(Task task) {
             return String.format(task.type == Task.TYPE_QUICK ? RULE_QUICK : RULE_COMPILE, task.id, task.sourceId, task.other);
         }
     }

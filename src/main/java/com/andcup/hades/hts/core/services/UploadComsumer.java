@@ -21,7 +21,7 @@ public class UploadComsumer extends MqConsumer {
     Message<Task> message;
     Transfer transfer;
 
-    public Message.State execute(Message<Task> message) {
+    public Message.State doInBackground(Message<Task> message) {
         return Message.State.SUCCESS;
     }
 

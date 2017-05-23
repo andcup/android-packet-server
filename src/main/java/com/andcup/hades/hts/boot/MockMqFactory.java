@@ -1,6 +1,7 @@
 package com.andcup.hades.hts.boot;
 
 import com.andcup.hades.hts.core.MqFactory;
+import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
@@ -28,6 +29,7 @@ public class MockMqFactory extends MqFactory<List<Task>>{
             message.setName(task.name);
             message.setState(Message.State.ING);
             message.setTopic(Topic.DOWNLOADING);
+            message.setLevel(task.type == Task.TYPE_QUICK ? Consumer.Level.LEVEL_0 : Consumer.Level.LEVEL_1);
 
             message.setData(task);
             messages.add(message);

@@ -16,7 +16,7 @@ import com.andcup.hades.hts.core.model.Topic;
 @Consumer(topic = Topic.COMPLETE, bind = Topic.COMPLETE)
 public class CompleteComsumer extends MqConsumer{
     @Override
-    public Message.State execute(Message<Task> message) throws ConsumeException {
+    public Message.State doInBackground(Message<Task> message) throws ConsumeException {
         return Message.State.SUCCESS;
     }
 }

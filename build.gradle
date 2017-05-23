@@ -49,4 +49,5 @@ dependencies {
     compile log.logbackClassic
 
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    compile 'org.zeroturnaround:zt-zip:1.9'
 }

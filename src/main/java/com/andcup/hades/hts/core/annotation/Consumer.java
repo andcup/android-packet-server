@@ -1,6 +1,7 @@
 package com.andcup.hades.hts.core.annotation;
 
 import com.andcup.hades.hts.core.model.Topic;
+import com.sun.deploy.security.ValidationState;
 
 import java.lang.annotation.*;
 
@@ -18,4 +19,13 @@ public @interface Consumer {
     Topic topic() default Topic.DOWNLOADING;
 
     Topic bind() default Topic.DOWNLOADING;
+
+    Level level() default Level.LEVEL_ALL;
+
+    enum Level{
+        LEVEL_ALL,
+        LEVEL_0,
+        LEVEL_1,
+        LEVEL_2,
+    }
 }

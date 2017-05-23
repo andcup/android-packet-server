@@ -43,7 +43,7 @@ public enum Topic {
     UPLOADING(6, "上传..."),
     COMPLETE(7, "完成...");
 
-    int code;
+    int    code;
     String name;
 
     Topic(int code, String name) {

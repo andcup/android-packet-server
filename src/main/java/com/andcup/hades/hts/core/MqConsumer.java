@@ -2,6 +2,7 @@ package com.andcup.hades.hts.core;
 
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.base.IMqConsumer;
+import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
 import org.slf4j.Logger;
@@ -20,17 +21,33 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
 
     MqConsumer flowConsumer;
     MqManager<Message<Task>>  mqManager = new MqManager();
-    ConsumerExecutorThread mqExecutorThread;
+        ConsumerExecutorThread mqExecutorThread;
 
     public MqConsumer(){
-        mqExecutorThread = new ConsumerExecutorThread();
-        mqExecutorThread.start();
-    }
+            mqExecutorThread = new ConsumerExecutorThread();
+            mqExecutorThread.start();
+        }
 
     public IMqConsumer flow(MqConsumer consumer) {
         this.flowConsumer = consumer;
         return this;
     }
+
+    @Override
+    public final Message.State execute(Message<Task> message) throws ConsumeException {
+        Consumer.Level level = getConsumer().level();
+        Consumer.Level msgLevel = message.getLevel();
+        if(level == Consumer.Level.LEVEL_ALL || (level == msgLevel)){
+            String log ="task name : " + message.getName() + " task id : " + message.getId() + " step :" + getConsumer().topic().getName();
+            logger.info(" start " + log);
+            Message.State state = doInBackground(message);
+            logger.info(" end " + log + " state : " + state);
+            return state;
+        }
+        return message.getLastState();
+    }
+
+    protected abstract Message.State doInBackground(Message<Task> message);
 
     @Override
     public void consume(List<Message<Task>> messages) {
@@ -41,6 +58,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
     }
 
     public final void consume(Message<Task> message){
+        message.setState(Message.State.ING);
         /**
          * 更新状态.
          * */
@@ -75,19 +93,15 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
                         /**
                          * 开始处理消息.
                          * */
-
                         String log ="task name : " + message.getName() + " task id : " + message.getId() + " step :" + getConsumer().topic().getName();
-                        Message.State state = Message.State.ING;
+                        Message.State state;
                         try{
-                            logger.info(" start " + log);
-                            message.setState(state);
                             state =  execute(message);
-                            message.setState(state);
-                            logger.info(" end " + log + " state : " + state);
+                            message.setLastState(state);
                         }catch (Exception e){
                             state = Message.State.FAILED;
-                            message.setState(state);
-                            logger.info(" end " + log + " state : " + state);
+                            message.setLastState(state);
+                            logger.error(" end " + log + " state : " + state + " error : " + e.getMessage());
                         }
                         /**
                          * 下一个消费者

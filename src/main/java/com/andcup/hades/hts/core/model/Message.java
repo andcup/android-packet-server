@@ -1,5 +1,6 @@
 package com.andcup.hades.hts.core.model;
 
+import com.andcup.hades.hts.core.annotation.Consumer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -24,10 +25,18 @@ public class Message<T extends Task> {
     long        updateTime;     // 更新时间
     @JsonProperty("state")
     State       state;          // 消息状态: NEW=新消息、ING=消费中、SUCCESS=消费成功、FAIL=消费失败
+    @JsonProperty("lastState")
+    State       lastState;      // 消息状态: NEW=新消息、ING=消费中、SUCCESS=消费成功、FAIL=消费失败
     @JsonProperty("msg")
     String      msg;            // 历史流转日志
     @JsonProperty("topic")
     Topic       topic;          // 消息主题
+
+    /**
+     * Consumer消费的消息级别.
+     * */
+    @JsonProperty("level")
+    Consumer.Level level = Consumer.Level.LEVEL_ALL;
 
     public boolean equals(Message<Task> target) {
         return getId() == target.getId() && target.task.id.equals(task.id);
@@ -37,12 +46,28 @@ public class Message<T extends Task> {
         this.topic = topic;
     }
 
+    public void setLevel(Consumer.Level level) {
+        this.level = level;
+    }
+
+    public Consumer.Level getLevel() {
+        return level;
+    }
+
     public Topic getTopic() {
         return topic;
     }
 
     public State getState() {
         return state;
+    }
+
+    public State getLastState() {
+        return lastState;
+    }
+
+    public void setLastState(State lastState) {
+        this.lastState = lastState;
     }
 
     public void setState(State state) {

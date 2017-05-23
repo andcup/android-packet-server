@@ -21,17 +21,16 @@ import org.slf4j.LoggerFactory;
 @Consumer(topic = Topic.DOWNLOADING, bind = Topic.COMPRESS)
 public class DownloadComsumer extends MqConsumer {
 
-    final Logger logger = LoggerFactory.getLogger(DownloadComsumer.class.getName());
-
-    Message<Task>   message;
     Transfer        transfer;
 
     public DownloadComsumer(){
         transfer = new FtpTransfer(HadesRootConfig.sInstance.remote.ftp);
     }
 
-    public Message.State execute(Message<Task> message) throws ConsumeException{
-        this.message = message;
+    /**
+     * 下载文件.
+     * */
+    public Message.State doInBackground(Message<Task> message) throws ConsumeException{
         transfer.dlFromRemote(message.getData().sourcePath, Task.Helper.getApkPath(message.getData()));
         return Message.State.SUCCESS;
     }

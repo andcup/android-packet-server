@@ -2,6 +2,7 @@ package com.andcup.hades.hts.core.base;
 
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
+import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.Topic;
@@ -43,7 +44,7 @@ public interface IMqConsumer{
         /**
          * 执行任务.
          * */
-        Message.State execute(Message<Task> message);
+        Message.State execute(Message<Task> message) throws ConsumeException;
         /**
          * 中断任务.
          * */

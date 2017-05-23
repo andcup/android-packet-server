@@ -30,14 +30,9 @@ public class DownloadComsumer extends MqConsumer {
         transfer = new FtpTransfer(HadesRootConfig.sInstance.remote.ftp);
     }
 
-    public Message.State execute(Message<Task> message) {
+    public Message.State execute(Message<Task> message) throws ConsumeException{
         this.message = message;
-        try{
-            transfer.dlFromRemote(message.getData().sourcePath, Task.Helper.getApkPath(message.getData()));
-        }catch (ConsumeException e){
-            logger.error(e.getMessage());
-            return Message.State.FAILED;
-        }
+        transfer.dlFromRemote(message.getData().sourcePath, Task.Helper.getApkPath(message.getData()));
         return Message.State.SUCCESS;
     }
 

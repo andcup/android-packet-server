@@ -22,6 +22,11 @@ public interface IMqManager<T> {
     void push(T message);
 
     /**
+     * 删除消息
+     * */
+    void remove(T message);
+
+    /**
      * 获取最新的消息并从队列中删除.
      * */
     T pop();

@@ -72,18 +72,33 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
                 while (true){
                     Message<Task> message = mqManager.pop();
                     if( null != message){
-                        //初始化MqMessage.
+                        /**
+                         * 开始处理消息.
+                         * */
+
                         String log ="task name : " + message.getName() + " task id : " + message.getId() + " step :" + getConsumer().topic().getName();
-                        logger.info(" start " + log);
-                        message.setState(Message.State.ING);
-                        Message.State state =  execute(message);
-                        message.setState(state);
-                        logger.info(" end " + log + " state : " + state);
+                        Message.State state = Message.State.ING;
+                        try{
+                            logger.info(" start " + log);
+                            message.setState(state);
+                            state =  execute(message);
+                            message.setState(state);
+                            logger.info(" end " + log + " state : " + state);
+                        }catch (Exception e){
+                            state = Message.State.FAILED;
+                            message.setState(state);
+                            logger.info(" end " + log + " state : " + state);
+                        }
                         /**
                          * 下一个消费者
                          * */
                         if( null != flowConsumer && flowConsumer != MqConsumer.this){
                             flowConsumer.consume(message);
+                        }else{
+                            /**
+                             * 消息消费完成.
+                             * */
+                            MqBroker.getInstance().complete(message);
                         }
                     }
                     Thread.sleep(100);

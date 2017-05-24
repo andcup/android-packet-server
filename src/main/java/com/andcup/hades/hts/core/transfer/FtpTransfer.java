@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.transfer;
 
-import com.andcup.hades.hts.HadesRootConfig;
+import com.andcup.hades.hts.HadesRootConfigure;
 import com.andcup.hades.hts.core.exception.ConsumeException;
 import it.sauronsoftware.ftp4j.*;
 
@@ -17,7 +17,7 @@ public class FtpTransfer extends Transfer {
 
     FTPClient client;
 
-    public FtpTransfer(HadesRootConfig.Server server) {
+    public FtpTransfer(HadesRootConfigure.Server server) {
         super(server);
         client = new FTPClient();
     }

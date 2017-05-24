@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.transfer;
 
-import com.andcup.hades.hts.HadesRootConfig;
+import com.andcup.hades.hts.HadesRootConfigure;
 
 /**
  * Created by Amos
@@ -12,8 +12,8 @@ public class FtpTransferTest {
     FtpTransfer transfer;
 
     public FtpTransferTest(){
-        HadesRootConfig.init("Broker.json");
-        transfer = new FtpTransfer(HadesRootConfig.sInstance.remote.ftp);
+        HadesRootConfigure.init("Broker.json");
+        transfer = new FtpTransfer(HadesRootConfigure.sInstance.remote.ftp);
     }
 
     @org.junit.Test

@@ -1,8 +1,7 @@
 package com.andcup.hades.hts.core.transfer;
 
-import com.andcup.hades.hts.HadesRootConfig;
+import com.andcup.hades.hts.HadesRootConfigure;
 import com.andcup.hades.hts.core.exception.ConsumeException;
-import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 
 /**
  * Created by Amos
@@ -11,9 +10,9 @@ import it.sauronsoftware.ftp4j.FTPDataTransferListener;
  */
 public abstract class Transfer {
 
-    protected HadesRootConfig.Server server;
+    protected HadesRootConfigure.Server server;
 
-    public Transfer(HadesRootConfig.Server server){
+    public Transfer(HadesRootConfigure.Server server){
         this.server = server;
     }
 

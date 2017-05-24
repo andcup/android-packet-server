@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.boot;
 
-import com.andcup.hades.hts.HadesRootConfig;
+import com.andcup.hades.hts.HadesRootConfigure;
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.server.HadesHttpServer;
@@ -22,20 +22,20 @@ public class MockBrokerBoot {
             /**
              * 配置文件初始化.
              * */
-            HadesRootConfig.init(path);
+            HadesRootConfigure.init(path);
             /**
              * 核心代码初始化.
              * */
             MqBroker.getInstance().start();
             MqBroker.getInstance().setConsumer(MqConsumer.Factory.getConsumer());
 
-            logger.info(" listen port : " + HadesRootConfig.sInstance.port);
+            logger.info(" listen port : " + HadesRootConfigure.sInstance.port);
             /**
              * 启动服务器.
              * */
-            new HadesHttpServer().bind(HadesRootConfig.sInstance.port).scan("com.andcup.hades.hts.boot.mock").start();
+            new HadesHttpServer().bind(HadesRootConfigure.sInstance.port).scan("com.andcup.hades.hts.boot.mock").start();
 
-            logger.info(" start server : " + HadesRootConfig.sInstance.port + " success. ");
+            logger.info(" start server : " + HadesRootConfigure.sInstance.port + " success. ");
 
             while (true){
                 Thread.sleep(60000);

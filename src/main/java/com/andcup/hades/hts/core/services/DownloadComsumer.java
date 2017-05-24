@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.services;
 
-import com.andcup.hades.hts.HadesRootConfig;
+import com.andcup.hades.hts.HadesRootConfigure;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.exception.ConsumeException;
@@ -9,8 +9,6 @@ import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.Topic;
 import com.andcup.hades.hts.core.transfer.FtpTransfer;
 import com.andcup.hades.hts.core.transfer.Transfer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by Amos
@@ -24,7 +22,7 @@ public class DownloadComsumer extends MqConsumer {
     Transfer        transfer;
 
     public DownloadComsumer(){
-        transfer = new FtpTransfer(HadesRootConfig.sInstance.remote.ftp);
+        transfer = new FtpTransfer(HadesRootConfigure.sInstance.remote.ftp);
     }
 
     /**

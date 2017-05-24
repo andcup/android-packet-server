@@ -16,5 +16,8 @@
       "url":"http://localhost:615/api/fileInfo"
     }
   },
+  "temp":"../temp/",
+  "apkTool":"tools/apkTool.jar",
+  "keyStorePath":"tools/youlong.json",
   "port":612
 }

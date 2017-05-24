@@ -35,9 +35,9 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
 
     @Override
     public final Message.State execute(Message<Task> message) throws ConsumeException {
-        Consumer.Level level = getConsumer().level();
-        Consumer.Level msgLevel = message.getLevel();
-        if(level == Consumer.Level.LEVEL_ALL || (level == msgLevel)){
+        int match = getConsumer().match();
+        int msgMatch = message.getMatch();
+        if(match == Integer.MAX_VALUE || (match == msgMatch)){
             String log ="task name : " + message.getName() + " task id : " + message.getId() + " step :" + getConsumer().topic().getName();
             logger.info(" start " + log);
             Message.State state = doInBackground(message);
@@ -97,12 +97,13 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
                         Message.State state;
                         try{
                             state =  execute(message);
-                            message.setLastState(state);
                         }catch (Exception e){
                             state = Message.State.FAILED;
-                            message.setLastState(state);
+                            message.setMsg(e.getMessage());
                             logger.error(" end " + log + " state : " + state + " error : " + e.getMessage());
                         }
+                        message.setState(state);
+                        message.setLastState(state);
                         /**
                          * 下一个消费者
                          * */

@@ -13,10 +13,10 @@ import com.andcup.hades.hts.core.model.Topic;
  * Description:
  */
 
-@Consumer(topic = Topic.DECOMPILING, bind = Topic.COMPILING, level = Consumer.Level.LEVEL_1)
+@Consumer(topic = Topic.DECOMPILING, bind = Topic.COMPILING, match = Task.TYPE_COMPILE)
 public class DeCompileComsumer extends MqConsumer{
     @Override
     public Message.State doInBackground(Message<Task> message) throws ConsumeException {
-        return Message.State.SUCCESS;
+        return message.getLastState();
     }
 }

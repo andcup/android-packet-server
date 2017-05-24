@@ -20,12 +20,6 @@ public @interface Consumer {
 
     Topic bind() default Topic.DOWNLOADING;
 
-    Level level() default Level.LEVEL_ALL;
+    int   match() default Integer.MAX_VALUE;
 
-    enum Level{
-        LEVEL_ALL,
-        LEVEL_0,
-        LEVEL_1,
-        LEVEL_2,
-    }
 }

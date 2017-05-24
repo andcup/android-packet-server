@@ -35,8 +35,8 @@ public class Message<T extends Task> {
     /**
      * Consumer消费的消息级别.
      * */
-    @JsonProperty("level")
-    Consumer.Level level = Consumer.Level.LEVEL_ALL;
+    @JsonProperty("match")
+    int match = Integer.MAX_VALUE;
 
     public boolean equals(Message<Task> target) {
         return getId() == target.getId() && target.task.id.equals(task.id);
@@ -46,12 +46,12 @@ public class Message<T extends Task> {
         this.topic = topic;
     }
 
-    public void setLevel(Consumer.Level level) {
-        this.level = level;
+    public void setMatch(int match) {
+        this.match = match;
     }
 
-    public Consumer.Level getLevel() {
-        return level;
+    public int getMatch() {
+        return match;
     }
 
     public Topic getTopic() {

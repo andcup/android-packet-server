@@ -29,7 +29,7 @@ public class MockMqFactory extends MqFactory<List<Task>>{
             message.setName(task.name);
             message.setState(Message.State.ING);
             message.setTopic(Topic.DOWNLOADING);
-            message.setLevel(task.type == Task.TYPE_QUICK ? Consumer.Level.LEVEL_0 : Consumer.Level.LEVEL_1);
+            message.setMatch(task.type);
 
             message.setData(task);
             messages.add(message);

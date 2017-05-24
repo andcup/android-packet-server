@@ -17,7 +17,7 @@ import java.io.IOException;
  * Description:
  */
 
-@Consumer(topic = Topic.COMPRESS, bind = Topic.DECOMPILING, level = Consumer.Level.LEVEL_0)
+@Consumer(topic = Topic.COMPRESS, bind = Topic.DECOMPILING, match = Task.TYPE_QUICK)
 public class CompressConsumer extends MqConsumer {
     @Override
     public Message.State doInBackground(Message<Task> message) throws ConsumeException {

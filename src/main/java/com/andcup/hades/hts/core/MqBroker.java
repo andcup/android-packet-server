@@ -47,7 +47,7 @@ public class MqBroker implements IMqBroker {
     }
 
     public void complete(Message<Task> msg) {
-        logger.info(" complete " + msg.getName() + " state : " + msg.getState());
+        logger.info(" complete " + msg.getName() + " state : " + msg.getState() + " msg = " + msg.getMsg());
         /**
          * 从运行队列删除.
          * */

@@ -12,7 +12,7 @@ import com.andcup.hades.hts.core.model.Topic;
  * Description:
  */
 
-@Consumer(topic = Topic.SIGN, bind = Topic.UPLOADING, level = Consumer.Level.LEVEL_1)
+@Consumer(topic = Topic.SIGN, bind = Topic.UPLOADING, match = Task.TYPE_COMPILE)
 public class ApkSignComsumer extends MqConsumer{
     @Override
     public Message.State doInBackground(Message<Task> message) {

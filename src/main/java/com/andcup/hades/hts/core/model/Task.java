@@ -169,6 +169,13 @@ public class Task {
         /**
          * 获取渠道包路径.
          * */
+        public static String getChannelUnsignedPath(Task task){
+            return getWorkDir(task) + "/" + new File(task.channelPath).getName().replace(".apk", "_unsigned.apk");
+        }
+
+        /**
+         * 获取渠道包路径.
+         * */
         public static String getChannelPath(Task task){
             return getWorkDir(task) + "/" + new File(task.channelPath).getName();
         }

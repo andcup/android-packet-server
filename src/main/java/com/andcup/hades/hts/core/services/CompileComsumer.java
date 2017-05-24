@@ -48,7 +48,7 @@ public class CompileComsumer extends MqConsumer {
                 Task.Helper.getApkDecodeAndroidManifestPath(task),
                 maps);
 
-        String channelApk = Task.Helper.getChannelPath(task);
+        String channelApk = Task.Helper.getChannelUnsignedPath(task);
         String decodePath = Task.Helper.getApkDecodePath(task);
         command = String.format(command,
                 HadesRootConfigure.sInstance.apktool,

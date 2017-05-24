@@ -18,14 +18,14 @@ import java.util.Arrays;
  */
 public class CommandRunner {
 
-    final Logger sLogger = LoggerFactory.getLogger(CommandRunner.class);
+    Logger logger;
     int outLineCount = 0;
     Message<Task> message;
     String tag ;
 
     public CommandRunner(String tag, Message<Task> message){
         this.message = message;
-        this.tag = tag;
+        logger = LoggerFactory.getLogger(tag);
     }
 
     public State exec(String command) {
@@ -36,12 +36,12 @@ public class CommandRunner {
                     if (outLineCount++ >= 20) {
                         return;
                     }
-                    sLogger.info(message.getName() + tag + " line : " + line + " out line count = " + outLineCount);
+                    logger.info(message.getName()  + " line : " + line + " out line count = " + outLineCount);
                 }
             });
             return State.SUCCESS;
         } catch (CommandExecutorException e) {
-            sLogger.info(message.getName() + tag + " error : " + e.getCause().getMessage());
+            logger.info(message.getName()  + " error : " + e.getCause().getMessage());
             return State.FAILED;
         }
     }

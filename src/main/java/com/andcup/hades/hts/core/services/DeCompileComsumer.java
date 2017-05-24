@@ -13,6 +13,8 @@ import com.thoughtworks.studios.javaexec.CommandExecutorException;
 import com.thoughtworks.studios.javaexec.LineHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 import java.util.Arrays;
 
 /**
@@ -22,7 +24,7 @@ import java.util.Arrays;
  */
 
 @Consumer(topic = Topic.DECOMPILING, bind = Topic.COMPILING, match = Task.TYPE_COMPILE)
-public class DeCompileComsumer extends MqConsumer{
+public class DeCompileComsumer extends MqConsumer {
 
     final Logger sLogger = LoggerFactory.getLogger(DeCompileComsumer.class);
 
@@ -31,30 +33,44 @@ public class DeCompileComsumer extends MqConsumer{
 
     @Override
     public State doInBackground(Message<Task> message) throws ConsumeException {
-
         Task task = message.getData();
-
+        if(Task.Global.hasDecompiled(task)){
+            return message.getLastState();
+        }
+        outLineCount = 0;
         String apk = Task.Helper.getApkPath(task);
         String decodePath = Task.Helper.getApkDecodePath(task);
         command = String.format(command,
                 HadesRootConfigure.sInstance.apktool,
                 apk,
                 decodePath
-                    );
+        );
         sLogger.info(command);
 
+        State state = decompile(message, command);
+        if(state == State.SUCCESS){
+            // Copy AndroidManifest
+            new File(Task.Helper.getAndroidManifest(task)).delete();
+            new File(Task.Helper.getApkDecodeAndroidManifestPath(task)).renameTo(new File(Task.Helper.getAndroidManifest(task)));
+            // Set Apk has decompile.
+            Task.Global.setHasDecompiled(task, true);
+        }
+        return state;
+    }
+
+    private State decompile(Message<Task> message, String command) {
         CommandExecutor executor = new CommandExecutor(Arrays.asList(command.split(" ")));
-        try{
+        try {
             executor.run(new LineHandler() {
                 public void handleLine(String line) {
-                    if(outLineCount ++ >= 20){
+                    if (outLineCount++ >= 20) {
                         return;
                     }
                     sLogger.info(message.getName() + " decode line : " + line + " out line count = " + outLineCount);
                 }
             });
             return State.SUCCESS;
-        }catch (CommandExecutorException e){
+        } catch (CommandExecutorException e) {
             sLogger.info(message.getName() + " decode error : " + e.getCause().getMessage());
             return State.FAILED;
         }

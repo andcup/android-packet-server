@@ -150,6 +150,13 @@ public class Task {
         }
 
         /**
+         * apk反编译路径.
+         * */
+        public static String getApkDecodeAndroidManifestPath(Task task){
+            return getApkDecodePath(task) + "/" + "AndroidManifest.xml";
+        }
+
+        /**
          * 获取apk下载、反编译配置文件路径.
          * */
         private static String getTaskConfigPath(Task task){

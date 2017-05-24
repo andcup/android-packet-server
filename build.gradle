@@ -1,4 +1,4 @@
-group 'com.bigdoing.web.aps'
+group 'com.andcup.hades.hts'
 version '1.0.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'war'

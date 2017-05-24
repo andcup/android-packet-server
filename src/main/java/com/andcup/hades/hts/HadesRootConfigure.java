@@ -56,7 +56,7 @@ public class HadesRootConfigure {
      * 临时存放路径配置.
      */
     @JsonProperty("temp")
-    public String temp = "../temp/";
+    public String temp = "../temp";
     @JsonProperty("keyStorePath")
     String keyStoreConfig = "../tools/youlong.json";
     /**
@@ -70,7 +70,7 @@ public class HadesRootConfigure {
     }
 
     public String getLogTempDir() {
-        return temp + port + "/log/";
+        return temp + "/log/" + port;
     }
 
     public static class Remote {

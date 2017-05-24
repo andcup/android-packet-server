@@ -36,19 +36,19 @@ public class FtpTransfer extends Transfer {
             client.download(src, new File(dst), new SimpleDataTransferListener("download ", server.url, src, dst, size));
         } catch (IOException e) {
             e.printStackTrace();
-            throw new ConsumeException(getServer() + " IOException=> " + e.getMessage());
+            throw new ConsumeException(getServer() +  src + " IOException=> " + e.getMessage());
         } catch (FTPAbortedException e) {
             e.printStackTrace();
-            throw new ConsumeException(getServer() + " FTPAbortedException=> " + e.getMessage());
+            throw new ConsumeException(getServer() + src + " FTPAbortedException=> " + e.getMessage());
         } catch (FTPException e) {
             e.printStackTrace();
-            throw new ConsumeException(getServer() + " FTPException=> " + e.getMessage());
+            throw new ConsumeException(getServer() + src + " FTPException=> " + e.getMessage());
         } catch (FTPDataTransferException e) {
             e.printStackTrace();
-            throw new ConsumeException(getServer() + " FTPDataTransferException=> " + e.getMessage());
+            throw new ConsumeException(getServer() + src + " FTPDataTransferException=> " + e.getMessage());
         } catch (FTPIllegalReplyException e) {
             e.printStackTrace();
-            throw new ConsumeException(getServer() + " FTPIllegalReplyException=> " + e.getMessage());
+            throw new ConsumeException(getServer() + src + " FTPIllegalReplyException=> " + e.getMessage());
         } finally {
             logout();
         }
@@ -65,26 +65,26 @@ public class FtpTransfer extends Transfer {
             client.upload(file, new SimpleDataTransferListener("upload ", server.url, src, dst, file.length()));
         } catch (IOException e) {
             e.printStackTrace();
-            throw new ConsumeException(getServer() +  " IOException=>" + e.getMessage());
+            throw new ConsumeException(getServer() + dst + " IOException=>" + e.getMessage());
         } catch (FTPIllegalReplyException e) {
             e.printStackTrace();
-            throw new ConsumeException(getServer() +  " FTPIllegalReplyException=>" + e.getMessage());
+            throw new ConsumeException(getServer() + dst +  " FTPIllegalReplyException=>" + e.getMessage());
         } catch (FTPException e) {
             e.printStackTrace();
-            throw new ConsumeException(getServer() +  " FTPException=>" +e.getMessage());
+            throw new ConsumeException(getServer() +  dst + " FTPException=>" +e.getMessage());
         } catch (FTPDataTransferException e) {
             e.printStackTrace();
-            throw new ConsumeException(getServer() +  " FTPDataTransferException=>" + e.getMessage());
+            throw new ConsumeException(getServer() +  dst + " FTPDataTransferException=>" + e.getMessage());
         } catch (FTPAbortedException e) {
             e.printStackTrace();
-            throw new ConsumeException(getServer() +  " FTPAbortedException=>" + e.getMessage());
+            throw new ConsumeException(getServer() + dst +  " FTPAbortedException=>" + e.getMessage());
         } finally {
             logout();
         }
     }
 
     private String getServer(){
-        return server.url;
+        return server.url + ":" + server.port;
     }
 
     private void mkdir(String dir){

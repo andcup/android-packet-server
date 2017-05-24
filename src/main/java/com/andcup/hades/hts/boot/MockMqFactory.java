@@ -3,6 +3,7 @@ package com.andcup.hades.hts.boot;
 import com.andcup.hades.hts.core.MqFactory;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.model.Message;
+import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
 
@@ -27,7 +28,7 @@ public class MockMqFactory extends MqFactory<List<Task>>{
             Message message = new Message();
             message.setId(task.groupId + task.id);
             message.setName(task.name);
-            message.setState(Message.State.ING);
+            message.setState(State.ING);
             message.setTopic(Topic.DOWNLOADING);
             message.setMatch(task.type);
 

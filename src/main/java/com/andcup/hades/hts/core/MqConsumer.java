@@ -3,6 +3,7 @@ package com.andcup.hades.hts.core;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.base.IMqConsumer;
 import com.andcup.hades.hts.core.exception.ConsumeException;
+import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
 import org.slf4j.Logger;
@@ -34,20 +35,26 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
     }
 
     @Override
-    public final Message.State execute(Message<Task> message) throws ConsumeException {
+    public final State execute(Message<Task> message) throws ConsumeException {
         int match = getConsumer().match();
         int msgMatch = message.getMatch();
+
+        State consumer = getConsumer().last();
+        State last = message.getLastState();
+
         if(match == Integer.MAX_VALUE || (match == msgMatch)){
-            String log ="task name : " + message.getName() + " task id : " + message.getId() + " step :" + getConsumer().topic().getName();
-            logger.info(" start " + log);
-            Message.State state = doInBackground(message);
-            logger.info(" end " + log + " state : " + state);
-            return state;
+            if(consumer == State.DEFAULT || (consumer == last)){
+                String log ="task name : " + message.getName() + " task id : " + message.getId() + " step :" + getConsumer().topic().getName();
+                logger.info(" start " + log);
+                State state = doInBackground(message);
+                logger.info(" end " + log + " state : " + state);
+                return state;
+            }
         }
         return message.getLastState();
     }
 
-    protected abstract Message.State doInBackground(Message<Task> message);
+    protected abstract State doInBackground(Message<Task> message);
 
     @Override
     public void consume(List<Message<Task>> messages) {
@@ -58,7 +65,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
     }
 
     public final void consume(Message<Task> message){
-        message.setState(Message.State.ING);
+        message.setState(State.ING);
         /**
          * 更新状态.
          * */
@@ -94,11 +101,11 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
                          * 开始处理消息.
                          * */
                         String log ="task name : " + message.getName() + " task id : " + message.getId() + " step :" + getConsumer().topic().getName();
-                        Message.State state;
+                        com.andcup.hades.hts.core.model.State state;
                         try{
                             state =  execute(message);
                         }catch (Exception e){
-                            state = Message.State.FAILED;
+                            state = com.andcup.hades.hts.core.model.State.FAILED;
                             message.setMsg(e.getMessage());
                             logger.error(" end " + log + " state : " + state + " error : " + e.getMessage());
                         }

@@ -1,8 +1,11 @@
 package com.andcup.hades.hts.core.annotation;
 
+import com.andcup.hades.hts.core.model.Message;
+import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Topic;
 import com.sun.deploy.security.ValidationState;
 
+import javax.smartcardio.CardTerminals;
 import java.lang.annotation.*;
 
 /**
@@ -16,10 +19,21 @@ import java.lang.annotation.*;
 @Inherited
 public @interface Consumer {
 
+    /**
+     * 消费类型。
+     * */
     Topic topic() default Topic.DOWNLOADING;
-
+    /**
+     * 绑定下一个消费类型。
+     * */
     Topic bind() default Topic.DOWNLOADING;
-
+    /**
+     * 消费指定的消息。
+     * */
     int   match() default Integer.MAX_VALUE;
+    /**
+     * 上一个消费者状态。
+     * */
+    State last() default State.SUCCESS;
 
 }

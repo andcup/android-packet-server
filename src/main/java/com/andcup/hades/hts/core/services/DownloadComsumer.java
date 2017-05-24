@@ -4,9 +4,11 @@ import com.andcup.hades.hts.HadesRootConfigure;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.exception.ConsumeException;
+import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.Topic;
+import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.transfer.FtpTransfer;
 import com.andcup.hades.hts.core.transfer.Transfer;
 
@@ -16,7 +18,7 @@ import com.andcup.hades.hts.core.transfer.Transfer;
  * Description:
  */
 
-@Consumer(topic = Topic.DOWNLOADING, bind = Topic.COMPRESS)
+@Consumer(topic = Topic.DOWNLOADING, bind = Topic.COMPRESS, last = State.DEFAULT)
 public class DownloadComsumer extends MqConsumer {
 
     Transfer        transfer;
@@ -28,9 +30,14 @@ public class DownloadComsumer extends MqConsumer {
     /**
      * 下载文件.
      * */
-    public Message.State doInBackground(Message<Task> message) throws ConsumeException{
-        transfer.dlFromRemote(message.getData().sourcePath, Task.Helper.getApkPath(message.getData()));
-        return Message.State.SUCCESS;
+    public State doInBackground(Message<Task> message) throws ConsumeException{
+
+        Task task = message.getData();
+        if(!Task.Global.hasDownloaded(task)){
+            transfer.dlFromRemote(message.getData().sourcePath, Task.Helper.getApkPath(message.getData()));
+            Task.Global.setHasDownloaded(task, true);
+        }
+        return State.SUCCESS;
     }
 
     public void abort(Message<Task> message) {

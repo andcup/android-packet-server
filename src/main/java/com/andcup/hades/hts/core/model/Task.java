@@ -1,6 +1,8 @@
 package com.andcup.hades.hts.core.model;
 
 import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.core.tools.FileUtils;
+import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.MakeDirTool;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -76,6 +78,52 @@ public class Task {
     @JsonProperty("feedback")
     public String feedback;
 
+    public static class Global{
+        /**
+         * 是否已经下载.
+         * */
+        @JsonProperty("isDownloaded")
+        int isDownloaded = 0;
+        /**
+         * 是否已经反编译.
+         * */
+        @JsonProperty("isDecompile")
+        int isDecompiled = 0;
+
+        private synchronized static void updateGlobal(Task task, boolean hasDownloaded, boolean hasDecompiled){
+            Global global = FileUtils.load(Helper.getTaskConfigPath(task), Global.class);
+            if( null == global){
+                global = new Global();
+            }
+            global.isDownloaded = hasDownloaded ? 1: 0;
+            global.isDecompiled = hasDecompiled ? 1: 0;
+            FileUtils.store(Helper.getTaskConfigPath(task), JsonConvertTool.toString(global));
+        }
+        public static void      setHasDownloaded(Task task, boolean hasDownloaded){
+            updateGlobal(task, hasDownloaded, hasDecompiled(task));
+        }
+
+        public static void      setHasDecompiled(Task task, boolean hadDecompiled){
+            updateGlobal(task, hasDownloaded(task), hadDecompiled);
+        }
+
+        public synchronized static boolean   hasDownloaded(Task task){
+            Global global = FileUtils.load(Helper.getTaskConfigPath(task), Global.class);
+            if( null == global){
+                return false;
+            }
+            return global.isDownloaded == 1 ? true: false;
+        }
+
+        public synchronized static boolean   hasDecompiled(Task task){
+            Global global = FileUtils.load(Helper.getTaskConfigPath(task), Global.class);
+            if( null == global){
+                return false;
+            }
+            return global.isDecompiled == 1 ? true: false;
+        }
+    }
+
     public static class Helper{
         /**
          * 每个APK包的工作路径.
@@ -91,6 +139,21 @@ public class Task {
          * */
         public static String getApkPath(Task task){
             return getWorkDir(task) + "/" + task.name + ".apk";
+        }
+
+        /**
+         * apk反编译路径.
+         * */
+        public static String getApkDecodePath(Task task){
+            String apk = getApkPath(task);
+            return apk.replace(".apk", "_decoded");
+        }
+
+        /**
+         * 获取apk下载、反编译配置文件路径.
+         * */
+        private static String getTaskConfigPath(Task task){
+            return getWorkDir(task) + "/" + task.name + ".json";
         }
 
         /**

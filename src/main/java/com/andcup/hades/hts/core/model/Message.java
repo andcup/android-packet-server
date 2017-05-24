@@ -1,6 +1,5 @@
 package com.andcup.hades.hts.core.model;
 
-import com.andcup.hades.hts.core.annotation.Consumer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -128,11 +127,5 @@ public class Message<T extends Task> {
 
     public String getMsg() {
         return msg;
-    }
-
-    public enum State{
-        ING,        //ING=消费中
-        SUCCESS,    //SUCCESS=消费成功
-        FAILED      //FAIL=消费失败
     }
 }

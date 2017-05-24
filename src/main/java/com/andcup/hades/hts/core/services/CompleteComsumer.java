@@ -4,6 +4,7 @@ import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.model.Message;
+import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
 
@@ -13,10 +14,10 @@ import com.andcup.hades.hts.core.model.Topic;
  * Description:
  */
 
-@Consumer(topic = Topic.COMPLETE, bind = Topic.COMPLETE)
+@Consumer(topic = Topic.COMPLETE, bind = Topic.COMPLETE, last = State.DEFAULT)
 public class CompleteComsumer extends MqConsumer{
     @Override
-    public Message.State doInBackground(Message<Task> message) throws ConsumeException {
+    public State doInBackground(Message<Task> message) throws ConsumeException {
         return message.getLastState();
     }
 }

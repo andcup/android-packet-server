@@ -1,5 +1,6 @@
 package com.andcup.hades.hts.core.services;
 
+import com.andcup.hades.hts.HadesRootConfigure;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.exception.ConsumeException;
@@ -7,6 +8,13 @@ import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
+import com.andcup.hades.hts.core.tools.AndroidManifestHelper;
+import com.andcup.hades.hts.core.tools.CommandRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Amos
@@ -15,9 +23,40 @@ import com.andcup.hades.hts.core.model.Topic;
  */
 
 @Consumer(topic = Topic.COMPILING, bind = Topic.SIGN, match = Task.TYPE_COMPILE)
-public class CompileComsumer extends MqConsumer{
+public class CompileComsumer extends MqConsumer {
+
+    final Logger sLogger = LoggerFactory.getLogger(CompileComsumer.class);
+
+    final String introduction = "introduction";
+    final String sourceid = "sourceid";
+    final String other = "other";
+
+    String command = "java -jar %s b %s -o %s";
+
+    Map<String, String> maps = new HashMap<String, String>();
+
     @Override
     public State doInBackground(Message<Task> message) throws ConsumeException {
-        return message.getLastState();
+
+        Task task = message.getData();
+        /**修改数据.*/
+        maps.put(introduction, task.introductionId);
+        maps.put(sourceid, task.sourceId);
+        maps.put(other, task.other);
+
+        AndroidManifestHelper.edit(Task.Helper.getAndroidManifest(task),
+                Task.Helper.getApkDecodeAndroidManifestPath(task),
+                maps);
+
+        String channelApk = Task.Helper.getChannelPath(task);
+        String decodePath = Task.Helper.getApkDecodePath(task);
+        command = String.format(command,
+                HadesRootConfigure.sInstance.apktool,
+                decodePath,
+                channelApk
+        );
+        sLogger.info(command);
+        /**开始编译.*/
+        return new CommandRunner(DeCompileComsumer.class.getName(), message).exec(command);
     }
 }

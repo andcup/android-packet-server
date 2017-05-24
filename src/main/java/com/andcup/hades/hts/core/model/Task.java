@@ -78,6 +78,9 @@ public class Task {
     @JsonProperty("feedback")
     public String feedback;
 
+    @JsonProperty("introduction")
+    public String introductionId;
+
     public static class Global{
         /**
          * 是否已经下载.

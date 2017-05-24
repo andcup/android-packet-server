@@ -8,14 +8,11 @@ import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
-import com.thoughtworks.studios.javaexec.CommandExecutor;
-import com.thoughtworks.studios.javaexec.CommandExecutorException;
-import com.thoughtworks.studios.javaexec.LineHandler;
+import com.andcup.hades.hts.core.tools.CommandRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
 
 /**
  * Created by Amos
@@ -29,7 +26,6 @@ public class DeCompileComsumer extends MqConsumer {
     final Logger sLogger = LoggerFactory.getLogger(DeCompileComsumer.class);
 
     String command = "java -jar %s d -f -s %s -o %s";
-    int outLineCount = 0;
 
     @Override
     public State doInBackground(Message<Task> message) throws ConsumeException {
@@ -37,7 +33,6 @@ public class DeCompileComsumer extends MqConsumer {
         if(Task.Global.hasDecompiled(task)){
             return message.getLastState();
         }
-        outLineCount = 0;
         String apk = Task.Helper.getApkPath(task);
         String decodePath = Task.Helper.getApkDecodePath(task);
         command = String.format(command,
@@ -47,7 +42,7 @@ public class DeCompileComsumer extends MqConsumer {
         );
         sLogger.info(command);
 
-        State state = decompile(message, command);
+        State state = new CommandRunner(DeCompileComsumer.class.getName(), message).exec(command);
         if(state == State.SUCCESS){
             // Copy AndroidManifest
             new File(Task.Helper.getAndroidManifest(task)).delete();
@@ -56,23 +51,5 @@ public class DeCompileComsumer extends MqConsumer {
             Task.Global.setHasDecompiled(task, true);
         }
         return state;
-    }
-
-    private State decompile(Message<Task> message, String command) {
-        CommandExecutor executor = new CommandExecutor(Arrays.asList(command.split(" ")));
-        try {
-            executor.run(new LineHandler() {
-                public void handleLine(String line) {
-                    if (outLineCount++ >= 20) {
-                        return;
-                    }
-                    sLogger.info(message.getName() + " decode line : " + line + " out line count = " + outLineCount);
-                }
-            });
-            return State.SUCCESS;
-        } catch (CommandExecutorException e) {
-            sLogger.info(message.getName() + " decode error : " + e.getCause().getMessage());
-            return State.FAILED;
-        }
     }
 }

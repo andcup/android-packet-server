@@ -31,18 +31,15 @@ class HadesAnnotationLoader {
             try {
                 Class  c = Class.forName(str);
                 if (c.isAnnotationPresent(Controller.class)) {
-
-                    RequestInvoker invoker = new RequestInvoker();
-                    invoker.controller = (Controller) c.getAnnotation(Controller.class);
-                    invoker.clazz = c;
-
                     Method[] methods = c.getMethods();
                     for(Method method : methods){
                         if(method.isAnnotationPresent(Request.class)){
+                            RequestInvoker invoker = new RequestInvoker();
+                            invoker.controller = (Controller) c.getAnnotation(Controller.class);
+                            invoker.clazz = c;
                             invoker.request = method.getAnnotation(Request.class);
                             invoker.path = invoker.controller.value() + invoker.request.value();
                             invoker.method = method;
-
                             if(!invoker.method.getReturnType().isAssignableFrom(HadesHttpResponse.class)){
                                 sLogger.error(" Request method : " + invoker.path + " return type must be HadesInvokeResponse");
                                 continue;

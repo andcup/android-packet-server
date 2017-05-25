@@ -30,9 +30,7 @@ public class DecompileConsumer extends MqConsumer {
     @Override
     public State doInBackground(Message<Task> message) throws ConsumeException {
         Task task = message.getData();
-        if(Task.Global.hasDecompiled(task)){
-            return message.getLastState();
-        }
+
         String apk = Task.Helper.getApkPath(task);
         String decodePath = Task.Helper.getApkDecodePath(task);
         String formatCommand = String.format(command,
@@ -40,8 +38,11 @@ public class DecompileConsumer extends MqConsumer {
                 apk,
                 decodePath
         );
+        if(Task.Global.hasDecompiled(task)){
+            sLogger.info(">>>>>>>> 已编译 : " + formatCommand + " <<<<<<<<<<<<<<<< ");
+            return message.getLastState();
+        }
         sLogger.info(formatCommand);
-
         State state = new CommandRunner(DecompileConsumer.class.getName(), message).exec(formatCommand);
         if(state == State.SUCCESS){
             // Copy AndroidManifest

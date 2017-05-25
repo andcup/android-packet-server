@@ -173,8 +173,13 @@ public class FtpTransfer extends Transfer {
     }
 
     private void logout(){
+        if( null == client){
+            return;
+        }
         try {
-            client.disconnect(true);
+            if(client.isConnected()){
+                client.disconnect(true);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (FTPIllegalReplyException e) {
@@ -182,14 +187,6 @@ public class FtpTransfer extends Transfer {
         } catch (FTPException e) {
             e.printStackTrace();
         }finally {
-            try {
-                client.abortCurrentDataTransfer(true);
-                client.abortCurrentConnectionAttempt();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (FTPIllegalReplyException e) {
-                e.printStackTrace();
-            }
             client = null;
         }
     }

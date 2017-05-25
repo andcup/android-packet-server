@@ -13,6 +13,7 @@ import com.andcup.hades.hts.server.bind.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,13 @@ import java.util.List;
 public class TaskController extends RequestController {
 
     final static Logger logger = LoggerFactory.getLogger(MqConsumer.class);
+
+    @Request(value = "/start0", method = Request.Method.POST)
+    public HadesHttpResponse single(@Body(Task.class) Task taskList){
+        List<Task> tasks = new ArrayList<>();
+        tasks.add(taskList);
+        return start(tasks);
+    }
 
     @Request(value = "/start", method = Request.Method.POST)
     public HadesHttpResponse start(@Body(Task.class) List<Task> taskList){

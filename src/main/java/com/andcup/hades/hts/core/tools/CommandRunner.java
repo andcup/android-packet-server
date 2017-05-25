@@ -36,7 +36,7 @@ public class CommandRunner {
                     if(line.contains("RuntimeException")){
                         throw new CommandExecutorException(line);
                     }
-                    if (outLineCount++ >= 20) {
+                    if (outLineCount++ >= 10) {
                         return;
                     }
                     logger.info(message.getName()  + " line : " + line + " out line count = " + outLineCount);

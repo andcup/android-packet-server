@@ -20,13 +20,9 @@ import com.andcup.hades.hts.core.transfer.Transfer;
 @Consumer(topic = Topic.UPLOADING, bind = Topic.GARBAGE_CLEAN)
 public class UploadConsumer extends MqConsumer {
 
-    Transfer transfer;
-
-    public UploadConsumer(){
-        transfer = new FtpTransfer(HadesRootConfigure.sInstance.remote.cdn);
-    }
     public State doInBackground(Message<Task> message) throws ConsumeException{
 
+        Transfer transfer = new FtpTransfer(HadesRootConfigure.sInstance.remote.cdn);
         Task task = message.getData();
         String signedApk = Task.Helper.getChannelPath(task);
         transfer.upToRemote(signedApk, task.channelPath);

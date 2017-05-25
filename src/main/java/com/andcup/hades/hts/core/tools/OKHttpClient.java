@@ -49,7 +49,6 @@ public class OKHttpClient {
             params = params.substring(0, sb.length() - 1);
         }
         RequestBody body = RequestBody.create(XWWW, params);
-        host += "?" + sb.toString();
         return call(body);
     }
 

@@ -61,18 +61,22 @@ class HadesHttpMappingHandler implements HttpHandler {
     }
 
     private HadesHttpResponse invoke(HttpExchange httpExchange) throws UnsupportedEncodingException, InvocationTargetException, IllegalAccessException {
+
         String path = httpExchange.getRequestURI().getPath();
-        sLogger.info(httpExchange.getRequestURI().toASCIIString());
-        Headers headers = httpExchange.getRequestHeaders();
         //找到对应的method.
         RequestInvoker invoker = methodMap.get(path);
         List<Object> values;
         try {
+            Headers headers = httpExchange.getRequestHeaders();
+            sLogger.info(httpExchange.getRequestURI().toASCIIString() );
             values = RequestParamAdapter.PARAM.adapter(invoker, httpExchange);
-            if(invoker.request.method() == Request.Method.POST && headers.get(CONTENT_TYPE).contains(CONTENT_TYPE_JSON)){
-                values = RequestParamAdapter.BODY_APP_JSON.adapter(invoker, httpExchange);
-            }else if(invoker.request.method() == Request.Method.POST && headers.get(CONTENT_TYPE).contains(CONTENT_TYPE_FORM_URL_ENCODED)){
-                values = RequestParamAdapter.XWWW.adapter(invoker, httpExchange);
+            if(invoker.request.method() == Request.Method.POST){
+                String contentType = headers.get(CONTENT_TYPE).get(0);
+                if(contentType.contains(CONTENT_TYPE_JSON)){
+                    values = RequestParamAdapter.BODY_APP_JSON.adapter(invoker, httpExchange);
+                }else if(contentType.contains(CONTENT_TYPE_FORM_URL_ENCODED)){
+                    values = RequestParamAdapter.XWWW.adapter(invoker, httpExchange);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,6 +87,6 @@ class HadesHttpMappingHandler implements HttpHandler {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
-        return new HadesHttpResponse();
+        return new HadesHttpResponse(-1, " commit task failed.");
     }
 }

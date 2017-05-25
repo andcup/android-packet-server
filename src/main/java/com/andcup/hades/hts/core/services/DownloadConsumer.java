@@ -21,17 +21,12 @@ import com.andcup.hades.hts.core.transfer.Transfer;
 @Consumer(topic = Topic.DOWNLOADING, bind = Topic.COMPRESS, last = State.DEFAULT)
 public class DownloadConsumer extends MqConsumer {
 
-    Transfer        transfer;
-
-    public DownloadConsumer(){
-        transfer = new FtpTransfer(HadesRootConfigure.sInstance.remote.ftp);
-    }
-
     /**
      * 下载文件.
      * */
     public State doInBackground(Message<Task> message) throws ConsumeException{
 
+        Transfer transfer = new FtpTransfer(HadesRootConfigure.sInstance.remote.ftp);
         Task task = message.getData();
         if(!Task.Global.hasDownloaded(task)){
             transfer.dlFromRemote(message.getData().sourcePath, Task.Helper.getApkPath(message.getData()));
@@ -41,8 +36,5 @@ public class DownloadConsumer extends MqConsumer {
     }
 
     public void abort(Message<Task> message) {
-        if( null != transfer){
-            transfer.abort();
-        }
     }
 }

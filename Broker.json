@@ -18,6 +18,6 @@
   },
   "temp":"../temp",
   "apkTool":"./tools/shakeapktool.jar",
-  "keyStorePath":"tools/youlong.json",
+  "keyStorePath":"./tools/youlong.json",
   "port":612
 }

@@ -33,6 +33,9 @@ public class CommandRunner {
         try {
             executor.run(new LineHandler() {
                 public void handleLine(String line) {
+                    if(line.contains("RuntimeException")){
+                        throw new CommandExecutorException(line);
+                    }
                     if (outLineCount++ >= 20) {
                         return;
                     }

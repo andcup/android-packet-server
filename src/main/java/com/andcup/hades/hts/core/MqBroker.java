@@ -96,7 +96,9 @@ public class MqBroker implements IMqBroker {
          * */
         executor.execute(new Runnable() {
             public void run() {
+                while (true){
 
+                }
             }
         });
     }

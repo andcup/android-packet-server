@@ -2,6 +2,7 @@ package com.andcup.hades.hts.server;
 
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.server.bind.Request;
+import com.andcup.hades.hts.server.utils.IOUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -61,7 +62,7 @@ class HadesHttpMappingHandler implements HttpHandler {
 
     private HadesHttpResponse invoke(HttpExchange httpExchange) throws UnsupportedEncodingException, InvocationTargetException, IllegalAccessException {
         String path = httpExchange.getRequestURI().getPath();
-        sLogger.info(path);
+        sLogger.info(httpExchange.getRequestURI().toASCIIString());
         Headers headers = httpExchange.getRequestHeaders();
         //找到对应的method.
         RequestInvoker invoker = methodMap.get(path);

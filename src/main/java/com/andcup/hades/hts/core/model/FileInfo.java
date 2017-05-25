@@ -9,26 +9,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class FileInfo {
 
-    public final int DOWNLOAD_WAIT   = 0;   /**文件等待下载.*/
-    public final int DOWNLOAD_START  = 1;   /**文件正在下载.*/
-    public final int DOWNLOAD_FINISH = 2;   /**文件下载完成.*/
     /**
      * 母包路径. 相对于FTP根目录.
      */
-    @JsonProperty("sourcePath")
-    public String  sourcePath;
+    @JsonProperty("filesize")
+    public long  fileSize;
     /**
      * 文件最后修改时间. 判断文件是否已经修改.
      */
-    @JsonProperty("lastEditTime")
+    @JsonProperty("updateTime")
     public long    lastEditTime;
     /**
      * 文件大小. 判断文件是否已经修改.
      */
-    @JsonProperty("fileSize")
-    public long     fileSize;
-    @JsonProperty("downloaded")
-    public int      downloaded = DOWNLOAD_WAIT;
-    @JsonProperty("hasCompile")
-    public boolean  hasCompile = false;
+    @JsonProperty("md5")
+    public String     md5;
 }

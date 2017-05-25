@@ -78,9 +78,6 @@ public class Task {
     @JsonProperty("feedback")
     public String feedback;
 
-    @JsonProperty("introduction")
-    public String introductionId;
-
     public static class Global{
         /**
          * 是否已经下载.
@@ -138,6 +135,15 @@ public class Task {
         }
 
         /**
+         * 每个APK包的临时工作路径. 当这个APK结束时， 可清除的文件路径.
+         * */
+        private static String getWorkTempDir(Task task){
+            String dir = HadesRootConfigure.sInstance.getApkTempDir() + task.name + "_" + task.md5;
+            MakeDirTool.mkdir(dir);
+            return  dir;
+        }
+
+        /**
          * 每个APK包的下载路径.
          * */
         public static String getApkPath(Task task){
@@ -170,18 +176,21 @@ public class Task {
          * 获取渠道包路径.
          * */
         public static String getChannelUnsignedPath(Task task){
-            return getWorkDir(task) + "/" + new File(task.channelPath).getName().replace(".apk", "_unsigned.apk");
+            return getWorkDir(task) + "/temp/" + new File(task.channelPath).getName().replace(".apk", "_unsigned.apk");
         }
 
         /**
          * 获取渠道包路径.
          * */
         public static String getChannelPath(Task task){
-            return getWorkDir(task) + "/" + new File(task.channelPath).getName();
+            return getWorkDir(task) + "/temp/" + new File(task.channelPath).getName();
         }
 
+        /**
+         * 规则文件路径.
+         * */
         public static String getRulePath(Task task){
-            return getWorkDir(task) + "/" + getRule(task);
+            return getWorkDir(task) + "/temp/" + getRule(task);
         }
 
         /**

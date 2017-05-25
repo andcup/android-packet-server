@@ -41,7 +41,8 @@ public enum Topic {
     COMPILING(4, "编译..."),
     SIGN(5, "签名..."),
     UPLOADING(6, "上传..."),
-    COMPLETE(7, "完成...");
+    COMPLETE(7, "完成..."),
+    GARBAGE_CLEAN(8, "清理临时数据...");
 
     int    code;
     String name;

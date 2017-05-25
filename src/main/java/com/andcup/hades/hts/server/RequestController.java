@@ -6,4 +6,5 @@ package com.andcup.hades.hts.server;
  * Description:
  */
 public abstract class RequestController {
+
 }

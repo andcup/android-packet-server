@@ -27,6 +27,10 @@ public class HadesRootConfigure {
          * 初始化keystore.
          * */
         sInstance.keyStore = JsonConvertTool.toJson(new File(sInstance.keyStoreConfig), KeyStore.class);
+
+        sInstance.keyStore.path = sInstance.keyStoreConfig.replace(
+                new File(sInstance.keyStoreConfig).getName(),
+                sInstance.keyStore.path);
         /**
          * 创建文件夹.
          * */

@@ -21,11 +21,11 @@ import java.io.File;
  */
 
 @Consumer(topic = Topic.DECOMPILING, bind = Topic.COMPILING, match = Task.TYPE_COMPILE)
-public class DeCompileComsumer extends MqConsumer {
+public class DecompileConsumer extends MqConsumer {
 
-    final Logger sLogger = LoggerFactory.getLogger(DeCompileComsumer.class);
+    final Logger sLogger = LoggerFactory.getLogger(DecompileConsumer.class);
 
-    String command = "java -jar %s d -f -s %s -o %s";
+    final String command = "java -jar %s d -f -s %s -o %s";
 
     @Override
     public State doInBackground(Message<Task> message) throws ConsumeException {
@@ -35,14 +35,14 @@ public class DeCompileComsumer extends MqConsumer {
         }
         String apk = Task.Helper.getApkPath(task);
         String decodePath = Task.Helper.getApkDecodePath(task);
-        command = String.format(command,
+        String formatCommand = String.format(command,
                 HadesRootConfigure.sInstance.apktool,
                 apk,
                 decodePath
         );
-        sLogger.info(command);
+        sLogger.info(formatCommand);
 
-        State state = new CommandRunner(DeCompileComsumer.class.getName(), message).exec(command);
+        State state = new CommandRunner(DecompileConsumer.class.getName(), message).exec(formatCommand);
         if(state == State.SUCCESS){
             // Copy AndroidManifest
             new File(Task.Helper.getAndroidManifest(task)).delete();

@@ -23,15 +23,15 @@ import java.util.Map;
  */
 
 @Consumer(topic = Topic.COMPILING, bind = Topic.SIGN, match = Task.TYPE_COMPILE)
-public class CompileComsumer extends MqConsumer {
+public class CompileConsumer extends MqConsumer {
 
-    final Logger sLogger = LoggerFactory.getLogger(CompileComsumer.class);
+    final Logger sLogger = LoggerFactory.getLogger(CompileConsumer.class);
 
     final String introduction = "introduction";
     final String sourceid = "sourceid";
     final String other = "other";
 
-    String command = "java -jar %s b %s -o %s";
+    final String command = "java -jar %s b %s -o %s";
 
     Map<String, String> maps = new HashMap<String, String>();
 
@@ -40,7 +40,7 @@ public class CompileComsumer extends MqConsumer {
 
         Task task = message.getData();
         /**修改数据.*/
-        maps.put(introduction, task.introductionId);
+        maps.put(introduction, task.id);
         maps.put(sourceid, task.sourceId);
         maps.put(other, task.other);
 
@@ -50,13 +50,13 @@ public class CompileComsumer extends MqConsumer {
 
         String channelApk = Task.Helper.getChannelUnsignedPath(task);
         String decodePath = Task.Helper.getApkDecodePath(task);
-        command = String.format(command,
+        String formatCommand = String.format(command,
                 HadesRootConfigure.sInstance.apktool,
                 decodePath,
                 channelApk
         );
-        sLogger.info(command);
+        sLogger.info(formatCommand);
         /**开始编译.*/
-        return new CommandRunner(DeCompileComsumer.class.getName(), message).exec(command);
+        return new CommandRunner(DecompileConsumer.class.getName(), message).exec(formatCommand);
     }
 }

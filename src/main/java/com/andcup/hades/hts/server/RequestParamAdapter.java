@@ -6,6 +6,8 @@ import com.andcup.hades.hts.server.bind.Var;
 import com.andcup.hades.hts.server.utils.IOUtils;
 import com.fasterxml.jackson.databind.JavaType;
 import com.sun.net.httpserver.HttpExchange;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -21,6 +23,8 @@ import java.util.Map;
  * Description:
  */
 interface RequestParamAdapter {
+
+    Logger logger = LoggerFactory.getLogger(RequestParamAdapter.class.getName());
 
     List<Object> adapter(RequestInvoker invoker, HttpExchange httpExchange) throws Exception;
 
@@ -55,7 +59,9 @@ interface RequestParamAdapter {
                         parameters[i].getClass().isAssignableFrom(List.class)){
                     Body body = parameters[i].getAnnotation(Body.class);
                     JavaType type = JsonConvertTool.getCollectionType(ArrayList.class, body.value());
-                    object = JsonConvertTool.toJson(IOUtils.convertStreamToString(httpExchange.getRequestBody()), type);
+                    String bodyValue = IOUtils.convertStreamToString(httpExchange.getRequestBody());
+                    logger.info(bodyValue);
+                    object = JsonConvertTool.toJson(bodyValue, type);
                 }else{
                     object = JsonConvertTool.toJson(IOUtils.convertStreamToString(httpExchange.getRequestBody()), clazz);
                 }
@@ -77,6 +83,7 @@ interface RequestParamAdapter {
                 for(int i=0; i< parameters.length; i++){
                     Var var = parameters[i].getAnnotation(Var.class);
                     if( null != var){
+                        logger.info("key = " + var.value() + " value = " + params.get(var.value()));
                         ParamFiller.fill(listValue, parameters[i].getType(), params.get(var.value()));
                     }
                 }

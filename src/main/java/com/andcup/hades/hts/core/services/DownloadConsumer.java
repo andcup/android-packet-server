@@ -19,11 +19,11 @@ import com.andcup.hades.hts.core.transfer.Transfer;
  */
 
 @Consumer(topic = Topic.DOWNLOADING, bind = Topic.COMPRESS, last = State.DEFAULT)
-public class DownloadComsumer extends MqConsumer {
+public class DownloadConsumer extends MqConsumer {
 
     Transfer        transfer;
 
-    public DownloadComsumer(){
+    public DownloadConsumer(){
         transfer = new FtpTransfer(HadesRootConfigure.sInstance.remote.ftp);
     }
 

@@ -80,7 +80,7 @@ class HadesHttpMappingHandler implements HttpHandler {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new HadesHttpResponse(-1, e.getMessage());
+            return new HadesHttpResponse(-1, " request param error.");
         }
         try {
             return (HadesHttpResponse) invoker.method.invoke(invoker.clazz.newInstance(), values.toArray());

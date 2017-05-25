@@ -1,11 +1,8 @@
 package com.andcup.hades.hts.core.annotation;
 
-import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Topic;
-import com.sun.deploy.security.ValidationState;
 
-import javax.smartcardio.CardTerminals;
 import java.lang.annotation.*;
 
 /**

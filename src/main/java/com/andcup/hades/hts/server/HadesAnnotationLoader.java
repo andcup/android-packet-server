@@ -2,16 +2,13 @@ package com.andcup.hades.hts.server;
 
 import com.andcup.hades.hts.server.bind.Controller;
 import com.andcup.hades.hts.server.bind.Request;
+import com.andcup.hades.hts.server.utils.ScanForClasses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Amos
@@ -24,8 +21,9 @@ class HadesAnnotationLoader {
 
     public Map<String, RequestInvoker> loadMethod(String packageName)  {
 
-        Map<String, RequestInvoker> methodMap = new HashMap<>();
+        sLogger.info(packageName);
 
+        Map<String, RequestInvoker> methodMap = new HashMap<>();
         List<String> classList = getClassByPackageName(packageName);
         for (String str : classList) {
             try {
@@ -53,6 +51,7 @@ class HadesAnnotationLoader {
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+                sLogger.error(" init consumer class error : " + e.getMessage());
             }
 
         }
@@ -63,38 +62,14 @@ class HadesAnnotationLoader {
         String path = packageName.replace(".", "/") + "/";
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         URL url = loader.getResource(path);
-
         if( null != url ){
             String type = url.getProtocol();
-            if (type.equals("file")) {
-                return getClassNameByFile(url.getPath(), null, true);
+            if(type.equals("file")){
+                return ScanForClasses.getClassNameByFile(url.getPath(), null, true);
+            }else if(type.equals("jar")){
+                return ScanForClasses.getClassNameByJar(url.getPath(), true);
             }
         }
         return null;
-    }
-
-    private static List<String> getClassNameByFile(String filePath, List<String> className, boolean childPackage) {
-        List<String> myClassName = new ArrayList<String>();
-        File file = new File(filePath);
-        File[] childFiles = file.listFiles();
-        for (File childFile : childFiles) {
-            if (childFile.isDirectory()) {
-                if (childPackage) {
-                    myClassName.addAll(getClassNameByFile(childFile.getPath(), myClassName, childPackage));
-                }
-            } else {
-                String childFilePath = childFile.getPath();
-                if (childFilePath.endsWith(".class")) {
-                    childFilePath = childFilePath.substring(childFilePath.indexOf("\\classes") + 9, childFilePath.lastIndexOf("."));
-                    childFilePath = childFilePath.replace("\\", ".");
-                    if(childFilePath.startsWith("main.")){
-                        childFilePath = childFilePath.substring("main.".length());
-                    }
-                    myClassName.add(childFilePath);
-                }
-            }
-        }
-
-        return myClassName;
     }
 }

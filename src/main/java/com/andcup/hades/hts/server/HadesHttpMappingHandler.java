@@ -65,11 +65,10 @@ class HadesHttpMappingHandler implements HttpHandler {
         String path = httpExchange.getRequestURI().getPath();
         //找到对应的method.
         RequestInvoker invoker = methodMap.get(path);
-        List<Object> values;
         try {
+            List<Object> values = null;
             Headers headers = httpExchange.getRequestHeaders();
             sLogger.info(httpExchange.getRequestURI().toASCIIString() );
-            values = RequestParamAdapter.PARAM.adapter(invoker, httpExchange);
             if(invoker.request.method() == Request.Method.POST){
                 String contentType = headers.get(CONTENT_TYPE).get(0);
                 if(contentType.contains(CONTENT_TYPE_JSON)){
@@ -77,16 +76,13 @@ class HadesHttpMappingHandler implements HttpHandler {
                 }else if(contentType.contains(CONTENT_TYPE_FORM_URL_ENCODED)){
                     values = RequestParamAdapter.XWWW.adapter(invoker, httpExchange);
                 }
+            }else{
+                values = RequestParamAdapter.PARAM.adapter(invoker, httpExchange);
             }
+            return (HadesHttpResponse) invoker.method.invoke(invoker.clazz.newInstance(), values.toArray());
         } catch (Exception e) {
             e.printStackTrace();
-            return new HadesHttpResponse(-1, " request param error.");
+            return new HadesHttpResponse(-1, " request param error." + e.getMessage());
         }
-        try {
-            return (HadesHttpResponse) invoker.method.invoke(invoker.clazz.newInstance(), values.toArray());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
-        return new HadesHttpResponse(-1, " commit task failed.");
     }
 }

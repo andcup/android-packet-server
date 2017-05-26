@@ -1,2 +1,4 @@
+
+include('hades-command')
 rootProject.name = 'hades-task-server'
 

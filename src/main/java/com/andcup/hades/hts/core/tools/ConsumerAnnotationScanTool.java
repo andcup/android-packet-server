@@ -1,6 +1,7 @@
 package com.andcup.hades.hts.core.tools;
 
 import com.andcup.hades.hts.core.annotation.Consumer;
+import com.andcup.hades.hts.server.utils.ScanForClasses;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -18,8 +19,6 @@ import java.util.List;
 public class ConsumerAnnotationScanTool {
 
     public static List<Class> getClazzFromPackage( String packageName ) {
-
-        List<Class> clazz = new ArrayList<Class>();
         // 是否循环搜索子包
         boolean recursive = true;
         // 包名对应的路径名称
@@ -29,23 +28,37 @@ public class ConsumerAnnotationScanTool {
             dirs = Thread.currentThread().getContextClassLoader().getResources(packageDirName);
             while (dirs.hasMoreElements()) {
                 URL url = dirs.nextElement();
-
                 String protocol = url.getProtocol();
-
+                List<String> classes = null;
                 if ("file".equals(protocol)) {
-                    System.out.println("file类型的扫描");
                     String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
-                    findClassInPackageByFile(packageName, filePath, recursive, clazz);
+                    classes = ScanForClasses.getClassNameByFile(url.getPath(), null, true);
                 } else if ("jar".equals(protocol)) {
-                    System.out.println("jar类型的扫描");
+                    classes = ScanForClasses.getClassNameByJar(url.getPath(), true);
                 }
+                return loadClass(classes);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return clazz;
+        return null;
+    }
+
+    private static List<Class> loadClass(List<String> classList){
+        List<Class> classes = new ArrayList<>();
+        for(String clazz : classList){
+            try {
+                Class<?> foundClazz = Thread.currentThread().getContextClassLoader().loadClass(clazz);
+                if(foundClazz.isAnnotationPresent(Consumer.class)){
+                    classes.add(foundClazz);
+                }
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return classes;
     }
 
     private static void findClassInPackageByFile(String packageName, String filePath, final boolean recursive, List<Class> clazzs) {

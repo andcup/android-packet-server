@@ -3,11 +3,10 @@ package com.andcup.hades.hts.core.tools;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import com.thoughtworks.studios.javaexec.CommandExecutor;
 import com.thoughtworks.studios.javaexec.CommandExecutorException;
 import com.thoughtworks.studios.javaexec.LineHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
@@ -18,14 +17,13 @@ import java.util.Arrays;
  */
 public class CommandRunner {
 
-    Logger logger;
     int outLineCount = 0;
     Message<Task> message;
-    String tag ;
+    Class<?> tag ;
 
-    public CommandRunner(String tag, Message<Task> message){
+    public CommandRunner(Class<?> tag, Message<Task> message){
         this.message = message;
-        logger = LoggerFactory.getLogger(tag);
+        this.tag = tag;
     }
 
     public State exec(String command) {
@@ -39,12 +37,12 @@ public class CommandRunner {
                     if (outLineCount++ >= 10) {
                         return;
                     }
-                    logger.info(message.getName()  + " line : " + line + " out line count = " + outLineCount);
+                    LogUtils.info(tag, message.getName()  + " line : " + line + " out line count = " + outLineCount);
                 }
             });
             return State.SUCCESS;
         } catch (CommandExecutorException e) {
-            logger.info(message.getName()  + " error : " + e.getCause().getMessage());
+            LogUtils.info(tag, message.getName()  + " error : " + e.getCause().getMessage());
             return State.FAILED;
         }
     }

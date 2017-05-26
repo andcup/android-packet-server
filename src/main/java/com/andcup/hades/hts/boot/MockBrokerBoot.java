@@ -4,6 +4,7 @@ import com.andcup.hades.hts.HadesRootConfigure;
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.server.HadesHttpServer;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,34 +15,27 @@ import org.slf4j.LoggerFactory;
  */
 public class MockBrokerBoot {
 
-    final static Logger logger  = LoggerFactory.getLogger(MqBroker.class);
-
-    public static void start(String path){
-        logger.info(" start config file : " + path);
+    public static void start(String path, String port){
+        LogUtils.info(MockBrokerBoot.class, " start config file : " + path + " port = " + port);
         /**
          * 配置文件初始化.
          * */
         HadesRootConfigure.init(path);
+
+        HadesRootConfigure.sInstance.port = Integer.valueOf(port);
+
         /**
          * 核心代码初始化.
          * */
         MqBroker.getInstance().start();
         MqBroker.getInstance().setConsumer(MqConsumer.Factory.getConsumer());
 
-        logger.info(" listen port : " + HadesRootConfigure.sInstance.port);
+        LogUtils.info(MockBrokerBoot.class," listen port : " + HadesRootConfigure.sInstance.port);
         /**
          * 启动服务器.
          * */
         new HadesHttpServer().bind(HadesRootConfigure.sInstance.port).scan("com.andcup.hades.hts.boot.mock").start();
 
-        logger.info(" start server : " + HadesRootConfigure.sInstance.port + " success. ");
-//        try {
-//
-//            while (true){
-//                Thread.sleep(60000);
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        LogUtils.info(MockBrokerBoot.class," start server : " + HadesRootConfigure.sInstance.port + " success. ");
     }
 }

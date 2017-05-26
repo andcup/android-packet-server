@@ -1,7 +1,5 @@
 package com.andcup.hades.hts.core.tools;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.zeroturnaround.zip.ZipBreakException;
 import org.zeroturnaround.zip.ZipInfoCallback;
 import org.zeroturnaround.zip.ZipUtil;
@@ -17,8 +15,6 @@ import java.util.zip.ZipEntry;
  * Created by Amos on 2016/8/4.
  */
 public class MetaInfMatcher {
-
-    Logger logger = LoggerFactory.getLogger(MetaInfMatcher.class.getName());
 
      static String SF  = "SF";
     static String RSA = "RSA";

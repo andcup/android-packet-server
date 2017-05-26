@@ -3,6 +3,7 @@ package com.andcup.hades.hts.server.test;
 import com.andcup.hades.hts.server.bind.Controller;
 import com.andcup.hades.hts.server.bind.Request;
 import com.andcup.hades.hts.server.bind.Var;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,10 +16,8 @@ import org.slf4j.LoggerFactory;
 @Controller("/api/user")
 public class LoginController  {
 
-    final static Logger sLogger = LoggerFactory.getLogger(LoginController.class);
-
     @Request(value = "/login",  method = Request.Method.POST)
     public void login(@Var("username") String username, @Var("password") String password){
-        sLogger.info("username = " + username + " password = " + password);
+        LogUtils.info(LoginController.class, "username = " + username + " password = " + password);
     }
 }

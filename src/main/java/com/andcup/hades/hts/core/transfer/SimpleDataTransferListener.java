@@ -1,5 +1,6 @@
 package com.andcup.hades.hts.core.transfer;
 
+import com.andcup.hades.hts.server.utils.LogUtils;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +11,6 @@ import org.slf4j.LoggerFactory;
  * Description:
  */
 public class SimpleDataTransferListener implements FTPDataTransferListener {
-
-    static  final Logger sLogger = LoggerFactory.getLogger(SimpleDataTransferListener.class.getName());
 
     String remote;
     String src;
@@ -32,7 +31,7 @@ public class SimpleDataTransferListener implements FTPDataTransferListener {
 
     @Override
     public void started() {
-        sLogger.info(tag + " from " + remote + " src = " + src + " dst = " + dst + " started!");
+        LogUtils.info(SimpleDataTransferListener.class, tag + " from " + remote + " src = " + src + " dst = " + dst + " started!");
     }
 
     @Override
@@ -41,22 +40,22 @@ public class SimpleDataTransferListener implements FTPDataTransferListener {
         int progress = (int) (transferred * 100 / length);
         if( SimpleDataTransferListener.this.progress != progress){
             SimpleDataTransferListener.this.progress = progress;
-            sLogger.info(tag + " from " + remote + " src = " + src + " dst = " + dst + " progress = " + progress + "%");
+            LogUtils.info(SimpleDataTransferListener.class, tag + " from " + remote + " src = " + src + " dst = " + dst + " progress = " + progress + "%");
         }
     }
 
     @Override
     public void completed() {
-        sLogger.info(tag + " from " + remote + " src = " + src + " dst = " + dst + " complete!");
+        LogUtils.info(SimpleDataTransferListener.class, tag + " from " + remote + " src = " + src + " dst = " + dst + " complete!");
     }
 
     @Override
     public void aborted() {
-        sLogger.info(tag + " from " + remote + " src = " + src + " dst = " + dst + " abort!");
+        LogUtils.info(SimpleDataTransferListener.class, tag + " from " + remote + " src = " + src + " dst = " + dst + " abort!");
     }
 
     @Override
     public void failed() {
-        sLogger.info(tag + " from " + remote + " src = " + src + " dst = " + dst + " failed!");
+        LogUtils.info(SimpleDataTransferListener.class, tag + " from " + remote + " src = " + src + " dst = " + dst + " failed!");
     }
 }

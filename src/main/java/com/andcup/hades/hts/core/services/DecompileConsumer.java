@@ -9,6 +9,7 @@ import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
 import com.andcup.hades.hts.core.tools.CommandRunner;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +23,6 @@ import java.io.File;
 
 @Consumer(topic = Topic.DECOMPILING, bind = Topic.COMPILING, match = Task.TYPE_COMPILE)
 public class DecompileConsumer extends MqConsumer {
-
-    final Logger sLogger = LoggerFactory.getLogger(DecompileConsumer.class);
 
     final String command = "java -jar %s d -f -s %s -o %s";
 
@@ -39,11 +38,11 @@ public class DecompileConsumer extends MqConsumer {
                 decodePath
         );
         if(Task.Global.hasDecompiled(task)){
-            sLogger.info(">>>>>>>> 已编译 : " + formatCommand + " <<<<<<<<<<<<<<<< ");
+            LogUtils.info(DecompileConsumer.class,">>>>>>>> 已编译 : " + formatCommand + " <<<<<<<<<<<<<<<< ");
             return message.getLastState();
         }
-        sLogger.info(formatCommand);
-        State state = new CommandRunner(DecompileConsumer.class.getName(), message).exec(formatCommand);
+        LogUtils.info(DecompileConsumer.class,formatCommand);
+        State state = new CommandRunner(DecompileConsumer.class, message).exec(formatCommand);
         if(state == State.SUCCESS){
             // Copy AndroidManifest
             new File(Task.Helper.getAndroidManifest(task)).delete();

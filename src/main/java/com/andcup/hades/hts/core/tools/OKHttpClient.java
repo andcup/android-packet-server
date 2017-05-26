@@ -1,5 +1,7 @@
 package com.andcup.hades.hts.core.tools;
 
+import com.andcup.hades.hts.core.services.DecompileConsumer;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -16,8 +18,6 @@ import java.util.Map;
  * Description:
  */
 public class OKHttpClient {
-
-    final static Logger logger              = LoggerFactory.getLogger(OKHttpClient.class);
 
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
@@ -53,11 +53,11 @@ public class OKHttpClient {
     }
 
     private String call(RequestBody body ) throws IOException {
-        logger.info(host);
+        LogUtils.info(OKHttpClient.class,host);
         Request request = new Request.Builder().url(host).post(body).build();
         okhttp3.Response response = client.newCall(request).execute();
         String result = response.body().string();
-        logger.info(result);
+        LogUtils.info(OKHttpClient.class,result);
         return result;
     }
 }

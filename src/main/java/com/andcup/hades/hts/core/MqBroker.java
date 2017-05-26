@@ -5,6 +5,7 @@ import com.andcup.hades.hts.core.base.IMqFactory;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,6 @@ import java.util.concurrent.Executors;
  */
 public class MqBroker implements IMqBroker {
 
-    final static Logger logger     = LoggerFactory.getLogger(MqBroker.class);
     static final MqBroker sBroker  = new MqBroker();
 
     MqManager<IMqFactory>    mqFactoryManager   = new MqManager();
@@ -31,7 +31,7 @@ public class MqBroker implements IMqBroker {
     MqConsumer consumer;
 
     private MqBroker(){
-        logger.info(MqBroker.class.getName() + " created. ");
+        LogUtils.info(MqBroker.class,MqBroker.class.getName() + " created. ");
     }
 
     public static MqBroker getInstance() {
@@ -47,7 +47,7 @@ public class MqBroker implements IMqBroker {
     }
 
     public void complete(Message<Task> msg) {
-        logger.info(" complete " + msg.getName() + " state : " + msg.getState() + " msg = " + msg.getMsg());
+        LogUtils.info(MqBroker.class," complete " + msg.getName() + " state : " + msg.getState() + " msg = " + msg.getMsg());
         /**
          * 从运行队列删除.
          * */
@@ -80,7 +80,7 @@ public class MqBroker implements IMqBroker {
                          * 开始消费.
                          * */
                         consumer.consume(message);
-                        logger.info(JsonConvertTool.formatString(message));
+                        LogUtils.info(MqBroker.class,JsonConvertTool.formatString(message));
                     }
                     try {
                         Thread.sleep(100);

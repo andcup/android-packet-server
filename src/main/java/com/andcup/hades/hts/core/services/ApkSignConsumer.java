@@ -9,6 +9,7 @@ import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
 import com.andcup.hades.hts.core.tools.CommandRunner;
 import com.andcup.hades.hts.core.tools.MetaInfMatcher;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zeroturnaround.zip.ZipBreakException;
@@ -21,7 +22,6 @@ import org.zeroturnaround.zip.ZipBreakException;
 
 @Consumer(topic = Topic.SIGN, bind = Topic.UPLOADING, match = Task.TYPE_COMPILE)
 public class ApkSignConsumer extends MqConsumer{
-    Logger logger = LoggerFactory.getLogger(ApkSignConsumer.class.getName());
     //String command    = "jarsigner -verbose -keystore ${path} -storepass ${pass} -signedjar %s -digestalg SHA1 -sigalg MD5withRSA %s ${alias}";
     final String command    = "jarsigner -verbose -keystore %s -storepass %s -signedjar %s -digestalg SHA1 -sigalg MD5withRSA %s %s";
     private boolean mIsInterrupt = false;
@@ -40,8 +40,8 @@ public class ApkSignConsumer extends MqConsumer{
                 unsignedApk,
                 HadesRootConfigure.sInstance.keyStore.alias
         );
-        logger.info(formatCommand);
-        State state = new CommandRunner(ApkSignConsumer.class.getName(), message).exec(formatCommand);
+        LogUtils.info(ApkSignConsumer.class, formatCommand);
+        State state = new CommandRunner(ApkSignConsumer.class, message).exec(formatCommand);
         if(state == State.SUCCESS){
             waitForSigning(signedApk);
         }

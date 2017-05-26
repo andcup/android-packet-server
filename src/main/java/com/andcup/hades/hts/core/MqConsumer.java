@@ -6,8 +6,7 @@ import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.andcup.hades.hts.server.utils.LogUtils;
 
 import java.util.List;
 
@@ -17,8 +16,6 @@ import java.util.List;
  * Description:
  */
 public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
-
-    final static Logger logger = LoggerFactory.getLogger(MqConsumer.class);
 
     MqConsumer flowConsumer;
     MqManager<Message<Task>>  mqManager = new MqManager();
@@ -45,9 +42,9 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
         if(match == Integer.MAX_VALUE || (match == msgMatch)){
             if(consumer == State.DEFAULT || (consumer == last)){
                 String log ="task name : " + message.getName() + " task id : " + message.getId() + " step :" + getConsumer().topic().getName();
-                logger.info(" start " + log);
+                LogUtils.info(MqConsumer.class," start " + log);
                 State state = doInBackground(message);
-                logger.info(" end " + log + " state : " + state);
+                LogUtils.info(MqConsumer.class," end " + log + " state : " + state);
                 return state;
             }
         }
@@ -107,7 +104,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
                         }catch (Exception e){
                             state = com.andcup.hades.hts.core.model.State.FAILED;
                             message.setMsg(e.getMessage());
-                            logger.error(" end " + log + " state : " + state + " error : " + e.getMessage());
+                            LogUtils.info(MqConsumer.class, " end " + log + " state : " + state + " error : " + e.getMessage());
                         }
                         message.setState(state);
                         message.setLastState(state);

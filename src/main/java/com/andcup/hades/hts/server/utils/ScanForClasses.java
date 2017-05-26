@@ -21,8 +21,6 @@ import java.util.jar.JarFile;
  */
 public class ScanForClasses {
 
-    static Logger logger = LoggerFactory.getLogger(ScanForClasses.class.getName());
-
     public static List<String> getClassNameByFile(String filePath, List<String> className, boolean childPackage) {
         List<String> myClassName = new ArrayList<String>();
         File file = new File(filePath);
@@ -41,7 +39,7 @@ public class ScanForClasses {
                         childFilePath = childFilePath.substring("main.".length());
                     }
 
-                    logger.info(" add : " + childFilePath);
+                    LogUtils.info(ScanForClasses.class, " add : " + childFilePath);
                     myClassName.add(childFilePath);
                 }
             }
@@ -66,7 +64,7 @@ public class ScanForClasses {
                         if (entryName.startsWith(packagePath)) {
                             entryName = entryName.replace("/", ".").substring(0, entryName.lastIndexOf("."));
                             myClassName.add(entryName);
-                            logger.info(" add : " + entryName);
+                            LogUtils.info(ScanForClasses.class, " add : " + entryName);
                         }
                     } else {
                         int index = entryName.lastIndexOf("/");
@@ -79,7 +77,7 @@ public class ScanForClasses {
                         if (myPackagePath.equals(packagePath)) {
                             entryName = entryName.replace("/", ".").substring(0, entryName.lastIndexOf("."));
                             myClassName.add(entryName);
-                            logger.info(" add : " + entryName);
+                            LogUtils.info(ScanForClasses.class, " add : " + entryName);
                         }
                     }
                 }

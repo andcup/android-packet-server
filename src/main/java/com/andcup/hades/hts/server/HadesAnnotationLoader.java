@@ -1,10 +1,10 @@
 package com.andcup.hades.hts.server;
 
+import com.andcup.hades.hts.core.tools.OKHttpClient;
 import com.andcup.hades.hts.server.bind.Controller;
 import com.andcup.hades.hts.server.bind.Request;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import com.andcup.hades.hts.server.utils.ScanForClasses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -17,11 +17,9 @@ import java.util.*;
  */
 class HadesAnnotationLoader {
 
-    final static Logger sLogger = LoggerFactory.getLogger(HadesAnnotationLoader.class);
-
     public Map<String, RequestInvoker> loadMethod(String packageName)  {
 
-        sLogger.info(packageName);
+        LogUtils.info(HadesAnnotationLoader.class,packageName);
 
         Map<String, RequestInvoker> methodMap = new HashMap<>();
         List<String> classList = getClassByPackageName(packageName);
@@ -39,7 +37,7 @@ class HadesAnnotationLoader {
                             invoker.path = invoker.controller.value() + invoker.request.value();
                             invoker.method = method;
                             if(!invoker.method.getReturnType().isAssignableFrom(HadesHttpResponse.class)){
-                                sLogger.error(" Request method : " + invoker.path + " return type must be HadesInvokeResponse");
+                                LogUtils.info(HadesAnnotationLoader.class," Request method : " + invoker.path + " return type must be HadesInvokeResponse");
                                 continue;
                             }
                             /**
@@ -51,7 +49,7 @@ class HadesAnnotationLoader {
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
-                sLogger.error(" init consumer class error : " + e.getMessage());
+                LogUtils.info(HadesAnnotationLoader.class," init consumer class error : " + e.getMessage());
             }
 
         }

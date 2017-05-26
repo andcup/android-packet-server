@@ -3,6 +3,7 @@ package com.andcup.hades.hts.server;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.server.bind.Request;
 import com.andcup.hades.hts.server.utils.IOUtils;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -23,7 +24,6 @@ import java.util.Map;
  */
 class HadesHttpMappingHandler implements HttpHandler {
 
-    final static Logger sLogger = LoggerFactory.getLogger(HadesHttpMappingHandler.class);
 
     final String CONTENT_TYPE_JSON = "application/json";
     final String CONTENT_TYPE_FORM_URL_ENCODED = "application/x-www-form-urlencoded";
@@ -68,7 +68,7 @@ class HadesHttpMappingHandler implements HttpHandler {
         try {
             List<Object> values = null;
             Headers headers = httpExchange.getRequestHeaders();
-            sLogger.info(httpExchange.getRequestURI().toASCIIString() );
+            LogUtils.info(HadesHttpMappingHandler.class,httpExchange.getRequestURI().toASCIIString() );
             if(invoker.request.method() == Request.Method.POST){
                 String contentType = headers.get(CONTENT_TYPE).get(0);
                 if(contentType.contains(CONTENT_TYPE_JSON)){

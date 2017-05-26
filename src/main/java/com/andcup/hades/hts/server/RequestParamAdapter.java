@@ -4,6 +4,7 @@ import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.server.bind.Body;
 import com.andcup.hades.hts.server.bind.Var;
 import com.andcup.hades.hts.server.utils.IOUtils;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import com.fasterxml.jackson.databind.JavaType;
 import com.sun.net.httpserver.HttpExchange;
 import org.slf4j.Logger;
@@ -23,7 +24,6 @@ import java.util.Map;
  */
 interface RequestParamAdapter {
 
-    Logger logger = LoggerFactory.getLogger(RequestParamAdapter.class.getName());
 
     List<Object> adapter(RequestInvoker invoker, HttpExchange httpExchange) throws Exception;
 
@@ -61,7 +61,7 @@ interface RequestParamAdapter {
                     Body body = (Body) annotations[i][0];
                     JavaType type = JsonConvertTool.getCollectionType(ArrayList.class, body.value());
                     String bodyValue = IOUtils.convertStreamToString(httpExchange.getRequestBody());
-                    logger.info(bodyValue);
+                    LogUtils.info(RequestParamAdapter.class, bodyValue);
                     object = JsonConvertTool.toJson(bodyValue, type);
                 }else{
                     object = JsonConvertTool.toJson(IOUtils.convertStreamToString(httpExchange.getRequestBody()), clazz);
@@ -85,7 +85,7 @@ interface RequestParamAdapter {
                 for(int i=0; i< parameters.length; i++){
                     Var var = (Var) annotations[i][0];
                     if( null != var){
-                        logger.info("key = " + var.value() + " value = " + params.get(var.value()));
+                        LogUtils.info(RequestParamAdapter.class, "key = " + var.value() + " value = " + params.get(var.value()));
                         ParamFiller.fill(listValue, parameters[i], params.get(var.value()));
                     }
                 }

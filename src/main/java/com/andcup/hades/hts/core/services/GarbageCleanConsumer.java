@@ -3,8 +3,7 @@ package com.andcup.hades.hts.core.services;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.model.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.andcup.hades.hts.server.utils.LogUtils;
 
 import java.io.File;
 
@@ -17,19 +16,18 @@ import java.io.File;
 @Consumer(topic = Topic.GARBAGE_CLEAN, bind = Topic.COMPLETE, last = State.DEFAULT)
 public class GarbageCleanConsumer extends MqConsumer {
 
-    Logger logger = LoggerFactory.getLogger(GarbageCleanConsumer.class.getName());
 
     @Override
     protected State doInBackground(Message<Task> message) {
         Task task = message.getData();
 
-        logger.info(" clean : " + Task.Helper.getChannelPath(task));
+        LogUtils.info(GarbageCleanConsumer.class, " clean : " + Task.Helper.getChannelPath(task));
         // Clean unsigned apk.
         new File(Task.Helper.getChannelPath(task)).delete();
-        logger.info(" clean : " + Task.Helper.getChannelUnsignedPath(task));
+        LogUtils.info(GarbageCleanConsumer.class," clean : " + Task.Helper.getChannelUnsignedPath(task));
         // Clean signed apk.
         new File(Task.Helper.getChannelUnsignedPath(task)).delete();
-        logger.info(" clean : " + Task.Helper.getRulePath(task));
+        LogUtils.info(GarbageCleanConsumer.class," clean : " + Task.Helper.getRulePath(task));
         // Clean rule file
         new File(Task.Helper.getRulePath(task)).delete();
         return message.getLastState();

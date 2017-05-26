@@ -5,8 +5,7 @@ import com.andcup.hades.hts.server.RequestController;
 import com.andcup.hades.hts.server.bind.Controller;
 import com.andcup.hades.hts.server.bind.Request;
 import com.andcup.hades.hts.server.bind.Var;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.andcup.hades.hts.server.utils.LogUtils;
 
 /**
  * Created by Amos
@@ -16,7 +15,6 @@ import org.slf4j.LoggerFactory;
 @Controller("/api/task")
 public class TaskCompleteController extends RequestController {
 
-    Logger logger = LoggerFactory.getLogger(TaskCompleteController.class.getName());
 
     @Request(value = "/feedback", method = Request.Method.POST)
     public HadesHttpResponse feedback(@Var("groupId")String groupId,
@@ -24,7 +22,7 @@ public class TaskCompleteController extends RequestController {
                                       @Var("code") int code,
                                       @Var("message") String message){
 
-        logger.info("groupId = " + groupId + " id = " + id + " code = " + code + " message = " + message);
+        LogUtils.info(TaskCompleteController.class,"groupId = " + groupId + " id = " + id + " code = " + code + " message = " + message);
 
         return new HadesHttpResponse(0, " task complete.");
     }

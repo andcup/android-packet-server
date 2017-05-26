@@ -10,6 +10,7 @@ import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
 import com.andcup.hades.hts.core.tools.AndroidManifestHelper;
 import com.andcup.hades.hts.core.tools.CommandRunner;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +25,6 @@ import java.util.Map;
 
 @Consumer(topic = Topic.COMPILING, bind = Topic.SIGN, match = Task.TYPE_COMPILE)
 public class CompileConsumer extends MqConsumer {
-
-    final Logger sLogger = LoggerFactory.getLogger(CompileConsumer.class);
 
     final String introduction = "introduction";
     final String sourceid = "sourceid";
@@ -55,8 +54,8 @@ public class CompileConsumer extends MqConsumer {
                 decodePath,
                 channelApk
         );
-        sLogger.info(formatCommand);
+        LogUtils.info(CompileConsumer.class, formatCommand);
         /**开始编译.*/
-        return new CommandRunner(DecompileConsumer.class.getName(), message).exec(formatCommand);
+        return new CommandRunner(DecompileConsumer.class, message).exec(formatCommand);
     }
 }

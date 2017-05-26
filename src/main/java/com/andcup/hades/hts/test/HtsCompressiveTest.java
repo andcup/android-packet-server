@@ -1,12 +1,5 @@
 package com.andcup.hades.hts.test;
 
-import com.andcup.hades.hts.core.MqBroker;
-import com.andcup.hades.hts.core.model.Task;
-import com.andcup.hades.hts.core.tools.JsonConvertTool;
-import com.andcup.hades.hts.core.tools.OKHttpClient;
-import org.slf4j.LoggerFactory;
-
-
 /**
  * Created by Amos
  * Date : 2017/5/9 10:01.
@@ -14,131 +7,12 @@ import org.slf4j.LoggerFactory;
  */
 public class HtsCompressiveTest {
 
-    final static org.slf4j.Logger logger              = LoggerFactory.getLogger(MqBroker.class);
-
     final static int repeatCount = 2;
 
     static final String value = "[{\"channelId\":\"1\",\"channelPath\":\"/apk/ceshi_1.apk\",\"feedback\":\"http://192.168.15.245:8080/package/external/pack/receivePackResult.html\",\"groupId\":\"120\",\"md5\":\"0d1ba654d000f5d9d9551b603b2e1004\",\"name\":\"test\",\"other\":\"platId=13-extraChannel=1\",\"priority\":\"10\",\"sourceId\":\"0\",\"sourcePath\":\"/apk/ceshi_0.apk\",\"type\":\"0\"}]";
 
     public static void main(String[] args ){
 
-        Task task = JsonConvertTool.toJson(value, Task.class);
 
-//        test3();
-//        test4();
-//        test5();
-//        test6();
-
-        while (true){
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
-
-    private static void test(){
-        logger.info(HtsCompressiveTest.class.getName(), "--------------- test start. ----------------- \n");
-        for(int i = 0; i< repeatCount; i++){
-            HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/test/19196PT/xinshenqu/xinshenqu");
-            HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/test/GEDOU/GEDOUDAOHUN");
-            HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/19196PINGTAI/HUAQIANGU");
-            HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/123/TIANJIANGXIONGSHI");
-        }
-        logger.info(HtsCompressiveTest.class.getName(), "--------------- test end. ----------------- \n ");
-    }
-
-    private static void test6(){
-        new Thread(){
-            @Override
-            public void run() {
-                for(int i = 1; i< repeatCount; i++){
-                    HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/123/TIANJIANGXIONGSH111I");
-                    logger.info( "---------------" + testCount++ + " ----------------- \n ");
-                }
-            }
-        }.start();
-    }
-
-    private static void test5(){
-        new Thread(){
-            @Override
-            public void run() {
-                for(int i = 1; i< repeatCount; i++){
-                    HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/123/TIANJIANGXIONGSHI");
-                    logger.info( "---------------" + testCount++ + " ----------------- \n ");
-                }
-            }
-        }.start();
-    }
-
-    private static void test4(){
-        new Thread(){
-            @Override
-            public void run() {
-                for(int i = 1; i< repeatCount; i++){
-                    HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/19196PINGTAI/HUAQIANGU");
-                    logger.info( "---------------" + testCount++ + " ----------------- \n ");
-                }
-                logger.info( "--------------- test end. ----------------- \n ");
-            }
-        }.start();
-    }
-
-    static int testCount = 0;
-
-    private static void test3(){
-        new Thread(){
-            @Override
-            public void run() {
-                for(int i = 1; i< repeatCount; i++){
-                    HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/test/GEDOU/GEDOUDAOHUN");
-                    logger.info( "---------------" + testCount++ + " ----------------- \n ");
-                }
-                logger.info( "--------------- test end. ----------------- \n ");
-            }
-        }.start();
-    }
-
-    private static void test2(){
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                for(int i = 1; i< repeatCount; i++){
-                    HtsCompressiveTest(String.valueOf(i), "platId=13-extraChannel=200", "/test/19196PT/xinshenqu/xinshenqu");
-                    logger.info( "---------------" + testCount++ + " ----------------- \n ");
-                }
-
-            }
-        }.start();
-    }
-
-    private static void HtsCompressiveTest(String id, String other, String game){
-//        CpsTaskEntity task = JsonConvertTool.toJson(DATA, CpsTaskEntity.class);
-//        task.channels.get(0).id = id;
-//        task.channels.get(0).other = other;
-//        task.originPackLocalPath = game;
-//        OKHttpClient okHttpClient = new OKHttpClient("http://localhost:607/api/pack");
-//        okHttpClient.call(JsonConvertTool.toString(task));
-    }
-
-    public static String DATA = "{\n" +
-            "    \"feedbackApiAddress\": \"http://218.66.43.205:8089/yycpsfora/interface/packChildsCallback.html\",\n" +
-            "    \"packType\": 0,\n" +
-            "    \"channels\": [\n" +
-            "        {\n" +
-            "            \"id\": 110,\n" +
-            "            \"other\": \"platId=13-extraChannel=1\",\n" +
-            "            \"priority\": 10,\n" +
-            "            \"gamePid\": 261,\n" +
-            "            \"sourceId\": 0\n" +
-            "        }\n" +
-            "    ],\n" +
-            "    \"originPackLocalPath\": \"LIEWANGDEFENZHENG/LIEWANGDEFENZHENG\",\n" +
-            "    \"channelPackRemoteDir\": \"/test/amos\",\n" +
-            "    \"attachData\": \"{\\\"gamePid\\\":109, \\\"gameVersion\\\":\\\"0\\\", \\\"dir\\\":\\\"/test/59YX/QIANNVYOUHUNYLJH\\\", \\\"fileName\\\":\\\"H5LUOBOWAN2\\\"}\"\n" +
-            "}";
-
 }

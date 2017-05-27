@@ -131,15 +131,7 @@ public class Task {
         private static String getWorkDir(Task task){
             String dir = HadesRootConfigure.sInstance.getApkTempDir() + task.name + "_" + task.md5;
             MakeDirTool.mkdir(dir);
-            return  dir;
-        }
-
-        /**
-         * 每个APK包的临时工作路径. 当这个APK结束时， 可清除的文件路径.
-         * */
-        private static String getWorkTempDir(Task task){
-            String dir = HadesRootConfigure.sInstance.getApkTempDir() + task.name + "_" + task.md5;
-            MakeDirTool.mkdir(dir);
+            MakeDirTool.mkdir(dir + "/temp/");
             return  dir;
         }
 

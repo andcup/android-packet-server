@@ -14,6 +14,7 @@ import com.andcup.hades.hts.server.utils.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +57,11 @@ public class CompileConsumer extends MqConsumer {
         );
         LogUtils.info(CompileConsumer.class, formatCommand);
         /**开始编译.*/
-        return new CommandRunner(DecompileConsumer.class, message).exec(formatCommand);
+        State state = new CommandRunner(DecompileConsumer.class, message).exec(formatCommand);
+
+        if(state != State.SUCCESS || !new File(channelApk).exists()){
+            throw new ConsumeException(" compile : " + channelApk + "  failed.");
+        }
+        return state;
     }
 }

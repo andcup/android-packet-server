@@ -96,12 +96,6 @@ interface RequestParamAdapter {
         }
     };
 
-//    class ParamAnnotation{
-//        public static Annotation[] getParamAnnotations(Method method, Class annotationClazz){
-//            Annotation[][] annotations = method.getParameterAnnotations();
-//        }
-//    }
-
     /**
      * 参数填充.
      * */
@@ -110,35 +104,35 @@ interface RequestParamAdapter {
             if("java.lang.String".equals(parameter.getName())){
                 list.add(value);
             }else if("java.lang.Character".equals(parameter.getName())){
-                char[] ch = ((String)value).toCharArray();
+                char[] ch = (value).toCharArray();
                 list.add(ch[0]);
             }else if("char".equals(parameter.getName())){
-                char[] ch = ((String)value).toCharArray();
+                char[] ch = (value).toCharArray();
                 list.add(ch[0]);
             }else if("java.lang.Double".equals(parameter.getName())){
-                list.add(Double.parseDouble((String) value));
+                list.add(Double.parseDouble( value));
             }else if("double".equals(parameter.getName())){
-                list.add(Double.parseDouble((String) value));
+                list.add(Double.parseDouble(value));
             }else if("java.lang.Integer".equals(parameter.getName())){
-                list.add(Integer.parseInt((String) value));
+                list.add(Integer.parseInt(  value));
             }else if("int".equals(parameter.getName())){
-                list.add(Integer.parseInt((String) value));
+                list.add(Integer.parseInt(  value));
             }else if("java.lang.Long".equals(parameter.getName())){
-                list.add(Long.parseLong((String) value));
+                list.add(Long.parseLong(  value));
             }else if("long".equals(parameter.getName())){
-                list.add(Long.parseLong((String) value));
+                list.add(Long.parseLong(  value));
             }else if("java.lang.Float".equals(parameter.getName())){
-                list.add(Float.parseFloat((String) value));
+                list.add(Float.parseFloat(  value));
             }else if("float".equals(parameter.getName())){
-                list.add(Float.parseFloat((String) value));
+                list.add(Float.parseFloat(  value));
             }else if("java.lang.Short".equals(parameter.getName())){
-                list.add(Short.parseShort((String) value));
+                list.add(Short.parseShort(  value));
             }else if("shrot".equals(parameter.getName())){
-                list.add(Short.parseShort((String) value));
+                list.add(Short.parseShort(  value));
             }else if("java.lang.Byte".equals(parameter.getName())){
-                list.add(Byte.parseByte((String) value));
+                list.add(Byte.parseByte(  value));
             }else if("byte".equals(parameter.getName())){
-                list.add(Byte.parseByte((String) value));
+                list.add(Byte.parseByte(  value));
             }else if("java.lang.Boolean".equals(parameter.getName())){
                 if("false".equals(value) || "0".equals(value)){
                     list.add(false);

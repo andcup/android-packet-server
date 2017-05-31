@@ -35,6 +35,8 @@ public interface ICompress {
             }catch (ZipException e){
                 throw new ConsumeException(e.getMessage());
             }
+
+
             return true;
         }
     };

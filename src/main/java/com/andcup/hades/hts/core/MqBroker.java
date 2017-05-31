@@ -73,14 +73,15 @@ public class MqBroker implements IMqBroker {
                     IMqFactory factory = mqFactoryManager.pop();
                     if( null != factory){
                         //判断文件是否存在.
-                        List<Message<Task>> message = factory.create();
-                        /**添加到打包任务.*/
-                        runQueueManager.push(message);
-                        /**
-                         * 开始消费.
-                         * */
-                        consumer.consume(message);
-                        LogUtils.info(MqBroker.class,JsonConvertTool.formatString(message));
+                        List<Message<Task>> received = factory.create();
+                        LogUtils.info(MqBroker.class," received task count = " + received.size() + "/" + runQueueManager.size());
+                        //任务去重.
+                        List<Message<Task>> append  = runQueueManager.merge(received);
+                        //添加到打包任务.
+                        runQueueManager.push(append);
+                        LogUtils.info(MqBroker.class," merge task count = " + append.size() + "/" + runQueueManager.size());
+                        //开始消费.
+                        consumer.consume(append);
                     }
                     try {
                         Thread.sleep(100);

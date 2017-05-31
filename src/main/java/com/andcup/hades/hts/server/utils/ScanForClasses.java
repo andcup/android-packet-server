@@ -39,7 +39,7 @@ public class ScanForClasses {
                         childFilePath = childFilePath.substring("main.".length());
                     }
 
-                    LogUtils.info(ScanForClasses.class, " add : " + childFilePath);
+                    //LogUtils.info(ScanForClasses.class, " add : " + childFilePath);
                     myClassName.add(childFilePath);
                 }
             }
@@ -64,7 +64,7 @@ public class ScanForClasses {
                         if (entryName.startsWith(packagePath)) {
                             entryName = entryName.replace("/", ".").substring(0, entryName.lastIndexOf("."));
                             myClassName.add(entryName);
-                            LogUtils.info(ScanForClasses.class, " add : " + entryName);
+                            //LogUtils.info(ScanForClasses.class, " add : " + entryName);
                         }
                     } else {
                         int index = entryName.lastIndexOf("/");
@@ -77,7 +77,7 @@ public class ScanForClasses {
                         if (myPackagePath.equals(packagePath)) {
                             entryName = entryName.replace("/", ".").substring(0, entryName.lastIndexOf("."));
                             myClassName.add(entryName);
-                            LogUtils.info(ScanForClasses.class, " add : " + entryName);
+                            //LogUtils.info(ScanForClasses.class, " add : " + entryName);
                         }
                     }
                 }

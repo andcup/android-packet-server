@@ -37,8 +37,9 @@ public class Message<T extends Task> {
     @JsonProperty("match")
     int match = Integer.MAX_VALUE;
 
-    public boolean equals(Message<Task> target) {
-        return getId() == target.getId() && target.task.id.equals(task.id);
+    @Override
+    public boolean equals(Object target) {
+        return getId().equals(((Message)target).getId());
     }
 
     public void setTopic(Topic topic) {

@@ -8,7 +8,7 @@ import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
-import com.andcup.hades.hts.core.transfer.FtpTransfer;
+import com.andcup.hades.hts.core.transfer.ftp4j.Ftp4JTransfer;
 import com.andcup.hades.hts.core.transfer.Transfer;
 
 /**
@@ -22,7 +22,7 @@ public class UploadConsumer extends MqConsumer {
 
     public State doInBackground(Message<Task> message) throws ConsumeException{
 
-        Transfer transfer = new FtpTransfer(HadesRootConfigure.sInstance.remote.cdn);
+        Transfer transfer = new Ftp4JTransfer(HadesRootConfigure.sInstance.remote.cdn);
         Task task = message.getData();
         String signedApk = Task.Helper.getChannelPath(task);
         transfer.upToRemote(signedApk, task.channelPath);

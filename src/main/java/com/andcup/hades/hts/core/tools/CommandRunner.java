@@ -32,6 +32,7 @@ public class CommandRunner {
             executor.run(new LineHandler() {
                 public void handleLine(String line) {
                     if(line.contains("RuntimeException") || line.contains("Exception in thread")){
+                        LogUtils.info(tag, line);
                         throw new CommandExecutorException(line);
                     }
                     if (outLineCount++ >= 10) {

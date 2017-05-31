@@ -20,6 +20,6 @@ public class LogUtils {
 
     private static String tag1(){
         String port = null != HadesRootConfigure.sInstance ? String.valueOf(HadesRootConfigure.sInstance.port):"";
-        return "["+port+"]";
+        return "["+port+"] - ";
     }
 }

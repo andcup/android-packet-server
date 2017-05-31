@@ -1,7 +1,12 @@
 package com.andcup.hades.hts.core;
 
 import com.andcup.hades.hts.core.base.IMqManager;
+import com.andcup.hades.hts.core.model.Message;
+import com.andcup.hades.hts.core.tools.MessageTools;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -31,9 +36,18 @@ public class MqManager<T> implements IMqManager<T> {
     }
 
     public void remove(T t){
-        if(queue.contains(t)){
-            queue.remove(t);
+        Iterator<T> it = queue.iterator();
+        while (it.hasNext()) {
+            T value = it.next();
+            if (value.equals(t)) {
+                it.remove();
+            }
         }
+    }
+
+    public List<T> merge(List<T> message) {
+        MessageTools.merge(message.iterator(), queue.iterator());
+        return message;
     }
 
     public T pop() {
@@ -43,5 +57,13 @@ public class MqManager<T> implements IMqManager<T> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public int size(){
+        return queue.size();
+    }
+
+    public interface Compare<T>{
+        boolean equals(T src, T dst);
     }
 }

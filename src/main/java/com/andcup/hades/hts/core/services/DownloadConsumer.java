@@ -8,9 +8,8 @@ import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.Topic;
-import com.andcup.hades.hts.core.tools.JsonConvertTool;
-import com.andcup.hades.hts.core.transfer.FtpTransfer;
 import com.andcup.hades.hts.core.transfer.Transfer;
+import com.andcup.hades.hts.core.transfer.commonnet.CommonNetFtpTransfer;
 
 /**
  * Created by Amos
@@ -26,7 +25,7 @@ public class DownloadConsumer extends MqConsumer {
      * */
     public State doInBackground(Message<Task> message) throws ConsumeException{
 
-        Transfer transfer = new FtpTransfer(HadesRootConfigure.sInstance.remote.ftp);
+        Transfer transfer = new CommonNetFtpTransfer(HadesRootConfigure.sInstance.remote.ftp);
         Task task = message.getData();
         if(!Task.Global.hasDownloaded(task)){
             transfer.dlFromRemote(message.getData().sourcePath, Task.Helper.getApkPath(message.getData()));

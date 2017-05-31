@@ -6,6 +6,7 @@ import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
+import com.andcup.hades.hts.core.tools.MD5;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class MockMqFactory extends MqFactory<List<Task>>{
         List<Message<Task>> messages = new ArrayList<>();
         for(Task task : body){
             Message message = new Message();
-            message.setId(task.groupId + task.id);
+            message.setId(MD5.toMd5(task.groupId + task.id + task.md5));
             message.setName(task.name);
             message.setState(State.ING);
             message.setTopic(Topic.DOWNLOADING);

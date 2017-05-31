@@ -120,7 +120,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
                             MqBroker.getInstance().complete(message);
                         }
                     }
-                    Thread.sleep(100);
+                    Thread.sleep(500);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

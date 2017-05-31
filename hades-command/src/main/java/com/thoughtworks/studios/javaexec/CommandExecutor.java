@@ -59,7 +59,7 @@ public class CommandExecutor {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     run(out);
     try {
-      return out.toString("UTF-8");
+      return out.toString("GBK");
     } catch (UnsupportedEncodingException ex) {
       return out.toString();
     }

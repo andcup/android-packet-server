@@ -4,6 +4,7 @@ import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.MD5;
 import com.andcup.hades.hts.core.tools.OKHttpClient;
+import com.andcup.hades.hts.server.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,23 +40,27 @@ public class BrokerStressTest {
 
     public static class StressThread extends Thread {
 
-        final int testCount = 5;
+        final int testCount = 10000;
 
         Task   task = JsonConvertTool.toJson(MOCK_DATA, Task.class);
         String name;
 
+        OKHttpClient okHttpClient;
+
         public StressThread(String value) {
             this.name = value;
+            okHttpClient = new OKHttpClient("http://192.168.28.103:706/api/task/start");
         }
 
         @Override
         public void run() {
             for (int i = 0; i < testCount; i++) {
                 try {
-                    new OKHttpClient("http://localhost:700/api/task/start").call(getData(String.valueOf(i), MD5.toMd5(name + i)));
+                    okHttpClient.call(getData(String.valueOf(i), MD5.toMd5(name + i)));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                LogUtils.info(StressThread.class, " i = " + i);
             }
         }
 

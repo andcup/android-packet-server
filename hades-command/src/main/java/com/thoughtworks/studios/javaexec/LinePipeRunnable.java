@@ -18,7 +18,7 @@ public class LinePipeRunnable implements PipeRunnable {
   }
 
   public void run() throws IOException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+    BufferedReader reader = new BufferedReader(new InputStreamReader(in, "GBK"));
     String line;
     while ((line = reader.readLine()) != null) {
       out.handleLine(line);

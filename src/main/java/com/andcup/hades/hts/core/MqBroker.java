@@ -52,7 +52,6 @@ public class MqBroker implements IMqBroker {
     }
 
     public void complete(Message<Task> msg) {
-        LogUtils.info(MqBroker.class," complete " + msg.getName() + " state : " + msg.getState() + " msg = " + msg.getMsg() + " used : " + msg.useTime());
         /**
          * 从运行队列删除.
          * */
@@ -61,6 +60,8 @@ public class MqBroker implements IMqBroker {
          * 从缓存中删除.
          * */
         mqCacheFactory.remove(msg);
+
+        LogUtils.info(MqBroker.class," 任务: " + msg.getName() + " 状态 : " + msg.getState() + " 消息 = " + msg.getMsg() + " 用时 : " + msg.useTime() + " 剩余 : " + runQueueManager.size());
     }
 
     @Override

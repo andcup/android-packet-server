@@ -171,7 +171,7 @@ public class Ftp4JTransfer extends Transfer {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ConsumeException(getServer() + " login failed : " +e.getMessage());
+            throw new ConsumeException(getServer() + " login failed : " + e.getMessage());
         }
     }
 

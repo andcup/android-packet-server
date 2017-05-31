@@ -18,18 +18,35 @@ import java.util.List;
  */
 public class MqCacheFactory extends MqFactory<MqCacheFactory.MqCache> {
 
+    /**
+     * 30S秒更新一次.
+     * */
+    final long updateInterval = 30 * 1000;
+    long lastUpdate;
+
     public MqCacheFactory() {
         super(new MqCache());
     }
 
     public void remove(Message<Task> message){
         body.tasks.remove(message);
-        FileUtils.store(HadesRootConfigure.sInstance.db, JsonConvertTool.toString(body));
+        update();
     }
 
     public void addAll(List<Message<Task>> tasks){
         body.tasks.addAll(tasks);
-        FileUtils.store(HadesRootConfigure.sInstance.db, JsonConvertTool.toString(body));
+        update();
+    }
+
+    private void update(){
+        long nowTime = System.currentTimeMillis();
+        /**
+         * 任务小于30个或者更新周期大于updateInterval 时。立即写入.
+         * */
+        if(nowTime - lastUpdate > updateInterval || body.tasks.size() <= 30){
+            lastUpdate = nowTime;
+            FileUtils.store(HadesRootConfigure.sInstance.db, JsonConvertTool.toString(body));
+        }
     }
 
     @Override

@@ -48,7 +48,11 @@ public class MockBrokerApplication {
                     long modifyTime = file.isDirectory()? getLastModifyTime(file):file.lastModified();
                     if(System.currentTimeMillis() - modifyTime > time){
                         LogUtils.info(GarbageCleanerThread.class, " delete file start :  " + file.getAbsolutePath());
-                        CacheClear.delete(file);
+                        try{
+                            CacheClear.delete(file);
+                        }catch (Exception e){
+
+                        }
                         LogUtils.info(GarbageCleanerThread.class, " delete file end :  " + file.getAbsolutePath());
                     }
                 }
@@ -63,8 +67,12 @@ public class MockBrokerApplication {
 
         public long getLastModifyTime(File dirFile){
             long modifyTime = dirFile.lastModified();
-            for(File file : dirFile.listFiles()){
-                modifyTime = file.lastModified() > modifyTime ? file.lastModified(): modifyTime;
+            try {
+                for(File file : dirFile.listFiles()){
+                    modifyTime = file.lastModified() > modifyTime ? file.lastModified(): modifyTime;
+                }
+            }catch (Exception e){
+
             }
             return modifyTime;
         }

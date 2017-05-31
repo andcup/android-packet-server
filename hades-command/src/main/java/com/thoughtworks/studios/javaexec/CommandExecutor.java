@@ -12,6 +12,7 @@ public class CommandExecutor {
   private int returnCode;
   private Long timeout;
   private String workingDirectory;
+  private Process process;
 
   public CommandExecutor(List<String> cmd) {
     this(cmd, null, null);
@@ -33,16 +34,23 @@ public class CommandExecutor {
 
   public void run(OutputStream outputStream) {
     try {
-      Process process = launchProcess();
+      process = launchProcess();
       captureOutput(process, new StreamPipeRunnable(process.getInputStream(), outputStream));
     } catch (IOException ioEx) {
       throw new CommandExecutorException("Command execution failed unexpectedly!", ioEx);
     }
   }
 
+  public void destory() {
+    if( null != process){
+      process.destroy();
+    }
+    process = null;
+  }
+
   public void run(LineHandler out) {
     try {
-      Process process = launchProcess();
+      process = launchProcess();
       captureOutput(process, new LinePipeRunnable(process.getInputStream(), out));
     } catch (IOException ioEx) {
       throw new CommandExecutorException("Command execution failed unexpectedly!", ioEx);

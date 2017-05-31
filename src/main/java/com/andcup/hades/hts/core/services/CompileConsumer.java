@@ -28,7 +28,7 @@ import java.util.Map;
 public class CompileConsumer extends MqConsumer {
 
     final String introduction = "introduction";
-    final String sourceid = "sourceid";
+    final String sourceId = "sourceid";
     final String other = "other";
 
     final String command = "java -jar %s b %s -o %s";
@@ -41,7 +41,7 @@ public class CompileConsumer extends MqConsumer {
         Task task = message.getData();
         /**修改数据.*/
         maps.put(introduction, task.id);
-        maps.put(sourceid, task.sourceId);
+        maps.put(sourceId, task.sourceId);
         maps.put(other, task.other);
 
         AndroidManifestHelper.edit(Task.Helper.getAndroidManifest(task),
@@ -57,8 +57,8 @@ public class CompileConsumer extends MqConsumer {
         );
         LogUtils.info(CompileConsumer.class, formatCommand);
         /**开始编译.*/
-        State state = new CommandRunner(DecompileConsumer.class, message).exec(formatCommand);
-
+        CommandRunner runner = new CommandRunner(DecompileConsumer.class, message, formatCommand);
+        State state = runner.exec(getTimeOut());
         if(state != State.SUCCESS || !new File(channelApk).exists()){
             throw new ConsumeException(" compile : " + channelApk + "  failed.");
         }

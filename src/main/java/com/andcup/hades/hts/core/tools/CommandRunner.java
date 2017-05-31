@@ -21,13 +21,21 @@ public class CommandRunner {
     Message<Task> message;
     Class<?> tag ;
 
-    public CommandRunner(Class<?> tag, Message<Task> message){
+    CommandExecutor executor;
+    String command;
+
+    public CommandRunner(Class<?> tag, Message<Task> message, String command){
         this.message = message;
         this.tag = tag;
+        this.command = command;
     }
 
-    public State exec(String command) {
-        CommandExecutor executor = new CommandExecutor(Arrays.asList(command.split(" ")));
+    public String getCommand() {
+        return command;
+    }
+
+    public State exec( long timeout ) {
+        executor = new CommandExecutor(Arrays.asList(command.split(" ")), timeout);
         try {
             executor.run(new LineHandler() {
                 public void handleLine(String line) {
@@ -46,5 +54,9 @@ public class CommandRunner {
             LogUtils.info(tag, message.getName()  + " error : " + e.getCause().getMessage());
             return State.FAILED;
         }
+    }
+
+    public void abort(){
+        executor.destory();
     }
 }

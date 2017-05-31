@@ -22,12 +22,13 @@ import org.zeroturnaround.zip.ZipBreakException;
 
 @Consumer(topic = Topic.SIGN, bind = Topic.UPLOADING, match = Task.TYPE_COMPILE)
 public class ApkSignConsumer extends MqConsumer{
-    //String command    = "jarsigner -verbose -keystore ${path} -storepass ${pass} -signedjar %s -digestalg SHA1 -sigalg MD5withRSA %s ${alias}";
-    final String command    = "jarsigner -verbose -keystore %s -storepass %s -signedjar %s -digestalg SHA1 -sigalg MD5withRSA %s %s";
-    private boolean mIsInterrupt = false;
+
+    final String    command     = "jarsigner -verbose -keystore %s -storepass %s -signedjar %s -digestalg SHA1 -sigalg MD5withRSA %s %s";
+    boolean         interrupt   = false;
+
     @Override
     public State doInBackground(Message<Task> message) {
-        mIsInterrupt = false;
+        interrupt = false;
         Task task = message.getData();
 
         String unsignedApk = Task.Helper.getChannelUnsignedPath(task);
@@ -41,21 +42,40 @@ public class ApkSignConsumer extends MqConsumer{
                 HadesRootConfigure.sInstance.keyStore.alias
         );
         LogUtils.info(ApkSignConsumer.class, formatCommand);
-        State state = new CommandRunner(ApkSignConsumer.class, message).exec(formatCommand);
+        CommandRunner runner = new CommandRunner(ApkSignConsumer.class, message, formatCommand);
+        State state = runner.exec(getTimeOut());
         if(state == State.SUCCESS){
-            waitForSigning(signedApk);
+            state = waitForSigning(signedApk, getTimeOut(), formatCommand);
         }
         return state;
     }
 
-    private void waitForSigning(String signedPath){
-        while (!mIsInterrupt && !match(signedPath)){
+    private State waitForSigning(String signedPath, long timeout, String command){
+        long      loop     = 0;
+        final int interval = 100;
+        while (!match(signedPath)){
+            //任务超时.
+            if((loop++ * interval) > timeout){
+                LogUtils.info(ApkSignConsumer.class, command + " time used > " + timeout);
+                return State.FAILED;
+            }
+            //任务被中断.
+            if(interrupt){
+                LogUtils.info(ApkSignConsumer.class, command + " interrupt!" );
+                return State.FAILED;
+            }
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        return State.SUCCESS;
+    }
+
+    @Override
+    public void abort() {
+        interrupt = true;
     }
 
     private boolean match(String signedPath){

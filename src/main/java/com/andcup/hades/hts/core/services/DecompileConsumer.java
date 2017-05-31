@@ -42,7 +42,7 @@ public class DecompileConsumer extends MqConsumer {
             return message.getLastState();
         }
         LogUtils.info(DecompileConsumer.class,formatCommand);
-        State state = new CommandRunner(DecompileConsumer.class, message).exec(formatCommand);
+        State state = new CommandRunner(DecompileConsumer.class, message, formatCommand).exec(getTimeOut());
         if(state == State.SUCCESS){
             // Copy AndroidManifest
             new File(Task.Helper.getAndroidManifest(task)).delete();

@@ -47,9 +47,9 @@ public interface IMqConsumer{
          * */
         State execute(Message<Task> message) throws ConsumeException;
         /**
-         * 中断任务.
+         * 中断当前任务.
          * */
-        void abort(Message<Task> message);
+        void abort();
 
         /**
          * 中断任务.

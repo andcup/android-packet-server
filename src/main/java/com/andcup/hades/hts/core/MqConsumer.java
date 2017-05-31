@@ -19,12 +19,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
 
     MqConsumer flowConsumer;
     MqManager<Message<Task>>  mqManager = new MqManager();
-        ConsumerExecutorThread mqExecutorThread;
-
-    public MqConsumer(){
-            mqExecutorThread = new ConsumerExecutorThread();
-            mqExecutorThread.start();
-        }
+    ConsumerExecutorThread    consumerExecutorSafe = new ConsumerExecutorThread();
 
     public IMqConsumer flow(MqConsumer consumer) {
         this.flowConsumer = consumer;
@@ -59,6 +54,12 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
             message.setTopic(getConsumer().topic());
         }
         mqManager.push(messages);
+        /**
+         * 每次添加任务时，启动工作线程.
+         * */
+        if(!consumerExecutorSafe.isAlive()){
+            consumerExecutorSafe.start();
+        }
     }
 
     public final void consume(Message<Task> message){
@@ -73,8 +74,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
         mqManager.push(message);
     }
 
-    public void abort(Message<Task> target) {
-        //mqManager.remove(target);
+    public void abort() {
     }
 
     public void abort(String groupId) {
@@ -86,44 +86,46 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
         return getClass().getAnnotation(Consumer.class);
     }
 
+    protected long getTimeOut(){
+        return getClass().getAnnotation(Consumer.class).timeout();
+    }
+
     class ConsumerExecutorThread extends Thread{
 
         @Override
         public void run() {
-            try{
-                while (true){
-                    Message<Task> message = mqManager.pop();
-                    if( null != message){
-                        /**
-                         * 开始处理消息.
-                         * */
-                        String log ="task name : " + message.getName() + " task id : " + message.getId() + " step :" + getConsumer().topic().getName();
-                        com.andcup.hades.hts.core.model.State state;
-                        try{
-                            state =  execute(message);
-                        }catch (Exception e){
-                            state = com.andcup.hades.hts.core.model.State.FAILED;
-                            message.setMsg(e.getMessage());
-                            LogUtils.info(MqConsumer.class, " end " + log + " state : " + state + " error : " + e.getMessage());
-                        }
-                        message.setState(state);
-                        message.setLastState(state);
-                        /**
-                         * 下一个消费者
-                         * */
-                        if( null != flowConsumer && flowConsumer != MqConsumer.this){
-                            flowConsumer.consume(message);
-                        }else{
-                            /**
-                             * 消息消费完成.
-                             * */
-                            MqBroker.getInstance().complete(message);
-                        }
+            while (true){
+                Message<Task> message = mqManager.pop();
+                if( null != message){
+                    /**
+                     * 开始处理消息.
+                     * */
+                    String log ="task name : " + message.getName() + " task id : " + message.getId() + " step :" + getConsumer().topic().getName();
+                    com.andcup.hades.hts.core.model.State state;
+                    try{
+                        state =  execute(message);
+                    }catch (Exception e){
+                        state = com.andcup.hades.hts.core.model.State.FAILED;
+                        message.setMsg(e.getMessage());
+                        LogUtils.info(MqConsumer.class, " end " + log + " state : " + state + " error : " + e.getMessage());
                     }
-                    Thread.sleep(500);
+                    message.setState(state);
+                    message.setLastState(state);
+                    /**
+                     * 下一个消费者
+                     * */
+                    if( null != flowConsumer && flowConsumer != MqConsumer.this){
+                        flowConsumer.consume(message);
+                    }else{
+                        /**
+                         * 消息消费完成.
+                         * */
+                        MqBroker.getInstance().complete(message);
+                    }
+                }else{
+                    LogUtils.info(MqConsumer.class, " not found new task exit.");
+                    break;
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }

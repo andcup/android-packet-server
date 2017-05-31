@@ -32,5 +32,9 @@ public @interface Consumer {
      * 上一个消费者状态。
      * */
     State last() default State.SUCCESS;
+    /**
+     * 单个任务默认超时时间。
+     * */
+    long  timeout() default 30 * 60 * 1000;
 
 }

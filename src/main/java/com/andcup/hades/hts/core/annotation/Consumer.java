@@ -35,6 +35,6 @@ public @interface Consumer {
     /**
      * 单个任务默认超时时间。
      * */
-    long  timeout() default 30 * 60 * 1000;
+    long  timeout() default 10 * 60 * 1000;
 
 }

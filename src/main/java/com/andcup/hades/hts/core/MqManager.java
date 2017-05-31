@@ -62,8 +62,4 @@ public class MqManager<T> implements IMqManager<T> {
     public int size(){
         return queue.size();
     }
-
-    public interface Compare<T>{
-        boolean equals(T src, T dst);
-    }
 }

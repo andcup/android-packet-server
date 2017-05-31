@@ -39,6 +39,8 @@ public class HadesRootConfigure {
          * 日志文件路径.
          * */
         MakeDirTool.mkdir(sInstance.getLogTempDir());
+
+        MakeDirTool.mkdirByPath(sInstance.db);
     }
 
     /**
@@ -68,6 +70,8 @@ public class HadesRootConfigure {
      */
     @JsonProperty("apkTool")
     public String apktool = "../tools/apktool.jar";
+    @JsonProperty("db")
+    public String db = "db/messageCache.db";
 
     public String getApkTempDir() {
         return temp + "/apk/" + port + "/";

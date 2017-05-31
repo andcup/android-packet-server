@@ -24,14 +24,19 @@ public class MqBroker implements IMqBroker {
     static final MqBroker sBroker  = new MqBroker();
 
     MqManager<IMqFactory>    mqFactoryManager   = new MqManager();
-    MqManager<Message<Task>> finishQueueManager = new MqManager();
     MqManager<Message<Task>> runQueueManager    = new MqManager();
+
+    /**
+     * 数据持久化.
+     * */
+    MqCacheFactory mqCacheFactory = new MqCacheFactory();
 
     Executor   executor  = Executors.newCachedThreadPool();
     MqConsumer consumer;
 
     private MqBroker(){
         LogUtils.info(MqBroker.class,MqBroker.class.getName() + " created. ");
+        produce(mqCacheFactory);
     }
 
     public static MqBroker getInstance() {
@@ -53,9 +58,9 @@ public class MqBroker implements IMqBroker {
          * */
         runQueueManager.remove(msg);
         /**
-         * 添加到完成队列.
+         * 从缓存中删除.
          * */
-        finishQueueManager.push(msg);
+        mqCacheFactory.remove(msg);
     }
 
     @Override
@@ -82,23 +87,14 @@ public class MqBroker implements IMqBroker {
                         LogUtils.info(MqBroker.class," merge task count = " + append.size() + "/" + runQueueManager.size());
                         //开始消费.
                         consumer.consume(append);
+                        //数据持久化.
+                        mqCacheFactory.addAll(append);
                     }
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
-            }
-        });
-
-        /**
-         * 处理已完成的消息.
-         * */
-        executor.execute(new Runnable() {
-            public void run() {
-                while (true){
-
                 }
             }
         });

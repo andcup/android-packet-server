@@ -61,6 +61,17 @@ public class JsonConvertTool {
         return null;
     }
 
+    public static <T> T toJsonByType(File file, JavaType type){
+        try {
+            InputStream inputStream = new FileInputStream(file);
+            String pc = readToString(inputStream);
+            return toJson(pc, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static <T> T toJson(File file, Class<T> clazz){
         try {
             InputStream inputStream = new FileInputStream(file);

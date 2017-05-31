@@ -19,7 +19,7 @@ public class TaskCompleteController extends RequestController {
     @Request(value = "/feedback", method = Request.Method.POST)
     public HadesHttpResponse feedback(@Var("groupId")String groupId,
                                       @Var("id") String id,
-                                      @Var("code") int code,
+                                      @Var("code") String code,
                                       @Var("message") String message){
 
         LogUtils.info(TaskCompleteController.class,"groupId = " + groupId + " id = " + id + " code = " + code + " message = " + message);

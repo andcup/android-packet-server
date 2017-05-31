@@ -55,6 +55,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'org.zeroturnaround:zt-zip:1.9'
     compile 'commons-net:commons-net:3.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     
     compile project(':hades-command')
 }

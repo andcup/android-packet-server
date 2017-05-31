@@ -1,5 +1,6 @@
 package com.andcup.hades.hts.core.tools;
 
+import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
@@ -51,12 +52,10 @@ public class CommandRunner {
             });
             return State.SUCCESS;
         } catch (CommandExecutorException e) {
-            LogUtils.info(tag, message.getName()  + " error : " + e.getCause().getMessage());
-            return State.FAILED;
+            throw new ConsumeException(e.getMessage());
         }
     }
 
     public void abort(){
-        executor.destory();
     }
 }

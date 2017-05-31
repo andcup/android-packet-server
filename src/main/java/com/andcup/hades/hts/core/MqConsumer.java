@@ -72,6 +72,12 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
          * 添加到队列.
          * */
         mqManager.push(message);
+        /**
+         * 每次添加任务时，启动工作线程.
+         * */
+        if(!consumerExecutorSafe.isAlive()){
+            consumerExecutorSafe.start();
+        }
     }
 
     public void abort() {

@@ -23,7 +23,7 @@ public class BrokerStressTest {
                     "        \"channelId\": 4,\n" +
                     "        \"name\": \"SDKDEMO_0\",\n" +
                     "        \"priority\": 10,\n" +
-                    "        \"feedback\": \"http://localhost:700/api/task/feedback\",\n" +
+                    "        \"feedback\": \"http://localhost:706/api/task/feedback\",\n" +
                     "        \"type\": 0,\n" +
                     "        \"md5\": \"amos_test11\",\n" +
                     "        \"other\": \"platId=13-extraChannel=1\",\n" +

@@ -129,4 +129,8 @@ public class Message<T extends Task> {
     public String getMsg() {
         return msg;
     }
+
+    public String useTime(){
+        return (updateTime - createTime)/1000 + "s";
+    }
 }

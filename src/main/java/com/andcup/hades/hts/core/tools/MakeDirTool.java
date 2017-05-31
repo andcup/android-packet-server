@@ -1,6 +1,7 @@
 package com.andcup.hades.hts.core.tools;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Amos
@@ -25,6 +26,14 @@ public class MakeDirTool {
         int index = path.lastIndexOf('/');
         if(index != -1){
             mkdir(path.substring(0, index));
+        }
+        try {
+            File file = new File(path);
+            if(!file.exists()){
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

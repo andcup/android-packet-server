@@ -32,6 +32,7 @@ public class MockMqFactory extends MqFactory<List<Task>>{
             message.setState(State.ING);
             message.setTopic(Topic.DOWNLOADING);
             message.setMatch(task.type);
+            message.setCreateTime(System.currentTimeMillis());
 
             message.setData(task);
             messages.add(message);

@@ -52,7 +52,7 @@ public class MqBroker implements IMqBroker {
     }
 
     public void complete(Message<Task> msg) {
-        LogUtils.info(MqBroker.class," complete " + msg.getName() + " state : " + msg.getState() + " msg = " + msg.getMsg());
+        LogUtils.info(MqBroker.class," complete " + msg.getName() + " state : " + msg.getState() + " msg = " + msg.getMsg() + " used : " + msg.useTime());
         /**
          * 从运行队列删除.
          * */
@@ -79,6 +79,9 @@ public class MqBroker implements IMqBroker {
                     if( null != factory){
                         //判断文件是否存在.
                         List<Message<Task>> received = factory.create();
+                        if( null == received || received.size() <= 0){
+                            continue;
+                        }
                         LogUtils.info(MqBroker.class," received task count = " + received.size() + "/" + runQueueManager.size());
                         //任务去重.
                         List<Message<Task>> append  = runQueueManager.merge(received);
@@ -90,6 +93,7 @@ public class MqBroker implements IMqBroker {
                         //数据持久化.
                         mqCacheFactory.addAll(append);
                     }
+
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {

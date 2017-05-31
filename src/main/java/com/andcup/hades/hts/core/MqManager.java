@@ -28,7 +28,9 @@ public class MqManager<T> implements IMqManager<T> {
     }
 
     public void push(List<T> message) {
-        queue.addAll(message);
+        if(null != message && message.size() > 0){
+            queue.addAll(message);
+        }
     }
 
     public void push(T message) {

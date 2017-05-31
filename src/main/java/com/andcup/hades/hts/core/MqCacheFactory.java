@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,9 +34,13 @@ public class MqCacheFactory extends MqFactory<MqCacheFactory.MqCache> {
 
     @Override
     public List<Message<Task>> create() {
-        MqCache mqCache = JsonConvertTool.toJson(new File(HadesRootConfigure.sInstance.db), MqCache.class);
-        if( null != mqCache){
-            return mqCache.tasks;
+        try{
+            MqCache mqCache = JsonConvertTool.toJson(new File(HadesRootConfigure.sInstance.db), MqCache.class);
+            if( null != mqCache){
+                return mqCache.tasks;
+            }
+        }catch (Exception e){
+
         }
         return null;
     }

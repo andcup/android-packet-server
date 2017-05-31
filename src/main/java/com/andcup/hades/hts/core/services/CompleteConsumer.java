@@ -27,7 +27,7 @@ public class CompleteConsumer extends MqConsumer{
 
     @Override
     public State doInBackground(Message<Task> message) throws ConsumeException {
-
+        message.setUpdateTime(System.currentTimeMillis());
         Task task = message.getData();
         Map<String, String> maps = new HashMap<>();
         maps.put(groupId, task.groupId);

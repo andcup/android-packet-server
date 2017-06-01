@@ -1,0 +1,93 @@
+package com.andcup.hades.hts.boot.mock;
+
+import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.boot.model.FileSyncModel;
+import com.andcup.hades.hts.core.MqManager;
+import com.andcup.hades.hts.core.exception.ConsumeException;
+import com.andcup.hades.hts.core.tools.JsonConvertTool;
+import com.andcup.hades.hts.core.tools.OKHttpClient;
+import com.andcup.hades.hts.core.transfer.Transfer;
+import com.andcup.hades.hts.core.transfer.ftp4j.Ftp4JTransfer;
+import com.andcup.hades.hts.server.HadesHttpResponse;
+import com.andcup.hades.hts.server.RequestController;
+import com.andcup.hades.hts.server.bind.Body;
+import com.andcup.hades.hts.server.bind.Controller;
+import com.andcup.hades.hts.server.bind.Request;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.File;
+import java.io.IOException;
+
+/**
+ * Created by Amos
+ * Date : 2017/6/1 14:10.
+ * Description:
+ */
+
+@Controller("/api/file")
+public class FileSyncController extends RequestController{
+
+    MqManager<FileSyncModel> mqManager = new MqManager<>();
+
+    UploadFileThread uploadThread = new UploadFileThread();
+
+    @Request(value = "/sync", method = Request.Method.POST)
+    public HadesHttpResponse syncFile(@Body(FileSyncModel.class) FileSyncModel model){
+        if(!new File(model.localFilePath).exists()){
+            return new HadesHttpResponse(-1, "文件不存在.");
+        }
+        mqManager.push(model);
+        startIfNeed();
+        return new HadesHttpResponse(0, "任务提交成功.");
+    }
+
+    private void startIfNeed(){
+        if(!uploadThread.isAlive()){
+            uploadThread.start();
+        }
+    }
+
+    public class UploadFileThread extends Thread{
+        @Override
+        public void run() {
+            while (true){
+                FileSyncModel model = mqManager.pop();
+                if( null != model ){
+                    Response response = new Response();
+                    response.attachData = model.attachData;
+                    try{
+                        Transfer transfer = new Ftp4JTransfer(HadesRootConfigure.sInstance.remote.cdn);
+                        transfer.upToRemote(model.localFilePath, model.remoteFilePath);
+                        response.code = 0;
+                        response.msg  = "同步成功.";
+                    } catch (ConsumeException e){
+                        response.code = 1;
+                        response.msg  = "同步失败 : " + e.getMessage();
+                    }
+                    try {
+                        new OKHttpClient(model.feedbackApiAddress).call(JsonConvertTool.toString(response));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    break;
+                }
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static class Response{
+        @JsonProperty("attachData")
+        String attachData;
+        @JsonProperty("error")
+        int code;
+        @JsonProperty("errorMessage")
+        String msg;
+    }
+}

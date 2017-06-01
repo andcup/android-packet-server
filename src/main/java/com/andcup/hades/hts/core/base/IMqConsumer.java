@@ -19,17 +19,6 @@ import java.util.List;
  */
 public interface IMqConsumer{
 
-    interface Callback{
-        /**
-         * 消费成功.
-         * */
-        void onSuccess(Message<Task> message);
-        /**
-         * 消费失败.
-         * */
-        void onFailed(Message<Task> message);
-    }
-
     /**
      * 消费消息.
      * */
@@ -60,11 +49,9 @@ public interface IMqConsumer{
     class Factory{
 
         static String packageName = "com.andcup.hades.hts.core.services";
-
         static List<MqConsumer> sConsumerList;
 
         public static synchronized MqConsumer getConsumer(){
-
             if( null != sConsumerList){
                 return getConsumerByTopic(Topic.DOWNLOADING);
             }

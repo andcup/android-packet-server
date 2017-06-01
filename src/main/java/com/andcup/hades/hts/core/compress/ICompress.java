@@ -14,7 +14,6 @@ import java.io.File;
  * Description:
  */
 public interface ICompress {
-
     /**
      * @param src 压缩源文件.
      * @param dst 压缩后文件路径.
@@ -26,7 +25,6 @@ public interface ICompress {
         @Override
         public boolean pack(String src, String dst, File appendFile) {
             String metaInf = "META-INF/" + appendFile.getName();
-
             ZipEntrySource[] addedEntries = new ZipEntrySource[]{
                     new FileSource(metaInf, appendFile)
             };
@@ -35,10 +33,7 @@ public interface ICompress {
             }catch (ZipException e){
                 throw new ConsumeException(e.getMessage());
             }
-
-
             return true;
         }
     };
-
 }

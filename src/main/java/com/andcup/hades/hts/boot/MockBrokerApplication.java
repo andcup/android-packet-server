@@ -14,7 +14,10 @@ import java.io.File;
  */
 public class MockBrokerApplication {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
+        /**
+         * 启动程序.
+         * */
         MockBrokerBoot.start(args[0], args[1]);
 
         /**
@@ -30,29 +33,29 @@ public class MockBrokerApplication {
     }
 
 
-    public static class GarbageCleanerThread extends Thread{
+    public static class GarbageCleanerThread extends Thread {
 
         String dir;
-        long   time;
+        long time;
 
-        public GarbageCleanerThread(String dir, long time){
+        public GarbageCleanerThread(String dir, long time) {
             this.dir = dir;
             this.time = time;
         }
 
         @Override
         public void run() {
-            while (true){
+            while (true) {
                 //每隔10分钟遍历一次.
                 try {
                     File[] files = new File(dir).listFiles();
-                    for(File file : files){
-                        long modifyTime = file.isDirectory()? getLastModifyTime(file):file.lastModified();
-                        if(System.currentTimeMillis() - modifyTime > time){
+                    for (File file : files) {
+                        long modifyTime = file.isDirectory() ? getLastModifyTime(file) : file.lastModified();
+                        if (System.currentTimeMillis() - modifyTime > time) {
                             LogUtils.info(GarbageCleanerThread.class, " delete file start :  " + file.getAbsolutePath());
-                            try{
+                            try {
                                 CacheClear.delete(file);
-                            }catch (Exception e){
+                            } catch (Exception e) {
 
                             }
                             LogUtils.info(GarbageCleanerThread.class, " delete file end :  " + file.getAbsolutePath());
@@ -61,19 +64,19 @@ public class MockBrokerApplication {
                     Thread.sleep(10 * 60 * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                } catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
         }
 
-        public long getLastModifyTime(File dirFile){
+        public long getLastModifyTime(File dirFile) {
             long modifyTime = dirFile.lastModified();
             try {
-                for(File file : dirFile.listFiles()){
-                    modifyTime = file.lastModified() > modifyTime ? file.lastModified(): modifyTime;
+                for (File file : dirFile.listFiles()) {
+                    modifyTime = file.lastModified() > modifyTime ? file.lastModified() : modifyTime;
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             return modifyTime;

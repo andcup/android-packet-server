@@ -9,37 +9,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 
 public class Message<T extends Task> {
-
     @JsonProperty("id")
-    String      id;
+    String id;
     @JsonProperty("name")
-    String      name;           // 消息名称
+    String name;           // 消息名称
     @JsonProperty("data")
     Task task;
     @JsonProperty("timeout")
-    long        timeout;        // 任务执行超时时间;
+    long timeout;        // 任务执行超时时间;
     @JsonProperty("createTime")
-    long        createTime;     // 创建时间
+    long createTime;     // 创建时间
     @JsonProperty("updateTime")
-    long        updateTime;     // 更新时间
+    long updateTime;     // 更新时间
     @JsonProperty("state")
-    State       state;          // 消息状态: NEW=新消息、ING=消费中、SUCCESS=消费成功、FAIL=消费失败
+    State state;          // 消息状态: NEW=新消息、ING=消费中、SUCCESS=消费成功、FAIL=消费失败
     @JsonProperty("lastState")
-    State       lastState;      // 消息状态: NEW=新消息、ING=消费中、SUCCESS=消费成功、FAIL=消费失败
+    State lastState;      // 消息状态: NEW=新消息、ING=消费中、SUCCESS=消费成功、FAIL=消费失败
     @JsonProperty("msg")
-    String      msg = "success.";            // 历史流转日志
+    String msg = "success.";            // 历史流转日志
     @JsonProperty("topic")
-    Topic       topic;          // 消息主题
-
+    Topic topic;          // 消息主题
     /**
      * Consumer消费的消息级别.
-     * */
+     */
     @JsonProperty("match")
     int match = Integer.MAX_VALUE;
 
     @Override
     public boolean equals(Object target) {
-        return getId().equals(((Message)target).getId());
+        return getId().equals(((Message) target).getId());
     }
 
     public void setTopic(Topic topic) {
@@ -130,7 +128,7 @@ public class Message<T extends Task> {
         return msg;
     }
 
-    public String useTime(){
-        return (updateTime - createTime)/1000 + "s";
+    public String useTime() {
+        return (updateTime - createTime) / 1000 + "s";
     }
 }

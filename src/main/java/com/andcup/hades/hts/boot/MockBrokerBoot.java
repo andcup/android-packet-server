@@ -20,22 +20,17 @@ public class MockBrokerBoot {
          * 配置文件初始化.
          * */
         HadesRootConfigure.init(path, port);
-
         LogUtils.info(MockBrokerBoot.class, " start config file : " + path + " port = " + port);
-
-
         /**
          * 核心代码初始化.
          * */
         MqBroker.getInstance().start();
         MqBroker.getInstance().setConsumer(MqConsumer.Factory.getConsumer());
-
         LogUtils.info(MockBrokerBoot.class," listen port : " + HadesRootConfigure.sInstance.port);
         /**
          * 启动服务器.
          * */
         new HadesHttpServer().bind(HadesRootConfigure.sInstance.port).scan("com.andcup.hades.hts.boot.mock").start();
-
         LogUtils.info(MockBrokerBoot.class," start server : " + HadesRootConfigure.sInstance.port + " success. ");
     }
 }

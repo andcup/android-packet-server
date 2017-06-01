@@ -32,7 +32,7 @@ public class HadesRootConfigure {
                 new File(sInstance.keyStoreConfig).getName(),
                 sInstance.keyStore.path);
 
-        if( null != port){
+        if (null != port) {
             HadesRootConfigure.sInstance.port = Integer.valueOf(port);
         }
         /**
@@ -43,7 +43,9 @@ public class HadesRootConfigure {
          * 日志文件路径.
          * */
         MakeDirTool.mkdir(sInstance.getLogTempDir());
-
+        /**
+         * 创建缓存日志.
+         * */
         MakeDirTool.mkdirByPath(sInstance.db);
     }
 
@@ -76,6 +78,8 @@ public class HadesRootConfigure {
     public String apktool = "../tools/apktool.jar";
     @JsonProperty("db")
     public String db = "db/messageCache.db";
+    @JsonProperty("transferType")
+    public int  transferType;
 
     public String getApkTempDir() {
         return temp + "/apk/" + port + "/";

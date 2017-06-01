@@ -19,5 +19,6 @@
   "temp":"../temp",
   "apkTool":"./tools/apktool-2.2.1.jar",
   "keyStorePath":"./tools/youlong.json",
-  "port":612
+  "port":612,
+  "transferType":0
 }

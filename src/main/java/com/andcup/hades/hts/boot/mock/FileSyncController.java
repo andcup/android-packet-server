@@ -1,5 +1,6 @@
 package com.andcup.hades.hts.boot.mock;
 
+import com.andcup.hades.hts.HadesConstant;
 import com.andcup.hades.hts.HadesRootConfigure;
 import com.andcup.hades.hts.boot.model.FileSyncModel;
 import com.andcup.hades.hts.core.MqManager;
@@ -34,11 +35,11 @@ public class FileSyncController extends RequestController{
     @Request(value = "/sync", method = Request.Method.POST)
     public HadesHttpResponse syncFile(@Body(FileSyncModel.class) FileSyncModel model){
         if(!new File(model.localFilePath).exists()){
-            return new HadesHttpResponse(-1, "文件不存在.");
+            return new HadesHttpResponse(-1, model.localFilePath + HadesConstant.FILE_IS_NOT_EXIST);
         }
         mqManager.push(model);
         startIfNeed();
-        return new HadesHttpResponse(0, "任务提交成功.");
+        return new HadesHttpResponse(0, HadesConstant.TASK_COMMIT_SUCCESS);
     }
 
     private void startIfNeed(){

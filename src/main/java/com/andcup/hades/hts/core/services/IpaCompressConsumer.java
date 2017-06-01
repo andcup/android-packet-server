@@ -41,18 +41,21 @@ public class IpaCompressConsumer extends MqConsumer {
         maps.put(introduction, task.id);
         maps.put(sourceId, task.sourceId);
         maps.put(other, task.other);
-        String pList = IpaCompressConsumer.class.getClassLoader().getResource("YLinfo.plist").getPath();
         /**
          * 编辑pList文件.
          * */
-        new IpaXmlMatcherEditor(XmlMatchEditor.Match.IPA).edit(pList,Task.Helper.getPlist(task), maps);
+        new IpaXmlMatcherEditor(XmlMatchEditor.Match.IPA).edit("./template/ios.template",Task.Helper.getPlist(task), maps);
         /**
          * 压缩plist文件.
          * */
-        return ICompress.IPA.pack(Task.Helper.getDownloadPath(task),
+        File pListFile = new File(Task.Helper.getPlist(task));
+        State state = ICompress.IPA.pack(Task.Helper.getDownloadPath(task),
                 Task.Helper.getChannelPath(task),
-                new File(Task.Helper.getPlist(task))) ?
+                pListFile) ?
                 State.SUCCESS : State.FAILED;
+
+        pListFile.delete();
+        return state;
     }
 }
 

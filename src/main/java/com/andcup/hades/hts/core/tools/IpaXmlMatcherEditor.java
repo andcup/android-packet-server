@@ -1,5 +1,8 @@
 package com.andcup.hades.hts.core.tools;
 
+import com.andcup.hades.hts.core.services.IpaCompressConsumer;
+import com.andcup.hades.hts.server.utils.LogUtils;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -19,6 +22,7 @@ public class IpaXmlMatcherEditor extends XmlMatchEditor {
     public boolean edit(String src, String dst, Map<String, String> maps) {
         try {
             String fileValue = new String(FileUtils.load(src), "UTF-8");
+            LogUtils.info(IpaCompressConsumer.class, fileValue);
             for (String key : maps.keySet()) {
                 String value = maps.get(key);
                 fileValue = fileValue.replace(key, value);

@@ -76,13 +76,13 @@ public class HadesRootConfigure {
      */
     @JsonProperty("apkTool")
     public String apktool = "../tools/apktool.jar";
-    @JsonProperty("db")
-    public String db = "db/messageCache.db";
+    @JsonProperty("cache")
+    public String db = "cache/message_undo.db";
     @JsonProperty("transferType")
     public int  transferType;
 
     public String getApkTempDir() {
-        return temp + "/apk/" + port + "/";
+        return temp + "/work/" + port + "/";
     }
 
     public String getLogTempDir() {

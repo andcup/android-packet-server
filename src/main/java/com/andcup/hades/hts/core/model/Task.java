@@ -198,13 +198,6 @@ public class Task {
         }
 
         /**
-         * 下载存储文件.
-         * */
-        public static String getDownloadConfig(Task task){
-            return getWorkDir(task) + "/" + task.name + ".json";
-        }
-
-        /**
          * 获取写入的文件.
          * */
         private static String getRule(Task task) {

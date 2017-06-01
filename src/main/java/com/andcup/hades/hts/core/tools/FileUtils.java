@@ -1,6 +1,8 @@
 package com.andcup.hades.hts.core.tools;
 
 
+import com.andcup.hades.hts.core.services.IpaCompressConsumer;
+
 import java.io.*;
 
 /**

@@ -33,7 +33,7 @@ public class PListTest {
         maps.put(introduction, "1");
         maps.put(sourceId, "1");
         maps.put(other, "1");
-        new IpaXmlMatcherEditor(XmlMatchEditor.Match.IPA).edit(pList,
+        new IpaXmlMatcherEditor(XmlMatchEditor.Match.IPA).edit("/resources/YLinfo.plist",
                 "YLInfo.plist",
                 maps);
 

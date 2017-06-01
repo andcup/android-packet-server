@@ -52,13 +52,13 @@ public class MockBrokerApplication {
                     for (File file : files) {
                         long modifyTime = file.isDirectory() ? getLastModifyTime(file) : file.lastModified();
                         if (System.currentTimeMillis() - modifyTime > time) {
-                            LogUtils.info(GarbageCleanerThread.class, " delete file start :  " + file.getAbsolutePath());
+                            //LogUtils.info(GarbageCleanerThread.class, " delete file start :  " + file.getAbsolutePath());
                             try {
                                 CacheClear.delete(file);
                             } catch (Exception e) {
 
                             }
-                            LogUtils.info(GarbageCleanerThread.class, " delete file end :  " + file.getAbsolutePath());
+                            //LogUtils.info(GarbageCleanerThread.class, " delete file end :  " + file.getAbsolutePath());
                         }
                     }
                     Thread.sleep(10 * 60 * 1000);

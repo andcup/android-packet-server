@@ -20,9 +20,11 @@ public class MockBrokerBoot {
          * 配置文件初始化.
          * */
         HadesRootConfigure.init(path);
-        LogUtils.info(MockBrokerBoot.class, " start config file : " + path + " port = " + port);
 
         HadesRootConfigure.sInstance.port = Integer.valueOf(port);
+
+        LogUtils.info(MockBrokerBoot.class, " start config file : " + path + " port = " + port);
+
 
         /**
          * 核心代码初始化.

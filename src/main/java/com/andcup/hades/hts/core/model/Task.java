@@ -166,7 +166,7 @@ public class Task {
         }
 
         /**
-         * 获取渠道包路径.
+         * 获取未签名渠道包路径.
          * */
         public static String getChannelUnsignedPath(Task task){
             return getWorkDir(task) + "/temp/" + new File(task.channelPath).getName().replace(".apk", "_unsigned.apk");

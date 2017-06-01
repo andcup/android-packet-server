@@ -21,7 +21,7 @@ import java.io.File;
  * Description:
  */
 
-@Consumer(topic = Topic.DECOMPILING, bind = Topic.COMPILING, match = Task.TYPE_COMPILE)
+@Consumer(topic = Topic.DECOMPILING, bind = Topic.COMPILING, match = Task.TYPE_ANDROID_COMPILE)
 public class DecompileConsumer extends MqConsumer {
 
     final String command = "java -jar %s d -f -s %s -o %s";
@@ -30,7 +30,7 @@ public class DecompileConsumer extends MqConsumer {
     public State doInBackground(Message<Task> message) throws ConsumeException {
         Task task = message.getData();
 
-        String apk = Task.Helper.getApkPath(task);
+        String apk = Task.Helper.getDownloadPath(task);
         String decodePath = Task.Helper.getApkDecodePath(task);
         String formatCommand = String.format(command,
                 HadesRootConfigure.sInstance.apktool,

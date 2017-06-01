@@ -8,7 +8,7 @@ import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
-import com.andcup.hades.hts.core.tools.AndroidManifestHelper;
+import com.andcup.hades.hts.core.tools.XmlMatchEditor;
 import com.andcup.hades.hts.core.tools.CommandRunner;
 import com.andcup.hades.hts.server.utils.LogUtils;
 
@@ -22,7 +22,7 @@ import java.util.Map;
  * Description:
  */
 
-@Consumer(topic = Topic.COMPILING, bind = Topic.SIGN, match = Task.TYPE_COMPILE)
+@Consumer(topic = Topic.COMPILING, bind = Topic.SIGN, match = Task.TYPE_ANDROID_COMPILE)
 public class CompileConsumer extends MqConsumer {
 
     final String introduction = "introduction";
@@ -42,7 +42,7 @@ public class CompileConsumer extends MqConsumer {
         maps.put(sourceId, task.sourceId);
         maps.put(other, task.other);
 
-        AndroidManifestHelper.edit(Task.Helper.getAndroidManifest(task),
+        new XmlMatchEditor(XmlMatchEditor.Match.APK).edit(Task.Helper.getAndroidManifest(task),
                 Task.Helper.getApkDecodeAndroidManifestPath(task),
                 maps);
 

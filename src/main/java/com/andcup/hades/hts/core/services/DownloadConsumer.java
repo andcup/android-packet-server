@@ -17,7 +17,7 @@ import com.andcup.hades.hts.core.transfer.commonnet.CommonNetFtpTransfer;
  * Description:
  */
 
-@Consumer(topic = Topic.DOWNLOADING, bind = Topic.COMPRESS, last = State.DEFAULT)
+@Consumer(topic = Topic.DOWNLOADING, bind = Topic.IPA_COMPRESS, last = State.DEFAULT)
 public class DownloadConsumer extends MqConsumer {
 
     /**
@@ -28,7 +28,7 @@ public class DownloadConsumer extends MqConsumer {
         Transfer transfer = new CommonNetFtpTransfer(HadesRootConfigure.sInstance.remote.ftp);
         Task task = message.getData();
         if(!Task.Global.hasDownloaded(task)){
-            transfer.dlFromRemote(message.getData().sourcePath, Task.Helper.getApkPath(message.getData()));
+            transfer.dlFromRemote(message.getData().sourcePath, Task.Helper.getDownloadPath(message.getData()));
             Task.Global.setHasDownloaded(task, true);
         }
         return State.SUCCESS;

@@ -25,7 +25,6 @@ public class MqBroker implements IMqBroker {
 
     MqManager<IMqFactory>    mqFactoryManager   = new MqManager();
     MqManager<Message<Task>> runQueueManager    = new MqManager();
-
     /**
      * 数据持久化.
      * */

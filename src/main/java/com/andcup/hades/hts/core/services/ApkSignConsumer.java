@@ -20,7 +20,7 @@ import org.zeroturnaround.zip.ZipBreakException;
  * Description:
  */
 
-@Consumer(topic = Topic.SIGN, bind = Topic.UPLOADING, match = Task.TYPE_COMPILE)
+@Consumer(topic = Topic.SIGN, bind = Topic.UPLOADING, match = Task.TYPE_ANDROID_COMPILE)
 public class ApkSignConsumer extends MqConsumer{
 
     final String    command     = "jarsigner -verbose -keystore %s -storepass %s -signedjar %s -digestalg SHA1 -sigalg MD5withRSA %s %s";

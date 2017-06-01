@@ -18,30 +18,24 @@ import java.io.IOException;
  * Description:
  */
 
-@Consumer(topic = Topic.COMPRESS, bind = Topic.DECOMPILING, match = Task.TYPE_QUICK)
+@Consumer(topic = Topic.COMPRESS, bind = Topic.DECOMPILING, match = Task.TYPE_ANDROID_QUICK)
 public class CompressConsumer extends MqConsumer {
     @Override
     public State doInBackground(Message<Task> message) throws ConsumeException {
 
-        if(message.getLastState() == State.SUCCESS){
-            Task task = message.getData();
-            if(task.type == Task.TYPE_QUICK){
-                /**
-                 * 开始压缩.
-                 * */
-                File file = new File(Task.Helper.getRulePath(task));
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    throw new ConsumeException(e.getMessage());
-                }
-                return ICompress.ZT.pack(Task.Helper.getApkPath(task),
-                                  Task.Helper.getChannelPath(task),
-                                    file) ?
-                        State.SUCCESS : State.FAILED;
-            }
+        Task task = message.getData();
+        /**
+         * 开始压缩.
+         * */
+        File file = new File(Task.Helper.getRulePath(task));
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new ConsumeException(e.getMessage());
         }
-
-        return message.getLastState();
+        return ICompress.APK.pack(Task.Helper.getDownloadPath(task),
+                Task.Helper.getChannelPath(task),
+                file) ?
+                State.SUCCESS : State.FAILED;
     }
 }

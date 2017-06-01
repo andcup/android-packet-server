@@ -11,6 +11,27 @@ import java.io.*;
  */
 public class FileUtils {
 
+    public static byte[] load(String filepath){
+        InputStream in = null;
+        try {
+            File file = new File(filepath);
+            byte[] tempbytes = new byte[(int) file.length()];
+            in = new FileInputStream(filepath);
+            in.read(tempbytes);
+            return tempbytes;
+        } catch (Exception e1) {
+            //e1.printStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e1) {
+                }
+            }
+        }
+        return null;
+    }
+
     public static <T> T load(String filepath, Class<T> clazz){
         InputStream in = null;
         try {

@@ -16,8 +16,9 @@ import java.io.File;
 
 public class Task {
 
-    public static final int TYPE_QUICK   = 1;
-    public static final int TYPE_COMPILE = 0;
+    public static final int TYPE_ANDROID_COMPILE = 0;
+    public static final int TYPE_ANDROID_QUICK   = 1;
+    public static final int TYPE_IOS_QUICK = 2;
 
     public Task(){}
 
@@ -66,7 +67,7 @@ public class Task {
      * 打包类型.
      */
     @JsonProperty("type")
-    public int type = TYPE_COMPILE;
+    public int type = TYPE_ANDROID_COMPILE;
     /**
      * 优先级.
      */
@@ -138,16 +139,16 @@ public class Task {
         /**
          * 每个APK包的下载路径.
          * */
-        public static String getApkPath(Task task){
-            return getWorkDir(task) + "/" + task.name + ".apk";
+        public static String getDownloadPath(Task task){
+            return getWorkDir(task) + "/" + task.name + ".src";
         }
 
         /**
          * apk反编译路径.
          * */
         public static String getApkDecodePath(Task task){
-            String apk = getApkPath(task);
-            return apk.replace(".apk", "_decoded");
+            String apk = getDownloadPath(task);
+            return apk.replace(".src", "_decoded");
         }
 
         /**
@@ -192,6 +193,10 @@ public class Task {
             return getWorkDir(task) + "/" + "AndroidManifest.xml";
         }
 
+        public static String getPlist(Task task){
+            return getWorkDir(task) + "/" + "YLinfo.plist";
+        }
+
         /**
          * 下载存储文件.
          * */
@@ -203,7 +208,7 @@ public class Task {
          * 获取写入的文件.
          * */
         private static String getRule(Task task) {
-            return String.format(task.type == Task.TYPE_QUICK ? RULE_QUICK : RULE_COMPILE, task.id, task.sourceId, task.other);
+            return String.format(task.type == Task.TYPE_ANDROID_COMPILE ? RULE_QUICK : RULE_COMPILE, task.id, task.sourceId, task.other);
         }
     }
 

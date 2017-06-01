@@ -36,13 +36,14 @@ public enum Topic {
          6. 反馈：      7
          */
     DOWNLOADING(1, "下载..."),
-    COMPRESS(2, "压缩..."),
-    DECOMPILING(3, "反编译..."),
-    COMPILING(4, "编译..."),
-    SIGN(5, "签名..."),
-    UPLOADING(6, "上传..."),
-    COMPLETE(7, "完成..."),
-    GARBAGE_CLEAN(8, "清理临时数据...");
+    IPA_COMPRESS(2, "ios压缩..."),
+    COMPRESS(3, "APK快速打包..."),
+    DECOMPILING(4, "apk反编译..."),
+    COMPILING(5, "apk编译..."),
+    SIGN(6, "apk签名..."),
+    UPLOADING(7, "上传..."),
+    COMPLETE(8, "完成..."),
+    GARBAGE_CLEAN(9, "清理临时数据...");
 
     int    code;
     String name;

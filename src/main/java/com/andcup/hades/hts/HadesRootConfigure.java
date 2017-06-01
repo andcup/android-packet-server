@@ -18,7 +18,7 @@ public class HadesRootConfigure {
     public HadesRootConfigure() {
     }
 
-    public static void init(String path) {
+    public static void init(String path, String port) {
         /**
          * 转换配置文件.
          * */
@@ -31,6 +31,10 @@ public class HadesRootConfigure {
         sInstance.keyStore.path = sInstance.keyStoreConfig.replace(
                 new File(sInstance.keyStoreConfig).getName(),
                 sInstance.keyStore.path);
+
+        if( null != port){
+            HadesRootConfigure.sInstance.port = Integer.valueOf(port);
+        }
         /**
          * 创建文件夹.
          * */

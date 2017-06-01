@@ -24,9 +24,8 @@ import java.util.List;
 @Controller("/api/task")
 public class TaskController extends RequestController {
 
-
     @Request(value = "/start0", method = Request.Method.POST)
-    public HadesHttpResponse single(@Body(Task.class) Task taskList){
+    public HadesHttpResponse start0(@Body(Task.class) Task taskList){
         List<Task> tasks = new ArrayList<>();
         tasks.add(taskList);
         return start(tasks);

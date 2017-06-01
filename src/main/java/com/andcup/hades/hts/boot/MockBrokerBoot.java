@@ -16,11 +16,11 @@ import org.slf4j.LoggerFactory;
 public class MockBrokerBoot {
 
     public static void start(String path, String port){
-        LogUtils.info(MockBrokerBoot.class, " start config file : " + path + " port = " + port);
         /**
          * 配置文件初始化.
          * */
         HadesRootConfigure.init(path);
+        LogUtils.info(MockBrokerBoot.class, " start config file : " + path + " port = " + port);
 
         HadesRootConfigure.sInstance.port = Integer.valueOf(port);
 

@@ -43,24 +43,26 @@ public class MockBrokerApplication {
         @Override
         public void run() {
             while (true){
-                File[] files = new File(dir).listFiles();
-                for(File file : files){
-                    long modifyTime = file.isDirectory()? getLastModifyTime(file):file.lastModified();
-                    if(System.currentTimeMillis() - modifyTime > time){
-                        LogUtils.info(GarbageCleanerThread.class, " delete file start :  " + file.getAbsolutePath());
-                        try{
-                            CacheClear.delete(file);
-                        }catch (Exception e){
-
-                        }
-                        LogUtils.info(GarbageCleanerThread.class, " delete file end :  " + file.getAbsolutePath());
-                    }
-                }
                 //每隔10分钟遍历一次.
                 try {
+                    File[] files = new File(dir).listFiles();
+                    for(File file : files){
+                        long modifyTime = file.isDirectory()? getLastModifyTime(file):file.lastModified();
+                        if(System.currentTimeMillis() - modifyTime > time){
+                            LogUtils.info(GarbageCleanerThread.class, " delete file start :  " + file.getAbsolutePath());
+                            try{
+                                CacheClear.delete(file);
+                            }catch (Exception e){
+
+                            }
+                            LogUtils.info(GarbageCleanerThread.class, " delete file end :  " + file.getAbsolutePath());
+                        }
+                    }
                     Thread.sleep(10 * 60 * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                } catch (Exception e){
+
                 }
             }
         }

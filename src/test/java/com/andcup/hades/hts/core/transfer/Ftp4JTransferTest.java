@@ -13,7 +13,7 @@ public class Ftp4JTransferTest {
     Ftp4JTransfer transfer;
 
     public Ftp4JTransferTest(){
-        HadesRootConfigure.init("Broker.json", null);
+        HadesRootConfigure.init("r/config.json", null);
         transfer = new Ftp4JTransfer(HadesRootConfigure.sInstance.remote.ftp);
     }
 

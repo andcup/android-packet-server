@@ -10,6 +10,8 @@ import java.io.File;
  * Created by Amos
  * Date : 2017/5/8 12:13.
  * Description:
+ * Email:amos@sayboy.com
+ * Github: https://github.com/andcup
  */
 public class HadesRootConfigure {
 
@@ -76,8 +78,15 @@ public class HadesRootConfigure {
      */
     @JsonProperty("apkTool")
     public String apktool = "../tools/apktool.jar";
+    /**
+     * 未完成任务缓存.
+     * */
     @JsonProperty("cache")
     public String db = "cache/message_undo.db";
+    /**
+     * 数据传输类型.
+     * 0.ftp 1.oss 2. copy 默认FTP.
+     * */
     @JsonProperty("transferType")
     public int  transferType;
 

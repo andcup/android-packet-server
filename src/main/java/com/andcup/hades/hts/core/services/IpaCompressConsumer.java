@@ -1,18 +1,14 @@
 package com.andcup.hades.hts.core.services;
 
-import com.andcup.hades.hts.HadesRootConfigure;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.compress.ICompress;
-import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
-import com.andcup.hades.hts.core.tools.CommandRunner;
 import com.andcup.hades.hts.core.tools.IpaXmlMatcherEditor;
 import com.andcup.hades.hts.core.tools.XmlMatchEditor;
-import com.andcup.hades.hts.server.utils.LogUtils;
 
 import java.io.File;
 import java.util.HashMap;
@@ -44,7 +40,7 @@ public class IpaCompressConsumer extends MqConsumer {
         /**
          * 编辑pList文件.
          * */
-        new IpaXmlMatcherEditor(XmlMatchEditor.Match.IPA).edit("./template/ios.template",Task.Helper.getPlist(task), maps);
+        new IpaXmlMatcherEditor(XmlMatchEditor.Match.IPA).edit("r/hrt/ios.htr",Task.Helper.getPlist(task), maps);
         /**
          * 压缩plist文件.
          * */

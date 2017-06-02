@@ -40,7 +40,7 @@ public class IpaCompressConsumer extends MqConsumer {
         /**
          * 编辑pList文件.
          * */
-        new IpaXmlMatcherEditor(XmlMatchEditor.Match.IPA).edit("r/hrt/ios.htr",Task.Helper.getPlist(task), maps);
+        new IpaXmlMatcherEditor(XmlMatchEditor.Match.IPA).edit("r/template/ios_quick.htr",Task.Helper.getPlist(task), maps);
         /**
          * 压缩plist文件.
          * */

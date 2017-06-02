@@ -41,11 +41,13 @@ public class R {
     }
 
     public String getAlias(){
-        return apkSignKeyPath.replace(".jks", "").split("_")[0];
+        String name = new File(apkSignKeyPath).getName().replace(".jks", "");
+        return name.split("_")[0];
     }
 
     public String getPassword(){
-        return apkSignKeyPath.replace(".jks", "").split("_")[1];
+        String name = new File(apkSignKeyPath).getName().replace(".jks", "");
+        return name.split("_")[1];
     }
 
     public String getApkTool() {

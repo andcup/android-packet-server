@@ -9,7 +9,7 @@
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="com.andcup.hades.hts.logback.HadesTimeBasedRollingPolicy">
-            <FileNamePattern>../temp/log/log-%d{yyyy-MM-d}-%i.log</FileNamePattern>
+            <FileNamePattern>../temp/logs/log-%d{yyyy-MM-d}-%i.log</FileNamePattern>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
             <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <MaxFileSize>10MB</MaxFileSize>

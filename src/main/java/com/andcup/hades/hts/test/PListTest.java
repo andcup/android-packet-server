@@ -1,9 +1,9 @@
 package com.andcup.hades.hts.test;
 
-import com.andcup.hades.hts.core.compress.ICompress;
 import com.andcup.hades.hts.core.services.IpaCompressConsumer;
 import com.andcup.hades.hts.core.tools.IpaXmlMatcherEditor;
 import com.andcup.hades.hts.core.tools.XmlMatchEditor;
+import com.andcup.hades.hts.core.zip.ZipProcessor;
 import com.andcup.hades.hts.server.utils.LogUtils;
 
 import java.io.File;
@@ -40,6 +40,6 @@ public class PListTest {
         long size = new File("YLInfo.plist").length();
         LogUtils.info(PListTest.class, " size = " + size);
 
-        ICompress.IPA.pack("YLSDK.zip", "YLSDK2.zip", new File("YLInfo.plist"));
+        ZipProcessor.IPA.onProcessor("YLSDK.zip", "YLSDK2.zip", "YLInfo.plist");
     }
 }

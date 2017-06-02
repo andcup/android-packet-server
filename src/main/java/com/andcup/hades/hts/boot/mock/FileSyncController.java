@@ -1,7 +1,6 @@
 package com.andcup.hades.hts.boot.mock;
 
-import com.andcup.hades.hts.HadesConstant;
-import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.Hades;
 import com.andcup.hades.hts.boot.model.FileSyncModel;
 import com.andcup.hades.hts.core.MqManager;
 import com.andcup.hades.hts.core.exception.ConsumeException;
@@ -35,11 +34,11 @@ public class FileSyncController extends RequestController{
     @Request(value = "/sync", method = Request.Method.POST)
     public HadesHttpResponse syncFile(@Body(FileSyncModel.class) FileSyncModel model){
         if(!new File(model.localFilePath).exists()){
-            return new HadesHttpResponse(-1, model.localFilePath + HadesConstant.FILE_IS_NOT_EXIST);
+            return new HadesHttpResponse(-1, model.localFilePath + " 文件不存在.");
         }
         mqManager.push(model);
         startIfNeed();
-        return new HadesHttpResponse(0, HadesConstant.TASK_COMMIT_SUCCESS);
+        return new HadesHttpResponse(0, "任务提交成功");
     }
 
     private void startIfNeed(){
@@ -57,7 +56,7 @@ public class FileSyncController extends RequestController{
                     Response response = new Response();
                     response.attachData = model.attachData;
                     try{
-                        Transfer transfer = new Ftp4JTransfer(HadesRootConfigure.sInstance.remote.cdn);
+                        Transfer transfer = new Ftp4JTransfer(Hades.sInstance.f.to);
                         transfer.upToRemote(model.localFilePath, model.remoteFilePath);
                         response.code = 0;
                         response.msg  = "同步成功.";

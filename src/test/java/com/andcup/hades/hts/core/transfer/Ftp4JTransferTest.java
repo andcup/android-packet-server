@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.transfer;
 
-import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.Hades;
 import com.andcup.hades.hts.core.transfer.ftp4j.Ftp4JTransfer;
 
 /**
@@ -13,8 +13,8 @@ public class Ftp4JTransferTest {
     Ftp4JTransfer transfer;
 
     public Ftp4JTransferTest(){
-        HadesRootConfigure.init("r/config.json", null);
-        transfer = new Ftp4JTransfer(HadesRootConfigure.sInstance.remote.ftp);
+        Hades.init("config.json", null);
+        transfer = new Ftp4JTransfer(Hades.sInstance.f.from);
     }
 
     @org.junit.Test

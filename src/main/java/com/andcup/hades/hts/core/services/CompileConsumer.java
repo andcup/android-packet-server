@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.services;
 
-import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.Hades;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.exception.ConsumeException;
@@ -49,7 +49,7 @@ public class CompileConsumer extends MqConsumer {
         String channelApk = Task.Helper.getChannelUnsignedPath(task);
         String decodePath = Task.Helper.getApkDecodePath(task);
         String formatCommand = String.format(command,
-                HadesRootConfigure.sInstance.apktool,
+                Hades.sInstance.r.getApkTool(),
                 decodePath,
                 channelApk
         );

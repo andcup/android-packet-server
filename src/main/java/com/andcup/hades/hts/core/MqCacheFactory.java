@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core;
 
-import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.F;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.tools.FileUtils;
@@ -45,14 +45,14 @@ public class MqCacheFactory extends MqFactory<MqCacheFactory.MqCache> {
          * */
         if(nowTime - lastUpdate > updateInterval || body.tasks.size() <= 30){
             lastUpdate = nowTime;
-            FileUtils.store(HadesRootConfigure.sInstance.db, JsonConvertTool.toString(body));
+            FileUtils.store(F.CACHE, JsonConvertTool.toString(body));
         }
     }
 
     @Override
     public List<Message<Task>> create() {
         try{
-            MqCache mqCache = JsonConvertTool.toJson(new File(HadesRootConfigure.sInstance.db), MqCache.class);
+            MqCache mqCache = JsonConvertTool.toJson(new File(F.CACHE), MqCache.class);
             if( null != mqCache){
                 return mqCache.tasks;
             }

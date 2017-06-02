@@ -2,13 +2,13 @@ package com.andcup.hades.hts.core.services;
 
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
-import com.andcup.hades.hts.core.compress.ICompress;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
 import com.andcup.hades.hts.core.tools.IpaXmlMatcherEditor;
 import com.andcup.hades.hts.core.tools.XmlMatchEditor;
+import com.andcup.hades.hts.core.zip.ZipProcessor;
 
 import java.io.File;
 import java.util.HashMap;
@@ -45,9 +45,9 @@ public class IpaCompressConsumer extends MqConsumer {
          * 压缩plist文件.
          * */
         File pListFile = new File(Task.Helper.getPlist(task));
-        State state = ICompress.IPA.pack(Task.Helper.getDownloadPath(task),
+        State state = ZipProcessor.IPA.onProcessor(Task.Helper.getDownloadPath(task),
                 Task.Helper.getChannelPath(task),
-                pListFile) ?
+                pListFile.getAbsolutePath()) ?
                 State.SUCCESS : State.FAILED;
 
         pListFile.delete();

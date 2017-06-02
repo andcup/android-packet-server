@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.services;
 
-import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.Hades;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.model.Message;
@@ -10,8 +10,6 @@ import com.andcup.hades.hts.core.model.Topic;
 import com.andcup.hades.hts.core.tools.CommandRunner;
 import com.andcup.hades.hts.core.tools.MetaInfMatcher;
 import com.andcup.hades.hts.server.utils.LogUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.zeroturnaround.zip.ZipBreakException;
 
 /**
@@ -35,11 +33,11 @@ public class ApkSignConsumer extends MqConsumer{
         String signedApk = Task.Helper.getChannelPath(task);
 
         String formatCommand = String.format(command,
-                HadesRootConfigure.sInstance.keyStore.path,
-                HadesRootConfigure.sInstance.keyStore.pass,
+                Hades.sInstance.r.getApkSignKeyPath(),
+                Hades.sInstance.r.getPassword(),
                 signedApk,
                 unsignedApk,
-                HadesRootConfigure.sInstance.keyStore.alias
+                Hades.sInstance.r.getAlias()
         );
         LogUtils.info(ApkSignConsumer.class, formatCommand);
         CommandRunner runner = new CommandRunner(ApkSignConsumer.class, message, formatCommand);

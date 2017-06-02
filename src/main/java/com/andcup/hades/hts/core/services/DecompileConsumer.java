@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.services;
 
-import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.Hades;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.exception.ConsumeException;
@@ -10,8 +10,6 @@ import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
 import com.andcup.hades.hts.core.tools.CommandRunner;
 import com.andcup.hades.hts.server.utils.LogUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
@@ -33,7 +31,7 @@ public class DecompileConsumer extends MqConsumer {
         String apk = Task.Helper.getDownloadPath(task);
         String decodePath = Task.Helper.getApkDecodePath(task);
         String formatCommand = String.format(command,
-                HadesRootConfigure.sInstance.apktool,
+                Hades.sInstance.r.getApkTool(),
                 apk,
                 decodePath
         );

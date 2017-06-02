@@ -1,0 +1,20 @@
+{
+  "r":{
+    "apkTool":"./r/tools/apktool-2.2.1.jar",
+    "apkSignKeyPath":"./r/tools/youlong.json"
+  },
+  "f":{
+    "to":{
+      "username":"amos",
+      "password":12345678,
+      "url":"192.168.15.45",
+      "port":25
+    },
+    "from":{
+      "username":"ftpuser",
+      "password":"wweAQUiaBKQIjVreMltg",
+      "url":"192.168.28.103",
+      "port":21
+    }
+  }
+}

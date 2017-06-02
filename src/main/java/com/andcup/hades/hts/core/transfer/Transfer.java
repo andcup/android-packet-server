@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.transfer;
 
-import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.F;
 import com.andcup.hades.hts.core.exception.ConsumeException;
 
 /**
@@ -10,9 +10,9 @@ import com.andcup.hades.hts.core.exception.ConsumeException;
  */
 public abstract class Transfer {
 
-    protected HadesRootConfigure.Server server;
+    protected F.Server server;
 
-    public Transfer(HadesRootConfigure.Server server){
+    public Transfer(F.Server server){
         this.server = server;
     }
 

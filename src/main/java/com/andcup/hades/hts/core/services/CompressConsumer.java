@@ -2,12 +2,12 @@ package com.andcup.hades.hts.core.services;
 
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
-import com.andcup.hades.hts.core.compress.ICompress;
 import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
+import com.andcup.hades.hts.core.zip.ZipProcessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,9 +33,9 @@ public class CompressConsumer extends MqConsumer {
         } catch (IOException e) {
             throw new ConsumeException(e.getMessage());
         }
-        return ICompress.APK.pack(Task.Helper.getDownloadPath(task),
+        return ZipProcessor.APK.onProcessor(Task.Helper.getDownloadPath(task),
                 Task.Helper.getChannelPath(task),
-                file) ?
+                file.getAbsolutePath()) ?
                 State.SUCCESS : State.FAILED;
     }
 }

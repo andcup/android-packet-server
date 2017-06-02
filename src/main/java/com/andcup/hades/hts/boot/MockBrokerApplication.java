@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.boot;
 
-import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.Hades;
 import com.andcup.hades.hts.core.MqBroker;
 import com.andcup.hades.hts.server.utils.CacheClear;
 import com.andcup.hades.hts.server.utils.LogUtils;
@@ -18,16 +18,16 @@ public class MockBrokerApplication {
         /**
          * 启动程序.
          * */
-        MockBrokerBoot.start(args[0], args[1]);
+        MockBrokerBoot.start(args[0]);
 
         /**
          * 临时打包文件保留5个小时.
          * */
-        new GarbageCleanerThread(HadesRootConfigure.sInstance.getApkTempDir(), 5 * 60 * 60 * 1000).start();
+        new GarbageCleanerThread(Hades.sInstance.f.WORK_SPACE, 5 * 60 * 60 * 1000).start();
         /**
          * 日志文件保留5天.
          * */
-        new GarbageCleanerThread(HadesRootConfigure.sInstance.getLogTempDir(), 5 * 24 * 60 * 60 * 1000).start();
+        new GarbageCleanerThread(Hades.sInstance.f.LOG, 5 * 24 * 60 * 60 * 1000).start();
 
         LogUtils.info(MqBroker.class, " start server ok. ");
     }

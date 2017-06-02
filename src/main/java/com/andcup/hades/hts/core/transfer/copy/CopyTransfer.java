@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.transfer.copy;
 
-import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.F;
 import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.transfer.Transfer;
 
@@ -18,7 +18,7 @@ import java.util.Date;
  */
 public class CopyTransfer extends Transfer {
 
-    public CopyTransfer(HadesRootConfigure.Server server) {
+    public CopyTransfer(F.Server server) {
         super(server);
     }
 

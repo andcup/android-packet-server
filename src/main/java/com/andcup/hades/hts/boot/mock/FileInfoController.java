@@ -1,6 +1,5 @@
 package com.andcup.hades.hts.boot.mock;
 
-import com.andcup.hades.hts.HadesConstant;
 import com.andcup.hades.hts.core.model.FileInfo;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.MD5;
@@ -38,7 +37,7 @@ public class FileInfoController extends RequestController {
             logger.info(JsonConvertTool.toString(fileInfo));
             return new HadesHttpResponse<FileInfo>(0,  fileInfo);
         }else{
-            return new HadesHttpResponse(-1,  sourcePath + HadesConstant.FILE_IS_NOT_EXIST);
+            return new HadesHttpResponse(-1,  sourcePath + " 文件不存在.");
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.andcup.hades.hts.core.model;
 
-import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.F;
+import com.andcup.hades.hts.Hades;
 import com.andcup.hades.hts.core.tools.FileUtils;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.MakeDirTool;
@@ -130,7 +131,7 @@ public class Task {
          * 每个APK包的工作路径.
          * */
         private static String getWorkDir(Task task){
-            String dir = HadesRootConfigure.sInstance.getApkTempDir() + task.name + "_" + task.md5;
+            String dir = F.WORK_SPACE + task.name + "_" + task.md5;
             MakeDirTool.mkdir(dir);
             MakeDirTool.mkdir(dir + "/temp/");
             return  dir;

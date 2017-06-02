@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.transfer.commonnet;
 
-import com.andcup.hades.hts.HadesRootConfigure;
+import com.andcup.hades.hts.F;
 import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.transfer.Transfer;
 import com.andcup.hades.hts.server.utils.LogUtils;
@@ -19,7 +19,7 @@ public class CommonNetFtpTransfer extends Transfer {
 
     FTPClient ftpClient;
 
-    public CommonNetFtpTransfer(HadesRootConfigure.Server server) {
+    public CommonNetFtpTransfer(F.Server server) {
         super(server);
     }
 

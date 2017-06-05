@@ -7,6 +7,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 /**

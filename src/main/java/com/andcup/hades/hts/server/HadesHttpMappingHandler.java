@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,9 @@ class HadesHttpMappingHandler implements HttpHandler {
              * HTTP应答.
              * */
             try {
-                byte[] data = JsonConvertTool.toString(result).getBytes();
+                String encodeValue = JsonConvertTool.toString(result);
+//                encodeValue = URLEncoder.encode(encodeValue, "UTF-8");
+                byte[] data = encodeValue.getBytes();
                 httpExchange.sendResponseHeaders(200, data.length);
                 OutputStream os = httpExchange.getResponseBody();
                 os.write(data);

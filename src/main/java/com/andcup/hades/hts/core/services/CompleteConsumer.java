@@ -8,6 +8,8 @@ import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.OKHttpClient;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +35,11 @@ public class CompleteConsumer extends MqConsumer{
         maps.put(groupId, task.groupId);
         maps.put(id, task.id);
         maps.put(code, String.valueOf(message.getLastState() == State.SUCCESS ? 0 : -1));
-        maps.put(msg, message.getMsg());
+        try {
+            maps.put(msg, URLEncoder.encode(message.getMsg(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         try {
             String result = new OKHttpClient(task.feedback).call(maps);
             Response response = JsonConvertTool.toJson(result,Response.class);

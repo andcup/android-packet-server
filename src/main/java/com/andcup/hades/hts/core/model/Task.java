@@ -202,7 +202,7 @@ public class Task {
          * 获取写入的文件.
          * */
         private static String getRule(Task task) {
-            return String.format(task.type == Task.TYPE_ANDROID_COMPILE ? RULE_QUICK : RULE_COMPILE, task.id, task.sourceId, task.other);
+            return String.format(task.type == Task.TYPE_ANDROID_COMPILE ? RULE_COMPILE : RULE_QUICK, task.id, task.sourceId, task.other);
         }
     }
 

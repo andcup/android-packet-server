@@ -26,11 +26,11 @@ public class MockBrokerBoot {
          * */
         MqBroker.getInstance().start();
         MqBroker.getInstance().setConsumer(MqConsumer.Factory.getConsumer());
-        LogUtils.info(MockBrokerBoot.class," listen port : " + Hades.sInstance.port);
+        LogUtils.info(MockBrokerBoot.class," listen port : " + R.port);
         /**
          * 启动服务器.
          * */
-        new HadesHttpServer().bind(Hades.sInstance.port).scan("com.andcup.hades.hts.boot.mock").start();
-        LogUtils.info(MockBrokerBoot.class," start server : " + Hades.sInstance.port + " success. ");
+        new HadesHttpServer().bind(R.port).scan("com.andcup.hades.hts.boot.mock").start();
+        LogUtils.info(MockBrokerBoot.class," start server : " + R.port + " success. ");
     }
 }

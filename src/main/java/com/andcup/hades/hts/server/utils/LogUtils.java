@@ -1,6 +1,7 @@
 package com.andcup.hades.hts.server.utils;
 
 import com.andcup.hades.hts.Hades;
+import com.andcup.hades.hts.R;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -19,7 +20,7 @@ public class LogUtils {
     }
 
     private static String tag1(){
-        String port = null != Hades.sInstance ? String.valueOf(Hades.sInstance.port):"";
+        String port = null != Hades.sInstance ? String.valueOf(R.port):"";
         return "["+port+"] - ";
     }
 }

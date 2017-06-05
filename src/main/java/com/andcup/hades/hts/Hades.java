@@ -22,6 +22,10 @@ public class Hades {
 
     public static void init(String port) {
         /**
+         * 设置端口.
+         * */
+        R.port = Integer.valueOf(port);
+        /**
          * 准备工作.
          * */
         R.prepare();
@@ -30,10 +34,6 @@ public class Hades {
          * */
         sInstance = JsonConvertTool.toJson(new File(R.CONFIG), Hades.class);
 
-        /**
-         * 设置端口.
-         * */
-        Hades.sInstance.port = Integer.valueOf(port);
         /**
          * 初始化下载路径、工作路径.
          * */
@@ -61,9 +61,4 @@ public class Hades {
     public R r;
     @JsonProperty("f")
     public F f;
-    /**
-     * 服务器端口配置.
-     */
-    @JsonProperty("port")
-    public int port;
 }

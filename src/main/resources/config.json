@@ -1,14 +1,14 @@
 {
   "r":{
-    "apkTool":"./r/tools/apktool-2.2.1.jar",
-    "apkSignKeyPath":"./r/tools/youlong.json"
+    "apkTool":"./r/tools/shakeapktool.jar",
+    "apkSignKeyPath":"./r/tools/xuanzang_896325.jks"
   },
   "f":{
     "to":{
-      "username":"amos",
-      "password":12345678,
-      "url":"192.168.15.45",
-      "port":25
+      "username":"ftpuser",
+      "password":"wweAQUiaBKQIjVreMltg",
+      "url":"192.168.28.103",
+      "port":21
     },
     "from":{
       "username":"ftpuser",

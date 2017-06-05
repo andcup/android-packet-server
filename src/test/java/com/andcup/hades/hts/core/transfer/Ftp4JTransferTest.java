@@ -13,7 +13,7 @@ public class Ftp4JTransferTest {
     Ftp4JTransfer transfer;
 
     public Ftp4JTransferTest(){
-        Hades.init("config.json", null);
+        Hades.init(null);
         transfer = new Ftp4JTransfer(Hades.sInstance.f.from);
     }
 

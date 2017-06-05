@@ -12,6 +12,8 @@ import java.io.File;
  */
 public class R {
 
+
+    public static int port = 700;
     /**
      * 配置文件路径.
      * */
@@ -55,14 +57,14 @@ public class R {
     }
 
     public static void prepare(){
-        String jarPath = F.class.getClassLoader().getResource("").getFile();
+        String jarPath = System.getProperty("java.class.path");
         if(!new File(CONFIG).exists()){
             //配置文件不存在.
-            ZipProcessor.PREPARE.onProcessor(jarPath, CONFIG, CONFIG);
+            ZipProcessor.PREPARE.onProcessor(jarPath, "./", CONFIG);
         }
         if(!new File(APK_TOOL).exists() || !new File(TEMPLATE).exists()){
             //签名文件不存在.
-            ZipProcessor.PREPARE.onProcessor(jarPath, "./temp/", "r/");
+            ZipProcessor.PREPARE.onProcessor(jarPath, "./", "r/");
         }
     }
 }

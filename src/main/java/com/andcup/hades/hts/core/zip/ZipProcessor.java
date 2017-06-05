@@ -6,7 +6,6 @@ import org.zeroturnaround.zip.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.zip.ZipEntry;
 
 /**
@@ -70,32 +69,12 @@ public interface ZipProcessor {
                 @Override
                 public String map(String s) {
                     if(s.startsWith(compressFile)){
-                        LogUtils.info(ZipProcessor.class, "  " + s);
                        return s;
                     }
                     return null;
                 }
             });
             return true;
-
-//            try {
-//                ZipUtil.iterate(new File(zip), new ZipEntryCallback() {
-//                    @Override
-//                    public void process(InputStream inputStream, ZipEntry zipEntry) throws IOException {
-//                        LogUtils.info(ZipProcessor.class, "  " + zipEntry.getName());
-//                        if(zipEntry.getName().contains(compressFile)){
-//                            throw new ConsumeException(zipEntry.getName());
-//                        }
-//                    }
-//                });
-//            }catch (ConsumeException e){
-//                String unZipFile = e.getMessage();
-//
-//                ZipUtil.unpackEntry(new File(zip), unZipFile, new File(target));
-//                LogUtils.info(ZipProcessor.class, " 解压 : " + unZipFile + " 成功.");
-//                return true;
-//            }
-//            return false;
         }
     };
 }

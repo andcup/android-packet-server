@@ -2,6 +2,7 @@ package com.andcup.hades.hts.logback;
 
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import com.andcup.hades.hts.Hades;
+import com.andcup.hades.hts.R;
 
 /**
  * Created by Amos
@@ -13,6 +14,6 @@ public class HadesTimeBasedRollingPolicy<E> extends TimeBasedRollingPolicy<E> {
     @Override
     public String getActiveFileName() {
         String name = super.getActiveFileName();
-        return name.replace(".log", "-" + Hades.sInstance.port + ".log");
+        return name.replace(".log", "-" + R.port + ".log");
     }
 }

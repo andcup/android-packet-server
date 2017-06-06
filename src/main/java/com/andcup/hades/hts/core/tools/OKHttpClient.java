@@ -41,8 +41,8 @@ public class OKHttpClient {
         //设置表单参数
         for (String key: maps.keySet()) {
             sb.append(key+"=" + maps.get(key) + "&");
-            LogUtils.info(OKHttpClient.class, " key : " + key + " value = " + maps.get(key)
-                    + " decode value = " + URLDecoder.decode(maps.get(key), "UTF-8"));
+//            LogUtils.info(OKHttpClient.class, " key : " + key + " value = " + maps.get(key)
+//                    + " decode value = " + URLDecoder.decode(maps.get(key), "UTF-8"));
         }
         String params = sb.toString();
         if(params.endsWith("&")){

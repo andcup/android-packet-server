@@ -33,9 +33,20 @@ public class CompressConsumer extends MqConsumer {
         } catch (IOException e) {
             throw new ConsumeException(e.getMessage());
         }
+        /**
+         * 保存到未签名文件.
+         * */
         boolean state = ZipProcessor.APK.onProcessor(Task.Helper.getDownloadPath(task),
                 Task.Helper.getChannelPath(task),
                 file.getAbsolutePath());
+//        if(ZipProcessor.APK.onProcessor(Task.Helper.getDownloadPath(task),
+//                Task.Helper.getChannelUnsignedPath(task),
+//                file.getAbsolutePath())){
+//
+////            state = ZipProcessor.RSA.onProcessor(Task.Helper.getChannelUnsignedPath(task),
+////                    Task.Helper.getChannelPath(task),
+////                    null);
+//        }
 
         return state? State.SUCCESS : State.FAILED;
     }

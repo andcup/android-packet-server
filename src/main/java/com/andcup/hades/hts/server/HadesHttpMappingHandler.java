@@ -50,8 +50,9 @@ class HadesHttpMappingHandler implements HttpHandler {
              * HTTP应答.
              * */
             try {
+                result.message = URLEncoder.encode(result.message, "utf-8");
                 String encodeValue = JsonConvertTool.toString(result);
-//                encodeValue = URLEncoder.encode(encodeValue, "UTF-8");
+                //LogUtils.info(HadesHttpMappingHandler.class, encodeValue);
                 byte[] data = encodeValue.getBytes();
                 httpExchange.sendResponseHeaders(200, data.length);
                 OutputStream os = httpExchange.getResponseBody();

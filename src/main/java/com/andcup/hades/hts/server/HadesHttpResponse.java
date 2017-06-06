@@ -15,7 +15,7 @@ public class HadesHttpResponse<T> {
     public int code = 0;
 
     @JsonProperty("message")
-    public String message;
+    public String message = "成功";
 
     @JsonProperty("body")
     public T body;

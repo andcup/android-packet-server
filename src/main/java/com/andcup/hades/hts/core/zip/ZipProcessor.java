@@ -6,6 +6,8 @@ import org.zeroturnaround.zip.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 
 /**
@@ -44,7 +46,6 @@ public interface ZipProcessor {
                             throw new ConsumeException(zipEntry.getName());
                         }
                     }
-
                 });
             }catch (ConsumeException e){
                 File file = new File(appendFile);
@@ -64,10 +65,24 @@ public interface ZipProcessor {
     };
 
     ZipProcessor RSA = new ZipProcessor(){
-
         @Override
         public boolean onProcessor(String zip, String target, String compressFile) throws ConsumeException {
-            return false;
+            final List<String> pathList = new ArrayList<>();
+            ZipUtil.iterate(new File(zip), new ZipInfoCallback() {
+                @Override
+                public void process(ZipEntry zipEntry) throws IOException {
+                    if(zipEntry.getName().contains(".RSA") || zipEntry.getName().contains(".SF")){
+                        pathList.add(zipEntry.getName());
+                        if(pathList.size() >= 2){
+                            throw new ConsumeException(zipEntry.getName());
+                        }
+                    }
+                }
+            });
+            if(pathList.size() > 0){
+                ZipUtil.removeEntries(new File(zip), (String[]) pathList.toArray());
+            }
+            return true;
         }
     };
 

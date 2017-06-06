@@ -40,6 +40,6 @@ public class PListTest {
         long size = new File("YLInfo.plist").length();
         LogUtils.info(PListTest.class, " size = " + size);
 
-        ZipProcessor.IPA.onProcessor("YLSDK.zip", "YLSDK2.zip", "YLInfo.plist");
+        ZipProcessor.IPA.process("YLSDK.zip", "YLSDK2.zip", "YLInfo.plist");
     }
 }

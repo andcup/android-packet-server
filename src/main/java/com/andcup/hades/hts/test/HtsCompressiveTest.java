@@ -15,6 +15,6 @@ public class HtsCompressiveTest {
 
     public static void main(String[] args ){
         String jarPath = "E:\\gitlab-qioq\\hades\\hades-task-server\\build\\libs\\hades-task-server-all-1.0.1-SNAPSHOT.jar";
-        ZipProcessor.PREPARE.onProcessor(jarPath, "./temp/", "r/");
+        ZipProcessor.PREPARE.process(jarPath, "./temp/", "r/");
     }
 }

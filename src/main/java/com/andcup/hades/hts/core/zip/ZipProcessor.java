@@ -1,6 +1,7 @@
 package com.andcup.hades.hts.core.zip;
 
 import com.andcup.hades.hts.core.exception.ConsumeException;
+import com.andcup.hades.hts.core.tools.FileUtils;
 import com.andcup.hades.hts.server.utils.LogUtils;
 import org.zeroturnaround.zip.*;
 
@@ -17,17 +18,19 @@ import java.util.zip.ZipEntry;
  */
 public interface ZipProcessor {
 
-    boolean onProcessor(String zip, String target, String compressFile) throws ConsumeException;
+    String META_INF = "META-INF/";
+
+    boolean process(String zip, String target, String compressFile) throws ConsumeException;
 
     ZipProcessor APK = new ZipProcessor() {
         @Override
-        public boolean onProcessor(String src, String dst, String appendFile) {
+        public boolean process(String src, String dst, String appendFile) {
+            FileUtils.store(appendFile, appendFile);
             File file = new File(appendFile);
-            String metaInf = "META-INF/" + file.getName();
+            String metaInf = META_INF + file.getName();
             ZipEntrySource[] addedEntries = new ZipEntrySource[]{new FileSource(metaInf, file)};
             try{
                 ZipUtil.addEntries(new File(src), addedEntries, new File(dst));
-
             }catch (ZipException e){
                 throw new ConsumeException(e.getMessage());
             }
@@ -37,7 +40,7 @@ public interface ZipProcessor {
 
     ZipProcessor IPA = new ZipProcessor() {
         @Override
-        public boolean onProcessor(String src, String dst, String appendFile) throws ConsumeException {
+        public boolean process(String src, String dst, String appendFile) throws ConsumeException {
             try {
                 ZipUtil.iterate(new File(src), new ZipInfoCallback() {
                     @Override
@@ -66,29 +69,35 @@ public interface ZipProcessor {
 
     ZipProcessor RSA = new ZipProcessor(){
         @Override
-        public boolean onProcessor(String zip, String target, String compressFile) throws ConsumeException {
-            final List<String> pathList = new ArrayList<>();
-            ZipUtil.iterate(new File(zip), new ZipInfoCallback() {
-                @Override
-                public void process(ZipEntry zipEntry) throws IOException {
-                    if(zipEntry.getName().contains(".RSA") || zipEntry.getName().contains(".SF")){
-                        pathList.add(zipEntry.getName());
-                        if(pathList.size() >= 2){
-                            throw new ConsumeException(zipEntry.getName());
+        public boolean process(String zip, String target, String compressFile) throws ConsumeException {
+            final String[] pathList = new String[2];
+            try {
+                ZipUtil.iterate(new File(zip), new ZipInfoCallback() {
+                    @Override
+                    public void process(ZipEntry zipEntry) throws IOException {
+                        if(zipEntry.getName().contains(".RSA") || zipEntry.getName().contains(".SF")){
+                            int index = pathList[0] == null?0:(pathList[1] == null? 1: -1);
+                            if(-1 == index){
+                                throw new ConsumeException(zipEntry.getName());
+                            }
+                            pathList[index] = zipEntry.getName();
+                            pathList[1] = zipEntry.getName();
+
                         }
                     }
-                }
-            });
-            if(pathList.size() > 0){
-                ZipUtil.removeEntries(new File(zip), (String[]) pathList.toArray());
+                });
+            }catch (ConsumeException e){
+
+                ZipUtil.removeEntries(new File(zip), pathList);
+                return true;
             }
-            return true;
+            return false;
         }
     };
 
     ZipProcessor PREPARE = new ZipProcessor() {
         @Override
-        public boolean onProcessor(String zip, String target, final String compressFile) throws ConsumeException {
+        public boolean process(String zip, String target, final String compressFile) throws ConsumeException {
             ZipUtil.unpack(new File(zip), new File(target), new NameMapper() {
                 @Override
                 public String map(String s) {

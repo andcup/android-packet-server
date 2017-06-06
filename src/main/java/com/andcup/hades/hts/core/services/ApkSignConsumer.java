@@ -31,9 +31,6 @@ public class ApkSignConsumer extends MqConsumer{
 
         String unsignedApk = Task.Helper.getChannelUnsignedPath(task);
         String signedApk = Task.Helper.getChannelPath(task);
-        LogUtils.info(ApkSignConsumer.class, "1 = " + Hades.sInstance.r.getApkSignKeyPath() +
-        " 2 = " + Hades.sInstance.r.getPassword() +
-        " 3 = " + Hades.sInstance.r.getAlias());
         String formatCommand = String.format(command,
                 Hades.sInstance.r.getApkSignKeyPath(),
                 Hades.sInstance.r.getPassword(),

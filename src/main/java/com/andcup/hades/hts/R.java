@@ -60,11 +60,11 @@ public class R {
         String jarPath = System.getProperty("java.class.path");
         if(!new File(CONFIG).exists()){
             //配置文件不存在.
-            ZipProcessor.PREPARE.onProcessor(jarPath, "./", CONFIG);
+            ZipProcessor.PREPARE.process(jarPath, "./", CONFIG);
         }
         if(!new File(APK_TOOL).exists() || !new File(TEMPLATE).exists()){
             //签名文件不存在.
-            ZipProcessor.PREPARE.onProcessor(jarPath, "./", "r/");
+            ZipProcessor.PREPARE.process(jarPath, "./", "r/");
         }
     }
 }

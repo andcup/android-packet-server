@@ -1,7 +1,7 @@
 {
   "r":{
     "apkTool":"./r/tools/shakeapktool.jar",
-    "apkSignKeyPath":"./r/tools/xuanzang_896325.jks"
+    "apkSignKeyPath":"./r/tools/youlong_123456.jks"
   },
   "f":{
     "to":{

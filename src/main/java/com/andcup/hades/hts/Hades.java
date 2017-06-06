@@ -33,7 +33,6 @@ public class Hades {
          * 转换配置文件.
          * */
         sInstance = JsonConvertTool.toJson(new File(R.CONFIG), Hades.class);
-
         /**
          * 初始化下载路径、工作路径.
          * */

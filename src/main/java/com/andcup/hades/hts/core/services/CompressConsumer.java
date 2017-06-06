@@ -22,32 +22,19 @@ import java.io.IOException;
 public class CompressConsumer extends MqConsumer {
     @Override
     public State doInBackground(Message<Task> message) throws ConsumeException {
-
         Task task = message.getData();
-        /**
-         * 开始压缩.
-         * */
-        File file = new File(Task.Helper.getRulePath(task));
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            throw new ConsumeException(e.getMessage());
-        }
         /**
          * 保存到未签名文件.
          * */
-        boolean state = ZipProcessor.APK.onProcessor(Task.Helper.getDownloadPath(task),
+        boolean state = ZipProcessor.APK.process(Task.Helper.getDownloadPath(task),
                 Task.Helper.getChannelPath(task),
-                file.getAbsolutePath());
-//        if(ZipProcessor.APK.onProcessor(Task.Helper.getDownloadPath(task),
-//                Task.Helper.getChannelUnsignedPath(task),
-//                file.getAbsolutePath())){
-//
-////            state = ZipProcessor.RSA.onProcessor(Task.Helper.getChannelUnsignedPath(task),
-////                    Task.Helper.getChannelPath(task),
-////                    null);
-//        }
+                Task.Helper.getRulePath(task));
 
+//        if(state){
+//            state = ZipProcessor.RSA.process(Task.Helper.getChannelPath(task),
+//                    Task.Helper.getChannelPath(task),
+//                    null);
+//        }
         return state? State.SUCCESS : State.FAILED;
     }
 }

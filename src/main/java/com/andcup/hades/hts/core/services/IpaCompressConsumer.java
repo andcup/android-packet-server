@@ -45,7 +45,7 @@ public class IpaCompressConsumer extends MqConsumer {
          * 压缩plist文件.
          * */
         File pListFile = new File(Task.Helper.getPlist(task));
-        State state = ZipProcessor.IPA.onProcessor(Task.Helper.getDownloadPath(task),
+        State state = ZipProcessor.IPA.process(Task.Helper.getDownloadPath(task),
                 Task.Helper.getChannelPath(task),
                 pListFile.getAbsolutePath()) ?
                 State.SUCCESS : State.FAILED;

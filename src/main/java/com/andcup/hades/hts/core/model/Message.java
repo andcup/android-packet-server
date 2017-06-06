@@ -26,7 +26,7 @@ public class Message<T extends Task> {
     @JsonProperty("lastState")
     State lastState;      // 消息状态: NEW=新消息、ING=消费中、SUCCESS=消费成功、FAIL=消费失败
     @JsonProperty("msg")
-    String msg = "success.";            // 历史流转日志
+    String msg = "成功";            // 历史流转日志
     @JsonProperty("topic")
     Topic topic;          // 消息主题
     /**

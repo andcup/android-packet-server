@@ -7,7 +7,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import java.io.IOException;
-import java.net.URLEncoder;
+import java.net.URLDecoder;
 import java.util.Map;
 
 /**
@@ -40,13 +40,16 @@ public class OKHttpClient {
         StringBuffer sb = new StringBuffer();
         //设置表单参数
         for (String key: maps.keySet()) {
-            sb.append(key+"="+maps.get(key)+"&");
+            sb.append(key+"=" + maps.get(key) + "&");
+            LogUtils.info(OKHttpClient.class, " key : " + key + " value = " + maps.get(key)
+                    + " decode value = " + URLDecoder.decode(maps.get(key), "UTF-8"));
         }
         String params = sb.toString();
         if(params.endsWith("&")){
             params = params.substring(0, sb.length() - 1);
         }
         RequestBody body = RequestBody.create(XWWW, params);
+        LogUtils.info(OKHttpClient.class, " request : " + params);
         return call(body);
     }
 

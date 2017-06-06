@@ -3,6 +3,7 @@ package com.andcup.hades.hts.core.transfer.ftp4j;
 import com.andcup.hades.hts.F;
 import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.transfer.Transfer;
+import com.andcup.hades.hts.server.utils.LogUtils;
 import it.sauronsoftware.ftp4j.*;
 
 import java.io.File;
@@ -117,11 +118,11 @@ public class Ftp4JTransfer extends Transfer {
             /**返回到跟目录.*/
             client.createDirectory(dir);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (FTPException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (FTPIllegalReplyException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -130,11 +131,11 @@ public class Ftp4JTransfer extends Transfer {
             /**返回到跟目录.*/
             client.changeDirectory(dir);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (FTPException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (FTPIllegalReplyException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

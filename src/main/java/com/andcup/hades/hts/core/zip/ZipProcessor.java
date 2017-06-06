@@ -25,6 +25,7 @@ public interface ZipProcessor {
             ZipEntrySource[] addedEntries = new ZipEntrySource[]{new FileSource(metaInf, file)};
             try{
                 ZipUtil.addEntries(new File(src), addedEntries, new File(dst));
+
             }catch (ZipException e){
                 throw new ConsumeException(e.getMessage());
             }
@@ -58,6 +59,14 @@ public interface ZipProcessor {
                 }
                 return true;
             }
+            return false;
+        }
+    };
+
+    ZipProcessor RSA = new ZipProcessor(){
+
+        @Override
+        public boolean onProcessor(String zip, String target, String compressFile) throws ConsumeException {
             return false;
         }
     };

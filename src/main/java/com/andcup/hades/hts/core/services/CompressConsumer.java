@@ -33,9 +33,10 @@ public class CompressConsumer extends MqConsumer {
         } catch (IOException e) {
             throw new ConsumeException(e.getMessage());
         }
-        return ZipProcessor.APK.onProcessor(Task.Helper.getDownloadPath(task),
+        boolean state = ZipProcessor.APK.onProcessor(Task.Helper.getDownloadPath(task),
                 Task.Helper.getChannelPath(task),
-                file.getAbsolutePath()) ?
-                State.SUCCESS : State.FAILED;
+                file.getAbsolutePath());
+
+        return state? State.SUCCESS : State.FAILED;
     }
 }

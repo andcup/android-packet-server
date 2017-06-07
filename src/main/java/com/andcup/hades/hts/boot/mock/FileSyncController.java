@@ -8,11 +8,11 @@ import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.OKHttpClient;
 import com.andcup.hades.hts.core.transfer.Transfer;
 import com.andcup.hades.hts.core.transfer.ftp4j.Ftp4JTransfer;
-import com.andcup.hades.hts.server.HadesHttpResponse;
-import com.andcup.hades.hts.server.RequestController;
-import com.andcup.hades.hts.server.bind.Body;
-import com.andcup.hades.hts.server.bind.Controller;
-import com.andcup.hades.hts.server.bind.Request;
+import com.andcup.hades.httpserver.HadesHttpResponse;
+import com.andcup.hades.httpserver.RequestController;
+import com.andcup.hades.httpserver.bind.Body;
+import com.andcup.hades.httpserver.bind.Controller;
+import com.andcup.hades.httpserver.bind.Request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.File;
@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 
 @Controller("/api/file")
-public class FileSyncController extends RequestController{
+public class FileSyncController extends RequestController {
 
     MqManager<FileSyncModel> mqManager = new MqManager<>();
 

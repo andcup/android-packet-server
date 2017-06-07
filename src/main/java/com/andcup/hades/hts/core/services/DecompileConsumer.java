@@ -9,7 +9,7 @@ import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.model.Topic;
 import com.andcup.hades.hts.core.tools.CommandRunner;
-import com.andcup.hades.hts.server.utils.LogUtils;
+import com.andcup.hades.httpserver.utils.LogUtils;
 
 import java.io.File;
 

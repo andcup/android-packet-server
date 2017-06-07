@@ -1,9 +1,7 @@
 package com.andcup.hades.hts.core.tools;
 
-import com.andcup.hades.hts.server.utils.LogUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 

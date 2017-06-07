@@ -1,14 +1,15 @@
-package com.andcup.hades.hts.server;
+package com.andcup.hades.httpserver;
 
-import com.andcup.hades.hts.core.tools.OKHttpClient;
-import com.andcup.hades.hts.server.bind.Controller;
-import com.andcup.hades.hts.server.bind.Request;
-import com.andcup.hades.hts.server.utils.LogUtils;
-import com.andcup.hades.hts.server.utils.ScanForClasses;
+import com.andcup.hades.httpserver.bind.Controller;
+import com.andcup.hades.httpserver.bind.Request;
+import com.andcup.hades.httpserver.utils.LogUtils;
+import com.andcup.hades.httpserver.utils.ScanForClasses;
 
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Amos

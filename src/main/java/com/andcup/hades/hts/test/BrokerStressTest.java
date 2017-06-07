@@ -4,7 +4,7 @@ import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.MD5;
 import com.andcup.hades.hts.core.tools.OKHttpClient;
-import com.andcup.hades.hts.server.utils.LogUtils;
+import com.andcup.hades.httpserver.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;

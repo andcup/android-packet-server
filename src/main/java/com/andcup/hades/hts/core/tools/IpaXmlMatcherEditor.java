@@ -1,7 +1,7 @@
 package com.andcup.hades.hts.core.tools;
 
 import com.andcup.hades.hts.core.services.IpaCompressConsumer;
-import com.andcup.hades.hts.server.utils.LogUtils;
+import com.andcup.hades.httpserver.utils.LogUtils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;

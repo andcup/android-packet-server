@@ -1,7 +1,7 @@
 package com.andcup.hades.hts.core.tools;
 
 import com.andcup.hades.hts.core.annotation.Consumer;
-import com.andcup.hades.hts.server.utils.ScanForClasses;
+import com.andcup.hades.httpserver.utils.ScanForClasses;
 
 import java.io.File;
 import java.io.FileFilter;

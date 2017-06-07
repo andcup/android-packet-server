@@ -4,7 +4,7 @@ import com.andcup.hades.hts.core.services.IpaCompressConsumer;
 import com.andcup.hades.hts.core.tools.IpaXmlMatcherEditor;
 import com.andcup.hades.hts.core.tools.XmlMatchEditor;
 import com.andcup.hades.hts.core.zip.ZipProcessor;
-import com.andcup.hades.hts.server.utils.LogUtils;
+import com.andcup.hades.httpserver.utils.LogUtils;
 
 import java.io.File;
 import java.util.HashMap;

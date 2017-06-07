@@ -3,7 +3,7 @@ package com.andcup.hades.hts.core.services;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.model.*;
-import com.andcup.hades.hts.server.utils.LogUtils;
+import com.andcup.hades.httpserver.utils.LogUtils;
 
 import java.io.File;
 

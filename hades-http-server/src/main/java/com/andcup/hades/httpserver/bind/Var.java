@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.server.bind;
+package com.andcup.hades.httpserver.bind;
 
 import java.lang.annotation.*;
 

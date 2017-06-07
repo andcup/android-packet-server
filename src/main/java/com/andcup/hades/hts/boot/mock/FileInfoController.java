@@ -3,11 +3,11 @@ package com.andcup.hades.hts.boot.mock;
 import com.andcup.hades.hts.core.model.FileInfo;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.MD5;
-import com.andcup.hades.hts.server.HadesHttpResponse;
-import com.andcup.hades.hts.server.RequestController;
-import com.andcup.hades.hts.server.bind.Controller;
-import com.andcup.hades.hts.server.bind.Request;
-import com.andcup.hades.hts.server.bind.Var;
+import com.andcup.hades.httpserver.HadesHttpResponse;
+import com.andcup.hades.httpserver.RequestController;
+import com.andcup.hades.httpserver.bind.Controller;
+import com.andcup.hades.httpserver.bind.Request;
+import com.andcup.hades.httpserver.bind.Var;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

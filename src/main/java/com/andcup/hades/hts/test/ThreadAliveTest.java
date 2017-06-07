@@ -1,7 +1,6 @@
 package com.andcup.hades.hts.test;
 
-import com.andcup.hades.hts.core.MqConsumer;
-import com.andcup.hades.hts.server.utils.LogUtils;
+import com.andcup.hades.httpserver.utils.LogUtils;
 
 /**
  * Created by Amos

@@ -1,11 +1,12 @@
 package com.andcup.hades.hts.boot.mock;
 
-import com.andcup.hades.hts.server.HadesHttpResponse;
-import com.andcup.hades.hts.server.RequestController;
-import com.andcup.hades.hts.server.bind.Controller;
-import com.andcup.hades.hts.server.bind.Request;
-import com.andcup.hades.hts.server.bind.Var;
-import com.andcup.hades.hts.server.utils.LogUtils;
+
+import com.andcup.hades.httpserver.HadesHttpResponse;
+import com.andcup.hades.httpserver.RequestController;
+import com.andcup.hades.httpserver.bind.Controller;
+import com.andcup.hades.httpserver.bind.Request;
+import com.andcup.hades.httpserver.bind.Var;
+import com.andcup.hades.httpserver.utils.LogUtils;
 
 /**
  * Created by Amos

@@ -2,13 +2,11 @@ package com.andcup.hades.hts.core.zip;
 
 import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.tools.FileUtils;
-import com.andcup.hades.hts.server.utils.LogUtils;
+import com.andcup.hades.httpserver.utils.LogUtils;
 import org.zeroturnaround.zip.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.zip.ZipEntry;
 
 /**

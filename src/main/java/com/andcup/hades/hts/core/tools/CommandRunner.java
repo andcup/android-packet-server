@@ -4,7 +4,7 @@ import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.State;
 import com.andcup.hades.hts.core.model.Task;
-import com.andcup.hades.hts.server.utils.LogUtils;
+import com.andcup.hades.httpserver.utils.LogUtils;
 import com.thoughtworks.studios.javaexec.CommandExecutor;
 import com.thoughtworks.studios.javaexec.CommandExecutorException;
 import com.thoughtworks.studios.javaexec.LineHandler;

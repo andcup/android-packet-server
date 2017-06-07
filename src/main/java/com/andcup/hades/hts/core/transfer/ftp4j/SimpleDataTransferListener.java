@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.transfer.ftp4j;
 
-import com.andcup.hades.hts.server.utils.LogUtils;
+import com.andcup.hades.httpserver.utils.LogUtils;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 
 /**

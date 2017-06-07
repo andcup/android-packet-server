@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.server;
+package com.andcup.hades.httpserver;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

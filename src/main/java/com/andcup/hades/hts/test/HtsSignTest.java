@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.test;
 
-import com.andcup.hades.hts.server.utils.LogUtils;
+import com.andcup.hades.httpserver.utils.LogUtils;
 import com.thoughtworks.studios.javaexec.CommandExecutor;
 import com.thoughtworks.studios.javaexec.CommandExecutorException;
 

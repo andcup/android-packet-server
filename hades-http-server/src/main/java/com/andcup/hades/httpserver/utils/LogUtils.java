@@ -1,7 +1,5 @@
-package com.andcup.hades.hts.server.utils;
+package com.andcup.hades.httpserver.utils;
 
-import com.andcup.hades.hts.Hades;
-import com.andcup.hades.hts.R;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -10,6 +8,8 @@ import org.slf4j.LoggerFactory;
  * Description:
  */
 public class LogUtils {
+
+    public static  String TAG;
 
     public static void info(Class<?> tag, String message){
         LoggerFactory.getLogger(tag).info(tag1() + message);
@@ -20,7 +20,6 @@ public class LogUtils {
     }
 
     private static String tag1(){
-        String port = null != Hades.sInstance ? String.valueOf(R.port):"";
-        return "["+port+"] - ";
+        return "[" + TAG + "] - ";
     }
 }

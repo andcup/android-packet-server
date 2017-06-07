@@ -26,6 +26,7 @@ public class HadesApplication {
     WARConfigure configure;
 
     private HadesApplication(String port) {
+        LogUtils.init(port);
         configure = WARConfigure.load(port);
     }
 

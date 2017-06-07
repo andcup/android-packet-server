@@ -36,7 +36,7 @@ public abstract class MqConsumer implements IMqConsumer, IMqConsumer.Executor {
 
         if(match == Integer.MAX_VALUE || (match == msgMatch)){
             if(consumer == State.DEFAULT || (consumer == last)){
-                String log =" 任务名称 : " + message.getName() + " 任务ID : " + message.getId() + " 步骤 :" + getConsumer().topic().getName();
+                String log =" 任务名称 : " + message.getName() + " 步骤 :" + getConsumer().topic().getName();
                 LogUtils.info(MqConsumer.class," 开始 " + log);
                 State state = doInBackground(message);
                 LogUtils.info(MqConsumer.class," 完成 " + log + " 状态 : " + state);

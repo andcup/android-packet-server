@@ -9,7 +9,11 @@ import org.slf4j.LoggerFactory;
  */
 public class LogUtils {
 
-    public static  String TAG;
+    private static  String TAG;
+
+    public static void init(String tag){
+        TAG = tag;
+    }
 
     public static void info(Class<?> tag, String message){
         LoggerFactory.getLogger(tag).info(tag1() + message);

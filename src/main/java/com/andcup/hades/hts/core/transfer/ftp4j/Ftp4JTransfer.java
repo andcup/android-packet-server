@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.transfer.ftp4j;
 
-import com.andcup.hades.hts.F;
+import com.andcup.hades.hts.config.F;
 import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.transfer.Transfer;
 import it.sauronsoftware.ftp4j.*;

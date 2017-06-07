@@ -1,4 +1,4 @@
-package com.andcup.hades.hts;
+package com.andcup.hades.hts.config;
 
 import com.andcup.hades.hts.core.zip.ZipProcessor;
 import com.fasterxml.jackson.annotation.JsonProperty;

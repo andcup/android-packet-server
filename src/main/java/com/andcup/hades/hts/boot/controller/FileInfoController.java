@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.boot.mock;
+package com.andcup.hades.hts.boot.controller;
 
 import com.andcup.hades.hts.core.model.FileInfo;
 import com.andcup.hades.hts.core.tools.JsonConvertTool;

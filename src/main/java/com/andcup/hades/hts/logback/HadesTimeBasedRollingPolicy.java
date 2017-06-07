@@ -1,8 +1,7 @@
 package com.andcup.hades.hts.logback;
 
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
-import com.andcup.hades.hts.Hades;
-import com.andcup.hades.hts.R;
+import com.andcup.hades.hts.config.R;
 
 /**
  * Created by Amos

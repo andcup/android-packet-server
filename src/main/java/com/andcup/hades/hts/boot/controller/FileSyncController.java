@@ -1,6 +1,6 @@
-package com.andcup.hades.hts.boot.mock;
+package com.andcup.hades.hts.boot.controller;
 
-import com.andcup.hades.hts.Hades;
+import com.andcup.hades.hts.boot.HadesApplication;
 import com.andcup.hades.hts.boot.model.FileSyncModel;
 import com.andcup.hades.hts.core.MqManager;
 import com.andcup.hades.hts.core.exception.ConsumeException;
@@ -56,7 +56,7 @@ public class FileSyncController extends RequestController {
                     Response response = new Response();
                     response.attachData = model.attachData;
                     try{
-                        Transfer transfer = new Ftp4JTransfer(Hades.sInstance.f.to);
+                        Transfer transfer = new Ftp4JTransfer(HadesApplication.sInstance.f().to);
                         transfer.upToRemote(model.localFilePath, model.remoteFilePath);
                         response.code = 0;
                         response.msg  = "同步成功.";

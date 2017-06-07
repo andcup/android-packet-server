@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.services;
 
-import com.andcup.hades.hts.Hades;
+import com.andcup.hades.hts.boot.HadesApplication;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.exception.ConsumeException;
@@ -25,7 +25,7 @@ public class DownloadConsumer extends MqConsumer {
      * */
     public State doInBackground(Message<Task> message) throws ConsumeException{
 
-        Transfer transfer = new CommonNetFtpTransfer(Hades.sInstance.f.from);
+        Transfer transfer = new CommonNetFtpTransfer(HadesApplication.sInstance.f().from);
         Task task = message.getData();
         if(!Task.Global.hasDownloaded(task)){
             transfer.dlFromRemote(message.getData().sourcePath, Task.Helper.getDownloadPath(message.getData()));

@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core;
 
-import com.andcup.hades.hts.F;
+import com.andcup.hades.hts.config.F;
 import com.andcup.hades.hts.core.model.Message;
 import com.andcup.hades.hts.core.model.Task;
 import com.andcup.hades.hts.core.tools.FileUtils;

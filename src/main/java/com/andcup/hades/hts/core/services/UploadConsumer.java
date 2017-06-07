@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.services;
 
-import com.andcup.hades.hts.Hades;
+import com.andcup.hades.hts.boot.HadesApplication;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.exception.ConsumeException;
@@ -22,7 +22,7 @@ public class UploadConsumer extends MqConsumer {
 
     public State doInBackground(Message<Task> message) throws ConsumeException{
 
-        Transfer transfer = new Ftp4JTransfer(Hades.sInstance.f.to);
+        Transfer transfer = new Ftp4JTransfer(HadesApplication.sInstance.f().to);
         Task task = message.getData();
         String signedApk = Task.Helper.getChannelPath(task);
         transfer.upToRemote(signedApk, task.channelPath);

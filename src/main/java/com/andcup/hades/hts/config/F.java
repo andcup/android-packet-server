@@ -1,4 +1,4 @@
-package com.andcup.hades.hts;
+package com.andcup.hades.hts.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,12 +21,14 @@ public class F {
      * 日志保存文件路径.
      * */
     public static String LOG = TEMP + "logs/";
-
-
     /**
      * 工作路径.
      * */
-    public static String WORK_SPACE = TEMP + "work/";
+    public static String WORK = TEMP + "work/";
+
+    public static void prepare(String port){
+        F.WORK = F.WORK + port + "/";
+    }
 
     @JsonProperty("from")
     public Server from;

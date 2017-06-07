@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.services;
 
-import com.andcup.hades.hts.Hades;
+import com.andcup.hades.hts.boot.HadesApplication;
 import com.andcup.hades.hts.core.MqConsumer;
 import com.andcup.hades.hts.core.annotation.Consumer;
 import com.andcup.hades.hts.core.model.Message;
@@ -32,11 +32,11 @@ public class ApkSignConsumer extends MqConsumer{
         String unsignedApk = Task.Helper.getChannelUnsignedPath(task);
         String signedApk = Task.Helper.getChannelPath(task);
         String formatCommand = String.format(command,
-                Hades.sInstance.r.getApkSignKeyPath(),
-                Hades.sInstance.r.getPassword(),
+                HadesApplication.sInstance.r().getApkSignKeyPath(),
+                HadesApplication.sInstance.r().getPassword(),
                 signedApk,
                 unsignedApk,
-                Hades.sInstance.r.getAlias()
+                HadesApplication.sInstance.r().getAlias()
         );
         LogUtils.info(ApkSignConsumer.class, formatCommand);
         CommandRunner runner = new CommandRunner(ApkSignConsumer.class, message, formatCommand);

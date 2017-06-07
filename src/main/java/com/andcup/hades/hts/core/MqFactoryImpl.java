@@ -1,4 +1,4 @@
-package com.andcup.hades.hts.boot;
+package com.andcup.hades.hts.core;
 
 import com.andcup.hades.hts.core.MqFactory;
 import com.andcup.hades.hts.core.annotation.Consumer;
@@ -16,9 +16,9 @@ import java.util.List;
  * Date : 2017/5/22 15:54.
  * Description:
  */
-public class MockMqFactory extends MqFactory<List<Task>>{
+public class MqFactoryImpl extends MqFactory<List<Task>>{
 
-    public MockMqFactory(List<Task> tasks) {
+    public MqFactoryImpl(List<Task> tasks) {
         super(tasks);
     }
 

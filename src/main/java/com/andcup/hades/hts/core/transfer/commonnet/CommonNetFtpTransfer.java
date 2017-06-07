@@ -1,6 +1,6 @@
 package com.andcup.hades.hts.core.transfer.commonnet;
 
-import com.andcup.hades.hts.F;
+import com.andcup.hades.hts.config.F;
 import com.andcup.hades.hts.core.exception.ConsumeException;
 import com.andcup.hades.hts.core.transfer.Transfer;
 import com.andcup.hades.httpserver.utils.LogUtils;

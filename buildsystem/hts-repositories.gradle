@@ -4,5 +4,6 @@ allprojects {
         mavenCentral()
         maven { url 'https://oss.jfrog.org/libs-snapshot' }
         maven { url 'http:///maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://nexus.sayboy.com:8081/nexus/content/groups/public/' }
     }
 }

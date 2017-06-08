@@ -1,4 +1,0 @@
-
-rootProject.name = 'hades-task-server'
-include 'hades-http-server'
-

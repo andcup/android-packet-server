@@ -57,5 +57,5 @@ dependencies {
     compile 'commons-net:commons-net:3.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     compile 'com.andcup.java.lib.command:lib-command:1.0.0-SNAPSHOT'
-    compile project(':hades-http-server')
+    compile 'com.andcup.java.lib.http-server:lib-http-server:1.0.0-SNAPSHOT'
 }

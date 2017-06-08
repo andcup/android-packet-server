@@ -1,0 +1,48 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+def isReleaseBuild() {
+    return false
+}
+
+def getRepositoryUsername() {
+    return hasProperty('SONATYPE_NEXUS_USERNAME') ? SONATYPE_NEXUS_USERNAME : ""
+}
+
+def getRepositoryPassword() {
+    return hasProperty('SONATYPE_NEXUS_PASSWORD') ? SONATYPE_NEXUS_PASSWORD : ""
+}
+
+def getRepositoryRelease() {
+    return hasProperty('REPOSITORY_RELEASE') ? REPOSITORY_RELEASE : ""
+}
+
+def getRepositorySnapshots() {
+    return hasProperty('REPOSITORY_SNAPSHOTS') ? REPOSITORY_SNAPSHOTS : ""
+}
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                pom.version     = "${this.version}"
+                pom.groupId     = "${this.group}"
+                pom.artifactId  = "${this.name}"
+
+                repository(url: getRepositoryRelease()) {
+                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+                }
+                snapshotRepository(url: getRepositorySnapshots()) {
+                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+                }
+            }
+        }
+    }
+
+    signing {
+        required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+}

@@ -41,8 +41,9 @@ public class HadesApplication {
         /**
          * 核心代码初始化.
          * */
-        MqBroker.getInstance().start();
-        MqBroker.getInstance().setConsumer(MqConsumer.Factory.getConsumer());
+        MqBroker.getInstance()
+                .setConsumer(MqConsumer.Factory.getConsumer())
+                .start();
         LogUtils.info(HadesApplication.class," listen port : " + R.port);
         /**
          * 启动服务器.

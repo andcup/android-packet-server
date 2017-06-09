@@ -38,8 +38,9 @@ public class MqBroker implements IMqBroker {
         return sBroker;
     }
 
-    public void setConsumer(MqConsumer consumer) {
+    public MqBroker setConsumer(MqConsumer consumer) {
         this.consumer = consumer;
+        return this;
     }
 
     public void produce(IMqFactory factory){

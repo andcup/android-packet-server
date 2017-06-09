@@ -17,7 +17,7 @@ public class MockBrokerApplication {
         /**
          * 启动程序.
          * */
-        HadesApplication.init(args[0])
+        HadesApplication.init(args[0], args[1])
                 .start(TaskController.class.getPackage().getName())
                 .garbage();
 

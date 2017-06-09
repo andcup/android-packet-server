@@ -2,6 +2,7 @@ package com.andcup.hades.hts.config;
 
 import com.andcup.hades.hts.core.tools.JsonConvertTool;
 import com.andcup.hades.hts.core.tools.MakeDirTool;
+import com.andcup.hades.httpserver.utils.LogUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.File;
@@ -22,7 +23,7 @@ public class WARConfigure {
 
     }
 
-    public static WARConfigure load(String port){
+    public static WARConfigure load(String port, String keyName){
         /**
          * 设置端口.
          * */
@@ -31,6 +32,7 @@ public class WARConfigure {
          * 准备工作.
          * */
         F.prepare(port);
+
         R.prepare();
         /**
          * 初始化下载路径、工作路径.
@@ -56,6 +58,10 @@ public class WARConfigure {
         /**
          * 转换配置文件.
          * */
-        return JsonConvertTool.toJson(new File(R.CONFIG), WARConfigure.class);
+        WARConfigure configure = JsonConvertTool.toJson(new File(R.CONFIG), WARConfigure.class);
+
+        configure.r.apkSignKeyPath  = R.APK_TOOL + keyName;
+        LogUtils.info(WARConfigure.class, configure.r.apkSignKeyPath);
+        return configure;
     }
 }

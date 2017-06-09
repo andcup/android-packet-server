@@ -25,14 +25,14 @@ public class HadesApplication {
 
     WARConfigure configure;
 
-    private HadesApplication(String port) {
+    private HadesApplication(String port, String keyName) {
         LogUtils.init(port);
-        configure = WARConfigure.load(port);
+        configure = WARConfigure.load(port, keyName);
     }
 
-    public static synchronized HadesApplication init(String port) {
+    public static synchronized HadesApplication init(String port, String keyName) {
         if( null == sInstance){
-            sInstance = new HadesApplication(port);
+            sInstance = new HadesApplication(port, keyName);
         }
         return sInstance;
     }

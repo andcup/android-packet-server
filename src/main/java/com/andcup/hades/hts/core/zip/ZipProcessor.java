@@ -79,8 +79,6 @@ public interface ZipProcessor {
                                 throw new ConsumeException(zipEntry.getName());
                             }
                             pathList[index] = zipEntry.getName();
-                            pathList[1] = zipEntry.getName();
-
                         }
                     }
                 });

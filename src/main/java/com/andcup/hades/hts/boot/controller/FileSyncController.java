@@ -33,6 +33,12 @@ public class FileSyncController extends RequestController {
 
     @Request(value = "/sync", method = Request.Method.POST)
     public HadesHttpResponse syncFile(@Body(FileSyncModel.class) FileSyncModel model){
+        if( null == model.localFilePath || model.localFilePath.length() <= 0){
+            return new HadesHttpResponse(0, "文件不存在.");
+        }
+        if(model.localFilePath.startsWith("/")){
+            model.localFilePath = "." + model.localFilePath;
+        }
         if(!new File(model.localFilePath).exists()){
             return new HadesHttpResponse(-1, model.localFilePath + " 文件不存在.");
         }

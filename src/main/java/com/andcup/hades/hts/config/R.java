@@ -17,7 +17,7 @@ public class R {
     /**
      * 配置文件路径.
      * */
-    public static String CONFIG = "config.json";
+    public static String CONFIG = "./r/config.json";
     /**
      * 资源文件路径
      * */
@@ -58,10 +58,10 @@ public class R {
 
     public static void prepare(){
         String jarPath = System.getProperty("java.class.path");
-        if(!new File(CONFIG).exists()){
-            //配置文件不存在.
-            ZipProcessor.PREPARE.process(jarPath, "./", CONFIG);
-        }
+//        if(!new File(CONFIG).exists()){
+//            //配置文件不存在.
+//            ZipProcessor.PREPARE.process(jarPath, "./", CONFIG);
+//        }
         if(!new File(APK_TOOL).exists() || !new File(TEMPLATE).exists()){
             //签名文件不存在.
             ZipProcessor.PREPARE.process(jarPath, "./", "r/");

@@ -1,0 +1,20 @@
+{
+  "r":{
+    "apkTool":"./r/tools/shakeapktool.jar",
+    "apkSignKeyPath":"./r/tools/youlong_123456.jks"
+  },
+  "f":{
+    "to":{
+      "username":"aiya",
+      "password":"5x5BF8Q39wA#",
+      "url":"smg.wsfdupload.lxdns.com",
+      "port":21
+    },
+    "from":{
+      "username":"fjyl_lulu_apk",
+      "password":"Z2JXCf10QPusySC",
+      "url":"10.65.0.237",
+      "port":21
+    }
+  }
+}

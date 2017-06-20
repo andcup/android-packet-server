@@ -28,6 +28,7 @@ public class F {
 
     public static void prepare(String port){
         F.WORK = F.WORK + port + "/";
+        CACHE = TEMP + "cache/" + port + "/message_undo.db";
     }
 
     @JsonProperty("from")

@@ -13,11 +13,12 @@ version '1.0.1-SNAPSHOT'
 
 apply plugin: 'idea'
 apply plugin: 'java'
-apply plugin: 'com.google.protobuf'
+
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
+apply from: rootProject.file('buildsystem/hts-protobuf.gradle')
 /**
  * 仓库配置
  * */
@@ -75,38 +76,4 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java
     compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.3.1'
 
-}
-
-protobuf {
-    // Configure the protoc executable
-    protoc {
-        // Download from repositories
-        artifact = 'com.google.protobuf:protoc:3.0.0'
-    }
-
-    generatedFilesBaseDir = "$projectDir/src/"
-
-    generateProtoTasks {
-        all().each { task ->
-            // Here you can configure the task
-        }
-        ofSourceSet('main')
-    }
-}
-
-sourceSets {
-    main {
-        proto {
-            // In addition to the default 'src/main/proto'
-            srcDir 'src/main/protobuf'
-            srcDir 'src/main/protocolbuffers'
-            // In addition to the default '**/*.proto' (use with caution).
-            // Using an extension other than 'proto' is NOT recommended,
-            // because when proto files are published along with class files, we can
-            // only tell the type of a file from its extension.
-            include '**/*.protodevel'
-        }
-        java {
-        }
-    }
 }

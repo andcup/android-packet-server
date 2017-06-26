@@ -1,0 +1,10 @@
+syntax = "proto3";
+option java_package = "com.andcup.hades.hts.protobuf";
+
+import "User.proto";
+
+message Command{
+    // 消息类型
+    int32 type = 1;
+    User  user = 2;
+}

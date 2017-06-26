@@ -1,0 +1,5 @@
+syntax = "proto3";
+option java_package = "com.andcup.hades.hts.protobuf";
+message User{
+    int32 username = 1;
+}

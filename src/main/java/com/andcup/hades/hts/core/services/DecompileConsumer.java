@@ -45,9 +45,19 @@ public class DecompileConsumer extends MqConsumer {
             // Copy AndroidManifest
             new File(Task.Helper.getAndroidManifest(task)).delete();
             new File(Task.Helper.getApkDecodeAndroidManifestPath(task)).renameTo(new File(Task.Helper.getAndroidManifest(task)));
+            //清除文件.
+            clearTempMetaInf(decodePath);
             // Set Apk has decompile.
             Task.Global.setHasDecompiled(task, true);
         }
         return state;
+    }
+
+    private void clearTempMetaInf(String decodeDir){
+        String MANIFEST = decodeDir + "/unknown/META-INF/MANIFEST.MF";
+        File file = new File(MANIFEST);
+        if(file.exists()){
+            file.delete();
+        }
     }
 }

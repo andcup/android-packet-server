@@ -55,9 +55,13 @@ public class DecompileConsumer extends MqConsumer {
 
     private void clearTempMetaInf(String decodeDir){
         String MANIFEST = decodeDir + "/unknown/META-INF/MANIFEST.MF";
+        LogUtils.info(DecompileConsumer.class,">>>>>>>> 准备删除 MANIFEST : " + MANIFEST + " <<<<<<<<<<<<<<<< ");
         File file = new File(MANIFEST);
         if(file.exists()){
+            LogUtils.info(DecompileConsumer.class,">>>>>>>> 删除 MANIFEST : " + MANIFEST + " <<<<<<<<<<<<<<<< ");
             file.delete();
+        }else{
+            LogUtils.info(DecompileConsumer.class,">>>>>>>> MANIFEST : " + MANIFEST + " 文件不存在. ");
         }
     }
 }

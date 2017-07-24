@@ -41,9 +41,9 @@ public enum Topic {
     DECOMPILING(4, "apk反编译..."),
     COMPILING(5, "apk编译..."),
     SIGN(6, "apk签名..."),
-    UPLOADING(7, "上传..."),
-    COMPLETE(8, "完成..."),
-    GARBAGE_CLEAN(9, "清理临时数据...");
+    UPLOADING(8, "上传..."),
+    COMPLETE(9, "完成..."),
+    GARBAGE_CLEAN(10, "清理临时数据...");
 
     int    code;
     String name;

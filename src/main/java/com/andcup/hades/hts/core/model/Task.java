@@ -79,6 +79,9 @@ public class Task {
     @JsonProperty("feedback")
     public String feedback;
 
+    @JsonProperty("oss")
+    public OSS oss;
+
     public static class Global{
         /**
          * 是否已经下载.
